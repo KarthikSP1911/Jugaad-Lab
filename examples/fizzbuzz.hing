@@ -1,0 +1,6 @@
+chalo (rakho n = 1; n <= 15; n += 1) {
+    agar (n % 15 == 0)      { bolo("FizzBuzz"); }
+    warna agar (n % 3 == 0) { bolo("Fizz"); }
+    warna agar (n % 5 == 0) { bolo("Buzz"); }
+    warna                   { bolo(n); }
+}

@@ -4,7 +4,23 @@ Jugaad Hinglish (working name): a small, dynamically typed, lexically scoped
 programming language with Roman-script Hindi keywords, implemented as a
 TypeScript tree-walking interpreter.
 
-**Status:** foundations only. The language cannot run programs yet.
+**Status:** 0.1.0. Programs run from the command line and a REPL. Names and
+keyword spellings are not final.
+
+```text
+kaam factorial(n) { agar (n <= 1) { wapas 1; } wapas n * factorial(n-1); }
+bolo(factorial(5));   // 120
+```
+
+## Use
+
+```sh
+npm ci
+npm run build
+node packages/cli/dist/main.js run examples/hello.hing
+node packages/cli/dist/main.js check examples/fizzbuzz.hing --lang=en
+node packages/cli/dist/main.js          # REPL
+```
 
 ## Develop
 
@@ -25,3 +41,4 @@ npm run build
 - [Architecture](docs/architecture.md)
 - [Decisions](docs/decisions/)
 - [Progress](docs/progress.md)
+- [Changelog](CHANGELOG.md)

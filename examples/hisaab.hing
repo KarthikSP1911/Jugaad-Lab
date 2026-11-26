@@ -1,0 +1,10 @@
+// Add numbers until an empty line.
+rakho soochi = [];
+jabtak (sach) {
+    rakho line = suno("Sankhya (khaali line se band): ");
+    agar (line == "") { ruko; }
+    joro(soochi, sankhya(line));
+}
+rakho jod = 0;
+chalo (rakho i = 0; i < lambai(soochi); i += 1) { jod += soochi[i]; }
+bolo("Jod:", jod);
