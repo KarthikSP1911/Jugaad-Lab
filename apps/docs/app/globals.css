@@ -20,47 +20,52 @@
   --tok-number: #7c3aad;
   --tok-comment: #5c6a87;
   --tok-call: #1559a8;
+  --logo-filter: none;
 }
 
 /* The dark values appear twice: once for the system setting, once for the toggle. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --page: #0b1020;
-    --surface: #121a30;
-    --ink: #e6ebf7;
-    --muted: #9ca8c4;
-    --line: #25304d;
-    --brand: #8fb4ff;
-    --link: #7cc0ff;
-    --accent: #ff9a45;
-    --error: #ff8a80;
-    --code: #10172b;
-    --tok-keyword: #ff9a45;
-    --tok-string: #7dd99a;
-    --tok-number: #cba6f7;
-    --tok-comment: #8591ad;
-    --tok-call: #7cc0ff;
+    --page: #0d1117;
+    --surface: #151b23;
+    --ink: #e6edf3;
+    --muted: #9198a1;
+    --line: #2a313c;
+    --brand: #f0f6fc;
+    --link: #79b8ff;
+    --accent: #f0a05a;
+    --button: #e8832e;
+    --error: #ff7b72;
+    --code: #11161d;
+    --tok-keyword: #f0a05a;
+    --tok-string: #8ccf9b;
+    --tok-number: #c4a7ee;
+    --tok-comment: #848d97;
+    --tok-call: #79b8ff;
+    --logo-filter: brightness(0.9);
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --page: #0b1020;
-  --surface: #121a30;
-  --ink: #e6ebf7;
-  --muted: #9ca8c4;
-  --line: #25304d;
-  --brand: #8fb4ff;
-  --link: #7cc0ff;
-  --accent: #ff9a45;
-  --error: #ff8a80;
-  --code: #10172b;
-  --tok-keyword: #ff9a45;
-  --tok-string: #7dd99a;
-  --tok-number: #cba6f7;
-  --tok-comment: #8591ad;
-  --tok-call: #7cc0ff;
+  --page: #0d1117;
+  --surface: #151b23;
+  --ink: #e6edf3;
+  --muted: #9198a1;
+  --line: #2a313c;
+  --brand: #f0f6fc;
+  --link: #79b8ff;
+  --accent: #f0a05a;
+  --button: #e8832e;
+  --error: #ff7b72;
+  --code: #11161d;
+  --tok-keyword: #f0a05a;
+  --tok-string: #8ccf9b;
+  --tok-number: #c4a7ee;
+  --tok-comment: #848d97;
+  --tok-call: #79b8ff;
+  --logo-filter: brightness(0.9);
 }
 
 @theme inline {
@@ -105,6 +110,7 @@
 
   .logo-tile {
     @apply rounded-lg border border-line bg-white;
+    filter: var(--logo-filter);
   }
 
   .link {
