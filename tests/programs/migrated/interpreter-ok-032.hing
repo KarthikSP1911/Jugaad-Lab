@@ -1,0 +1,6 @@
+rakho a = 7;
+agar (sach == (a > 5)) {
+  bolo("hai sari");
+} warna {
+  bolo("nahi sari");
+}

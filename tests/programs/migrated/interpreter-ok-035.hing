@@ -1,0 +1,6 @@
+rakho a = sach;
+agar ((a == sach) == (a == sach)) {
+  bolo("hai sari");
+} warna {
+  bolo("nahi sari");
+}

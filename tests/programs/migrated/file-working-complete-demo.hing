@@ -1,0 +1,44 @@
+// Welcome to KannadaScript!
+bolo("Namaskara! Welcome to KannadaScript");
+
+// Variables and data types
+rakho name = "Ravi";
+rakho age = 25;
+rakho isStudent = sach;
+
+bolo("Name: " + name);
+bolo("Age: " + age);
+bolo("Is student:");
+bolo(isStudent);
+
+// Arrays (saalu)
+rakho numbers = [1, 2, 3, 4, 5];
+bolo("First number: " + numbers[0]);
+bolo("Last number: " + numbers[4]);
+
+// Dictionary (dict)
+rakho person = {
+    "name": "Priya",
+    "city": "Bengaluru",
+    "age": 22
+};
+
+bolo("Person name: " + person["name"]);
+bolo("Person city: " + person["city"]);
+
+// Conditional logic
+agar (age >= 18) {
+    bolo("You are an adult!");
+} warna {
+    bolo("You are a minor.");
+}
+
+// Loop example
+bolo("Counting:");
+rakho i = 1;
+jabtak (i <= 3) {
+    bolo("Count: " + i);
+    i = i + 1;
+}
+
+bolo("KannadaScript demo completed!");

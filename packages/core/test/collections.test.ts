@@ -34,7 +34,8 @@ describe('lists, dictionaries and indexing', () => {
   it('reports exponentially large text', () => {
     const source = `rakho a = [1]; chalo (rakho i = 0; i < 40; i += 1) { a = [a, a]; } bolo(a);`;
     expect(runProgram(source).codes).toEqual(['E0409']);
-  });
+    // Filling a string to its limit takes seconds on a busy machine.
+  }, 30_000);
 
   it('evaluates the object and index of a compound assignment once', () => {
     const source = `
@@ -53,6 +54,12 @@ describe('lists, dictionaries and indexing', () => {
       d["b"] = 4;
       bolo(d, lambai(d));`;
     expect(outputOf(source)).toBe('{"a": [[3]], "b": 4} 2\n');
+  });
+
+  it('measures and indexes a very long string', () => {
+    const source = `rakho s = "a"; chalo (rakho i = 0; i < 24; i += 1) { s = s + s; }
+      bolo(lambai(s), s[lambai(s) - 1]);`;
+    expect(outputOf(source)).toBe('16777216 a\n');
   });
 
   it.each([

@@ -1,0 +1,8 @@
+rakho a = 0;
+jabtak (a < 2) {
+  jabtak (sach)
+    ruko;
+  bolo("hello");
+  agar (sach)
+    ruko;
+}

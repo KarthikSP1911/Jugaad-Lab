@@ -1,0 +1,9 @@
+// Testing dictionary syntax
+rakho person = {
+    "name": "Priya",
+    "city": "Bengaluru",
+    "age": 22
+};
+
+bolo("Person name: " + person["name"]);
+bolo("Person city: " + person["city"]);

@@ -1,0 +1,2 @@
+rakho arr = [1, 2, 3];
+bolo("Array created");

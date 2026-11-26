@@ -1,0 +1,2 @@
+rakho message = greet('Ravi');
+bolo(message);

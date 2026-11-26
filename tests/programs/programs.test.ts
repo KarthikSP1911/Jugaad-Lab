@@ -6,7 +6,9 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const directory = new URL('./', import.meta.url);
-const programs = readdirSync(directory).filter((file) => file.endsWith('.hing'));
+const programs = readdirSync(directory, { recursive: true, encoding: 'utf8' })
+  .map((file) => file.replaceAll('\\', '/'))
+  .filter((file) => file.endsWith('.hing'));
 
 const sibling = (file: string, extension: string) =>
   new URL(file.replace(/\.hing$/, extension), directory);

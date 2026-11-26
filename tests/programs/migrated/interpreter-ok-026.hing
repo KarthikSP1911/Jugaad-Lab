@@ -1,0 +1,7 @@
+rakho a;
+rakho b;
+agar (a == b) {
+  bolo("hai khali");
+} warna {
+  bolo("nahi khali");
+}

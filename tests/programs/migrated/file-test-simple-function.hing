@@ -1,0 +1,3 @@
+kaam greet(name) {
+    bolo("Namaskara, " + name + "!");
+}

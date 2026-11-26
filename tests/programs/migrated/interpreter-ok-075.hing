@@ -1,0 +1,10 @@
+rakho x = 10;
+agar (x < 5) {
+  bolo("x < 5");
+} warna agar (x < 8) {
+  bolo("x < 8");
+} warna agar (x < 12) {
+  bolo("x < 12");
+} warna agar (x < 15) {
+  bolo("x < 15");
+}

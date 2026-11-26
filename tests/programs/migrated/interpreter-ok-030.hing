@@ -1,0 +1,6 @@
+rakho a = jhooth;
+agar (jhooth == a) {
+  bolo("hai thappu");
+} warna {
+  bolo("nahi thappu");
+}
