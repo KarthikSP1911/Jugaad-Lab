@@ -2,9 +2,10 @@
 AI (Aimless Insomniacs)
 
 ## Track Number & Name
-Track 3: Compile Me Maybe
+Track 3: Tiny Languages and Playgrounds
 
 ## Problem Statement Name
+Compile Me Maybe
 
 ## Idea
 Jugaad Hinglish is a small programming language that uses Hindi keywords written
