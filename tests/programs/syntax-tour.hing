@@ -1,0 +1,21 @@
+// Every construct of the grammar; must check cleanly.
+pakka PI = 3.14159;
+rakho khaali_dabba;
+
+kaam factorial(n) {
+    agar (n <= 1) { wapas 1; }
+    wapas n * factorial(n-1);
+}
+
+rakho fal = ["aam", "kela", 1 + 2,];
+fal[0] = 'seb';
+rakho chhatra = { "naam": "Ravi", shehar: "Pune", };
+
+chalo (rakho i = 0; i < 3; i += 1) {
+    agar (i == 1) { agla; } warna agar (i == 2) ruko; warna bolo(i);
+}
+
+jabtak (sach aur nahi jhooth ya khaali == khaali) { ruko; }
+
+rakho counter = kaam () { rakho c = 0; wapas kaam () { c += 1; wapas c; }; };
+bolo(counter()(), factorial(5), fal[1], chhatra["naam"], -PI % 2);

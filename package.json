@@ -10,7 +10,7 @@
     "packages/cli"
   ],
   "scripts": {
-    "typecheck": "npm run typecheck --workspaces",
+    "typecheck": "npm run typecheck --workspaces && tsc -p tests/tsconfig.json",
     "lint": "eslint .",
     "test": "vitest run",
     "test:programs": "vitest run tests/programs --passWithNoTests",
