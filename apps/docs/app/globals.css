@@ -1,0 +1,259 @@
+@import 'tailwindcss';
+
+/* Navy and blue come from the circuit half of the logo, saffron from the mandala. */
+:root {
+  color-scheme: light;
+  --page: #ffffff;
+  --surface: #f5f7fb;
+  --ink: #101c3d;
+  --muted: #52607d;
+  --line: #dfe4ee;
+  --brand: #14367a;
+  --link: #1559a8;
+  --accent: #b34700;
+  --button: #f57c1f;
+  --button-ink: #1a1203;
+  --error: #b3261e;
+  --code: #f6f8fc;
+  --tok-keyword: #a84300;
+  --tok-string: #17703a;
+  --tok-number: #7c3aad;
+  --tok-comment: #5c6a87;
+  --tok-call: #1559a8;
+}
+
+/* The dark values appear twice: once for the system setting, once for the toggle. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --page: #0b1020;
+    --surface: #121a30;
+    --ink: #e6ebf7;
+    --muted: #9ca8c4;
+    --line: #25304d;
+    --brand: #8fb4ff;
+    --link: #7cc0ff;
+    --accent: #ff9a45;
+    --error: #ff8a80;
+    --code: #10172b;
+    --tok-keyword: #ff9a45;
+    --tok-string: #7dd99a;
+    --tok-number: #cba6f7;
+    --tok-comment: #8591ad;
+    --tok-call: #7cc0ff;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --page: #0b1020;
+  --surface: #121a30;
+  --ink: #e6ebf7;
+  --muted: #9ca8c4;
+  --line: #25304d;
+  --brand: #8fb4ff;
+  --link: #7cc0ff;
+  --accent: #ff9a45;
+  --error: #ff8a80;
+  --code: #10172b;
+  --tok-keyword: #ff9a45;
+  --tok-string: #7dd99a;
+  --tok-number: #cba6f7;
+  --tok-comment: #8591ad;
+  --tok-call: #7cc0ff;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-link: var(--link);
+  --color-accent: var(--accent);
+  --color-error: var(--error);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@layer base {
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  code,
+  pre,
+  textarea {
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:z-30 focus:bg-page focus:p-3;
+  }
+
+  .logo-tile {
+    @apply rounded-lg border border-line bg-white;
+  }
+
+  .link {
+    @apply text-link underline-offset-4 hover:underline;
+  }
+
+  .nav-link {
+    @apply rounded-md px-3 py-1.5 text-sm font-medium text-muted hover:bg-surface hover:text-ink;
+  }
+
+  .nav-link[aria-current='page'] {
+    @apply bg-surface text-ink;
+  }
+
+  .icon-button {
+    @apply cursor-pointer rounded-md p-2 text-muted hover:bg-surface hover:text-ink;
+  }
+
+  .button {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-lg border border-line bg-page px-4 py-2 text-sm font-semibold text-ink hover:bg-surface;
+  }
+
+  .button-primary {
+    background: var(--button);
+    border-color: var(--button);
+    color: var(--button-ink);
+  }
+
+  .button-primary:hover {
+    background: var(--button);
+    filter: brightness(1.07);
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-page p-5;
+  }
+
+  .code-block {
+    @apply overflow-x-auto rounded-xl border border-line p-4 text-sm leading-6;
+    background: var(--code);
+  }
+
+  .notice {
+    @apply mb-6 rounded-lg border border-line bg-surface p-4 text-sm;
+    border-left: 4px solid var(--button);
+  }
+
+  .panel {
+    @apply flex min-w-0 flex-col overflow-hidden rounded-xl border border-line;
+    background: var(--code);
+  }
+
+  .panel-title {
+    @apply flex justify-between gap-2 border-b border-line bg-surface px-4 py-2 text-sm font-semibold;
+  }
+
+  .panel-title span {
+    @apply font-normal text-muted;
+  }
+
+  .editor-scroll {
+    @apply h-[50vh] min-h-72 overflow-auto lg:h-[65vh];
+  }
+
+  /* The textarea sits exactly on top of the highlighted copy of its text. */
+  .editor {
+    @apply relative min-h-full w-max min-w-full;
+  }
+
+  .editor pre,
+  .editor textarea {
+    @apply m-0 p-4 text-sm leading-6 whitespace-pre;
+    tab-size: 4;
+  }
+
+  .editor textarea {
+    @apply absolute inset-0 h-full w-full resize-none overflow-hidden bg-transparent -outline-offset-2;
+    color: transparent;
+    caret-color: var(--ink);
+  }
+
+  .output {
+    @apply h-72 overflow-auto p-4 text-sm leading-6 break-words whitespace-pre-wrap lg:h-0 lg:min-h-40 lg:flex-auto;
+  }
+
+  .input-box {
+    @apply w-full resize-y bg-transparent px-4 py-3 text-sm leading-6 -outline-offset-2;
+  }
+
+  .tok-keyword {
+    color: var(--tok-keyword);
+  }
+  .tok-string {
+    color: var(--tok-string);
+  }
+  .tok-number {
+    color: var(--tok-number);
+  }
+  .tok-comment {
+    color: var(--tok-comment);
+  }
+  .tok-call {
+    color: var(--tok-call);
+  }
+  .tok-operator {
+    color: var(--muted);
+  }
+
+  .prose {
+    @apply leading-7;
+  }
+  .prose h1 {
+    @apply mb-4 text-3xl font-bold tracking-tight text-brand;
+  }
+  .prose h2 {
+    @apply mt-10 mb-3 scroll-mt-28 border-b border-line pb-2 text-xl font-semibold tracking-tight;
+  }
+  .prose p,
+  .prose ul,
+  .prose ol {
+    @apply my-3;
+  }
+  .prose ul {
+    @apply list-disc pl-6;
+  }
+  .prose ol {
+    @apply list-decimal pl-6;
+  }
+  .prose a:not(.button) {
+    @apply text-link underline underline-offset-4;
+  }
+  .prose :not(pre) > code {
+    @apply rounded border border-line bg-surface px-1 py-0.5 text-[0.85em] break-words;
+  }
+  .prose pre:not(.code-block) {
+    @apply my-4 overflow-x-auto rounded-xl border border-line p-4 text-sm leading-6;
+    background: var(--code);
+  }
+  .table-wrap {
+    @apply my-4 overflow-x-auto;
+  }
+  .prose table {
+    @apply w-full border-collapse text-sm;
+  }
+  .prose th,
+  .prose td {
+    @apply border border-line px-3 py-2 text-left align-top;
+  }
+  .prose th {
+    @apply bg-surface font-semibold;
+  }
+}

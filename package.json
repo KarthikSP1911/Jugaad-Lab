@@ -7,7 +7,8 @@
   },
   "workspaces": [
     "packages/core",
-    "packages/cli"
+    "packages/cli",
+    "apps/docs"
   ],
   "scripts": {
     "typecheck": "npm run typecheck --workspaces && tsc -p tests/tsconfig.json",
