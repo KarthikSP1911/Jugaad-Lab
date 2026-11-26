@@ -52,7 +52,8 @@ node packages/cli/dist/main.js repl
 ```sh
 npm run dev -w @jugaad-hinglish/docs
 ```
-Then open http://localhost:3000.
+Then open http://localhost:3000. Mithu the parrot reacts to your runs with
+animation and sound; the speaker button in the header mutes it.
 
 ### Run the tests
 ```sh

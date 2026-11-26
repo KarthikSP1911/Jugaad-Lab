@@ -4,15 +4,15 @@ import type { Bilingual, Lang } from '@jugaad-hinglish/core';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { EXAMPLES } from '../lib/examples';
-import type { Outcome } from '../lib/execute';
+import { REACTIONS, TIPS, type Status } from '../lib/mascot';
 import type { RunRequest, WorkerMessage } from '../lib/messages';
 import { MESSAGES, say } from '../lib/say';
 import { decodeShare, encodeShare } from '../lib/share';
 import { Editor } from './editor';
+import { Mascot } from './mascot';
+import { useSound } from './sound';
 
 const TIMEOUT_MS = 5_000;
-
-type Status = 'idle' | 'running' | Outcome;
 
 const STATUS_LABEL: Record<Status, Bilingual> = {
   idle: { hi: 'Taiyaar', en: 'Ready' },
@@ -33,6 +33,14 @@ export function Playground() {
   const [copied, setCopied] = useState(false);
   const worker = useRef<Worker | null>(null);
   const timer = useRef<number | undefined>(undefined);
+  const { play } = useSound();
+  const spoken = lang === 'en' ? 'en' : 'hi';
+
+  function react(next: Status) {
+    setStatus(next);
+    const { sound } = REACTIONS[next];
+    if (sound) play(sound);
+  }
 
   function dispose() {
     window.clearTimeout(timer.current);
@@ -42,7 +50,7 @@ export function Playground() {
 
   function stop(reason: Bilingual) {
     dispose();
-    setStatus('stopped');
+    react('stopped');
     setMessage(say(reason, lang || undefined));
   }
 
@@ -50,7 +58,7 @@ export function Playground() {
     dispose();
     setOutput('');
     setMessage('');
-    setStatus('running');
+    react('running');
     const next = new Worker(new URL('../lib/run.worker.ts', import.meta.url));
     next.onmessage = ({ data }: MessageEvent<WorkerMessage>) => {
       if (data.type === 'output') {
@@ -58,7 +66,7 @@ export function Playground() {
         return;
       }
       dispose();
-      setStatus(data.result.outcome);
+      react(data.result.outcome);
       setMessage(data.result.message);
     };
     next.onerror = () => stop(MESSAGES.notStarted);
@@ -149,6 +157,13 @@ export function Playground() {
         </label>
       </div>
 
+      <Mascot
+        mood={REACTIONS[status].mood}
+        line={say(REACTIONS[status].line, spoken)}
+        tips={TIPS.map((tip) => say(tip, spoken))}
+        size={72}
+      />
+
       <div className="grid gap-3 lg:grid-cols-2">
         <section className="panel">
           <h2 className="panel-title">
@@ -175,7 +190,7 @@ export function Playground() {
             <h2 className="panel-title">
               Output
               <span role="status" className={`status status-${status}`}>
-                {say(STATUS_LABEL[status], lang === 'en' ? 'en' : 'hi')}
+                {say(STATUS_LABEL[status], spoken)}
               </span>
             </h2>
             <pre className="output">

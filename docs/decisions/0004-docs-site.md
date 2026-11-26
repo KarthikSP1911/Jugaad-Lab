@@ -10,6 +10,10 @@ playground runs `core` in a Web Worker with a step budget, an output cap and a
 5 second timeout. The editor and highlighter use the `core` lexer, with no editor
 library.
 
+Mithu the parrot is inline SVG animated with CSS, and its sounds are synthesised
+with Web Audio, so neither adds a dependency or an asset file. Sound is on by
+default, starts only after a click or key press, and can be muted from the header.
+
 Fonts are Inter and JetBrains Mono, downloaded at build time by `next/font` and
 served from the site itself.
 

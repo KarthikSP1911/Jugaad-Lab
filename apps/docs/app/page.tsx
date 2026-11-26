@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { CodeBlock } from '../components/code';
 import { HeroDemo } from '../components/hero-demo';
 import { Logo } from '../components/logo';
+import { Mascot } from '../components/mascot';
 import { Reveal } from '../components/motion';
 import { EXAMPLES } from '../lib/examples';
 import { execute } from '../lib/execute';
+import { GREETING, TIPS } from '../lib/mascot';
 import { encodeShare } from '../lib/share';
 import { SITE } from '../lib/site';
 import { NOT_YET, WORKS } from '../lib/status';
@@ -61,8 +63,9 @@ export default function Home() {
       <section className="hero border-b border-line">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20">
           <div className="min-w-0">
-            <Reveal>
+            <Reveal className="flex flex-wrap items-center gap-x-5 gap-y-3">
               <Logo size={96} />
+              <Mascot mood="idle" line={GREETING} tips={TIPS.map(({ hi }) => hi)} />
             </Reveal>
             <Reveal delay={0.08}>
               <h1 className="mt-6 text-4xl font-bold tracking-tight text-brand sm:text-5xl">
