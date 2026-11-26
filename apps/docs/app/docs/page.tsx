@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CodeBlock } from '../../components/code';
+import { CodeBlock, ShellBlock } from '../../components/code';
 import { EXAMPLES } from '../../lib/examples';
 import { SITE } from '../../lib/site';
 
@@ -24,20 +24,23 @@ export default function GettingStarted() {
 
       <h2>Run it on your computer</h2>
       <p>You need Node 24 and Git.</p>
-      <pre>
-        <code>{`git clone ${SITE.repository}.git
+      <ShellBlock
+        source={`git clone ${SITE.repository}.git
 cd Jugaad-Lab
 npm ci
 npm run build
 node packages/cli/dist/main.js run examples/hello.hing
 node packages/cli/dist/main.js check examples/fizzbuzz.hing --lang=en
-node packages/cli/dist/main.js          # REPL`}</code>
-      </pre>
+node packages/cli/dist/main.js          # REPL`}
+      />
 
       <h2>Next steps</h2>
       <ul>
         <li>
           <Link href="/docs/tour">Language tour</Link>: short examples you can run.
+        </li>
+        <li>
+          <Link href="/docs/cheatsheet">Cheatsheet</Link>: keywords and built-ins on one page.
         </li>
         <li>
           <Link href="/docs/reference">Reference</Link>: keywords, types, operators and grammar.

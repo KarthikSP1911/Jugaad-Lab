@@ -1,39 +1,38 @@
 'use client';
 
-import type { Lang } from '@jugaad-hinglish/core';
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import type { Bilingual, Lang } from '@jugaad-hinglish/core';
+import { motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
 import { EXAMPLES } from '../lib/examples';
 import type { Outcome } from '../lib/execute';
 import type { RunRequest, WorkerMessage } from '../lib/messages';
+import { MESSAGES, say } from '../lib/say';
 import { decodeShare, encodeShare } from '../lib/share';
-import { Highlighted } from './code';
+import { Editor } from './editor';
 
 const TIMEOUT_MS = 5_000;
-const INDENT = '    ';
 
 type Status = 'idle' | 'running' | Outcome;
 
-const STATUS_LABEL: Record<Status, string> = {
-  idle: 'Ready',
-  running: 'Running…',
-  ok: 'Finished',
-  'compile-error': 'Compile error',
-  'runtime-error': 'Runtime error',
-  stopped: 'Stopped',
+const STATUS_LABEL: Record<Status, Bilingual> = {
+  idle: { hi: 'Taiyaar', en: 'Ready' },
+  running: { hi: 'Chal raha hai…', en: 'Running…' },
+  ok: { hi: 'Ho gaya', en: 'Finished' },
+  'compile-error': { hi: 'Code mein galti', en: 'Compile error' },
+  'runtime-error': { hi: 'Chalte waqt galti', en: 'Runtime error' },
+  stopped: { hi: 'Roka gaya', en: 'Stopped' },
 };
 
 export function Playground() {
   const [code, setCode] = useState(EXAMPLES[0].code);
   const [input, setInput] = useState('');
-  const [lang, setLang] = useState<Lang | ''>('');
+  const [lang, setLang] = useState<Lang | ''>('hi');
   const [output, setOutput] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [copied, setCopied] = useState(false);
   const worker = useRef<Worker | null>(null);
   const timer = useRef<number | undefined>(undefined);
-  /** After Escape, Tab moves focus instead of indenting. */
-  const releaseTab = useRef(false);
 
   function dispose() {
     window.clearTimeout(timer.current);
@@ -41,10 +40,10 @@ export function Playground() {
     worker.current = null;
   }
 
-  function stop(reason: string) {
+  function stop(reason: Bilingual) {
     dispose();
     setStatus('stopped');
-    setMessage(reason);
+    setMessage(say(reason, lang || undefined));
   }
 
   function start() {
@@ -62,12 +61,9 @@ export function Playground() {
       setStatus(data.result.outcome);
       setMessage(data.result.message);
     };
-    next.onerror = () => stop('The interpreter could not be started.');
+    next.onerror = () => stop(MESSAGES.notStarted);
     worker.current = next;
-    timer.current = window.setTimeout(
-      () => stop(`Stopped: the program ran longer than ${TIMEOUT_MS / 1000} seconds.`),
-      TIMEOUT_MS,
-    );
+    timer.current = window.setTimeout(() => stop(MESSAGES.timedOut), TIMEOUT_MS);
     const request: RunRequest = { source: code, input, ...(lang ? { lang } : {}) };
     next.postMessage(request);
   }
@@ -99,28 +95,15 @@ export function Playground() {
     }
   }
 
-  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.key === 'Escape') {
-      releaseTab.current = true;
-      return;
-    }
-    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
-      event.preventDefault();
-      start();
-    } else if (event.key === 'Tab' && !event.shiftKey && !releaseTab.current) {
-      event.preventDefault();
-      const editor = event.currentTarget;
-      editor.setRangeText(INDENT, editor.selectionStart, editor.selectionEnd, 'end');
-      setCode(editor.value);
-    }
-    releaseTab.current = false;
-  }
-
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2">
         {status === 'running' ? (
-          <button type="button" className="button button-primary" onClick={() => stop('Stopped.')}>
+          <button
+            type="button"
+            className="button button-primary"
+            onClick={() => stop(MESSAGES.stopped)}
+          >
             Stop
           </button>
         ) : (
@@ -159,9 +142,9 @@ export function Playground() {
             value={lang}
             onChange={(event) => setLang(event.target.value as Lang | '')}
           >
-            <option value="">Both</option>
             <option value="hi">Hinglish</option>
             <option value="en">English</option>
+            <option value="">Both</option>
           </select>
         </label>
       </div>
@@ -169,27 +152,9 @@ export function Playground() {
       <div className="grid gap-3 lg:grid-cols-2">
         <section className="panel">
           <h2 className="panel-title">
-            main.hing <span>Ctrl + Enter to run</span>
+            main.hing <span>Ctrl + Enter to run · Ctrl + Space to suggest</span>
           </h2>
-          <div className="editor-scroll">
-            <div className="editor">
-              <pre aria-hidden="true">
-                <Highlighted source={code} />
-                {'\n '}
-              </pre>
-              <textarea
-                aria-label="Program source. Press Escape, then Tab, to leave the editor."
-                value={code}
-                onChange={(event) => setCode(event.target.value)}
-                onKeyDown={onKeyDown}
-                spellCheck={false}
-                autoCapitalize="off"
-                autoComplete="off"
-                autoCorrect="off"
-                wrap="off"
-              />
-            </div>
-          </div>
+          <Editor code={code} onChange={setCode} onRun={start} />
         </section>
 
         <div className="flex min-w-0 flex-col gap-3">
@@ -208,11 +173,23 @@ export function Playground() {
           </section>
           <section className="panel flex-1">
             <h2 className="panel-title">
-              Output <span role="status">{STATUS_LABEL[status]}</span>
+              Output
+              <span role="status" className={`status status-${status}`}>
+                {say(STATUS_LABEL[status], lang === 'en' ? 'en' : 'hi')}
+              </span>
             </h2>
             <pre className="output">
               {output}
-              {message && <span className="text-error">{message}</span>}
+              {message && (
+                <motion.span
+                  key={message}
+                  className="block text-error"
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                >
+                  {message}
+                </motion.span>
+              )}
               {status === 'idle' && (
                 <span className="text-muted">Press Run to see the output.</span>
               )}

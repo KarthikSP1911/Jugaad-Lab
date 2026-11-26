@@ -1,8 +1,11 @@
 import { hinglish, tokenize, type Token } from '@jugaad-hinglish/core';
+import { BUILTINS } from './reference';
 
 export type SegmentKind =
   | 'plain'
   | 'keyword'
+  | 'literal'
+  | 'builtin'
   | 'string'
   | 'number'
   | 'comment'
@@ -16,12 +19,18 @@ export interface Segment {
 
 const COMMENT = /(\/\/[^\n]*|\/\*[\s\S]*?(?:\*\/|$))/;
 const PUNCTUATION = /^[(){}[\],;:]$/;
+const LITERALS = new Set<Token['kind']>(['True', 'False', 'Null']);
+const BUILTIN_NAMES = new Set<string>(BUILTINS.map(({ name }) => name.split('(')[0] ?? name));
 
 function kindOf(token: Token, next: Token | undefined): SegmentKind {
+  if (LITERALS.has(token.kind)) return 'literal';
   if (hinglish.has(token.lexeme)) return 'keyword';
   if (token.kind === 'String') return 'string';
   if (token.kind === 'Number') return 'number';
-  if (token.kind === 'Identifier') return next?.kind === 'LeftParen' ? 'call' : 'plain';
+  if (token.kind === 'Identifier') {
+    if (BUILTIN_NAMES.has(token.lexeme)) return 'builtin';
+    return next?.kind === 'LeftParen' ? 'call' : 'plain';
+  }
   return PUNCTUATION.test(token.lexeme) ? 'plain' : 'operator';
 }
 

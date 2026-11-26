@@ -8,7 +8,8 @@
 - Phase 3: lists, dictionaries on `Map`, index read and write, all built-ins.
 - Phase 4: CLI (`run`, `check`, `--lang`, exit codes) and REPL.
 - Phase 7: version 0.1.0, changelog and README. Not tagged or published.
-- Phase 6: docs site and playground in `apps/docs`. Not deployed.
+- Phase 6: docs site and playground in `apps/docs`, with search,
+  autocomplete and Hinglish errors. Not deployed.
 
 ## Next
 

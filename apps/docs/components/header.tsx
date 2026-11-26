@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { searchIndex } from '../lib/search-index';
 import { NAV, SITE } from '../lib/site';
 import { Logo } from './logo';
 import { NavLinks } from './nav-links';
+import { Search } from './search';
 import { ThemeToggle } from './theme-toggle';
 
 export function Header() {
@@ -15,13 +17,14 @@ export function Header() {
           </span>
         </Link>
         <div className="ml-auto flex items-center gap-1 sm:order-2">
+          <Search entries={searchIndex()} />
           <a href={SITE.repository} className="nav-link">
             GitHub
           </a>
           <ThemeToggle />
         </div>
         <nav aria-label="Main" className="flex w-full gap-1 pt-1 sm:w-auto sm:pt-0">
-          <NavLinks items={NAV} nested />
+          <NavLinks items={NAV} group="main" nested />
         </nav>
       </div>
     </header>

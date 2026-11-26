@@ -1,4 +1,5 @@
 import { renderDiagnostic, renderRuntimeError, run, type Lang } from '@jugaad-hinglish/core';
+import { MESSAGES, say } from './say';
 
 export const FILE = 'main.hing';
 export const MAX_STEPS = 5_000_000;
@@ -57,8 +58,8 @@ export function execute(
     return { outcome: result.status, message };
   } catch (error) {
     if (error instanceof OutputLimit) {
-      return { outcome: 'stopped', message: 'Stopped: the program printed too much output.' };
+      return { outcome: 'stopped', message: say(MESSAGES.tooMuchOutput, lang) };
     }
-    return { outcome: 'stopped', message: 'The interpreter failed unexpectedly.' };
+    return { outcome: 'stopped', message: say(MESSAGES.failed, lang) };
   }
 }
