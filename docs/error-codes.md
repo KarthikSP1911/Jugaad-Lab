@@ -18,6 +18,15 @@ Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 | E0103 | invalid escape |
 | E0104 | malformed number |
 | E0105 | unterminated block comment |
+| E0201 | expected an expression |
+| E0202 | expected `;` |
+| E0203 | expected a symbol such as `)`, `}` or `:` |
+| E0204 | expected a name |
+| E0205 | assignment target is not a variable or index |
+| E0206 | `pakka` without an initial value |
+| E0207 | declaration where only a statement is allowed |
+| E0208 | expected a dictionary key (string or name) |
+| E0209 | code nested more than 256 levels deep |
 | E0301 | undefined name |
 | E0302 | duplicate declaration |
 | E0303 | assignment to a constant |

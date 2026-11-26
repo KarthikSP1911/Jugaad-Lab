@@ -7,7 +7,6 @@ are placeholders until the owner confirms them.
 
 | Question | Needed by |
 | --- | --- |
-| Value of `rakho x;`, and whether `pakka` requires an initialiser | Phase 1 |
 | Division and remainder by zero | Phase 2 |
 | Missing dictionary key on read | Phase 3 |
 | `nikalo` on an empty list; which strings `sankhya` accepts | Phase 3 |
@@ -37,7 +36,7 @@ case-sensitive and cannot be used as identifiers.
 
 ## Lexical rules and types
 
-- **Identifiers:** a letter or `_` followed by letters, digits or `_`; Unicode letters are allowed so Devanagari names work.
+- **Identifiers:** a letter or `_` followed by letters, digits or `_`. Unicode letters, digits and combining marks (`ID_Start`, `ID_Continue`) are allowed so Devanagari names work.
 - **Numbers:** unsigned decimal literals (`42`, `3.14`). A leading `-` is always the unary or binary operator, which fixes defect 1.
 - **Strings:** `"..."` or `'...'` with escapes `\n \t \\ \" \'`. Strings may not span lines in the MVP.
 - **Comments:** `// line` and `/* block */`.
@@ -106,6 +105,8 @@ dictLit     = "{" [ pair { "," pair } [ "," ] ] "}" ;
 pair        = ( STRING | IDENT ) ":" expression ;
 funcExpr    = "kaam" "(" [ params ] ")" block ;
 ```
+
+`rakho x;` gives `x` the value `khaali`. `pakka` requires an initial value (E0206). An `agar`, `warna`, `jabtak` or `chalo` body is a statement, so a declaration there needs a block (E0207). Nesting is limited to 256 levels (E0209).
 
 `warna agar` needs no special rule: `warna` is followed by a statement, and that statement is an `ifStmt`. A statement that begins with `{` is a block, as in JavaScript; wrap a dictionary literal in parentheses or assign it to a variable.
 
