@@ -19,9 +19,12 @@ interface Props {
   size?: number;
   /** Says the tips on its own, pausing while pointed at or focused. */
   auto?: boolean;
+  /** Puts the parrot on the right, facing its speech bubble. */
+  reverse?: boolean;
 }
 
-export function Mascot({ mood, line, advice, tips, size = 96, auto = false }: Props) {
+export function Mascot(props: Props) {
+  const { mood, line, advice, tips, size = 96, auto = false, reverse = false } = props;
   const { play } = useSound();
   const [tip, setTip] = useState<string | null>(null);
   const [talking, setTalking] = useState(false);
@@ -64,7 +67,7 @@ export function Mascot({ mood, line, advice, tips, size = 96, auto = false }: Pr
 
   return (
     <div
-      className={auto ? 'mascot mascot-auto' : 'mascot'}
+      className={`mascot${auto ? ' mascot-auto' : ''}${reverse ? ' mascot-reverse' : ''}`}
       onPointerEnter={() => setHeld(true)}
       onPointerLeave={() => setHeld(false)}
       onFocus={() => setHeld(true)}

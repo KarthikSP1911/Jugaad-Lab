@@ -107,6 +107,12 @@ export function Editor({ code, onChange, onRun }: Props) {
 
   return (
     <div className="editor-scroll">
+      <pre className="line-numbers" aria-hidden="true">
+        {code
+          .split('\n')
+          .map((_, index) => index + 1)
+          .join('\n')}
+      </pre>
       <div className="editor">
         <pre aria-hidden="true">
           <Highlighted source={code} />

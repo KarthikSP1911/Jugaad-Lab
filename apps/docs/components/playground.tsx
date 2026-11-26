@@ -2,12 +2,13 @@
 
 import type { Bilingual, DiagnosticCode, Lang } from '@jugaad-hinglish/core';
 import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { EXAMPLES } from '../lib/examples';
 import { advise, REACTIONS, TIPS, type Status } from '../lib/mascot';
 import type { RunRequest, WorkerMessage } from '../lib/messages';
 import { MESSAGES, say } from '../lib/say';
 import { decodeShare, encodeShare } from '../lib/share';
+import { CopyButton } from './copy-button';
 import { Editor } from './editor';
 import { Mascot } from './mascot';
 import { useSound } from './sound';
@@ -23,7 +24,18 @@ const STATUS_LABEL: Record<Status, Bilingual> = {
   stopped: { hi: 'Roka gaya', en: 'Stopped' },
 };
 
-export function Playground() {
+function WindowDots() {
+  return (
+    <span className="window-dots" aria-hidden="true">
+      <i />
+      <i />
+      <i />
+    </span>
+  );
+}
+
+/** `children` is the page's heading, shown to the left of Mithu. */
+export function Playground({ children }: { children: ReactNode }) {
   const [code, setCode] = useState(EXAMPLES[0].code);
   const [input, setInput] = useState('');
   const [lang, setLang] = useState<Lang | ''>('hi');
@@ -111,6 +123,19 @@ export function Playground() {
 
   return (
     <div className="flex flex-col gap-3">
+      {/* A minimum height stops the page jumping as Mithu's tips change length. */}
+      <div className="flex min-h-28 flex-wrap items-center justify-between gap-3">
+        <div>{children}</div>
+        <Mascot
+          reverse
+          mood={REACTIONS[status].mood}
+          line={say(REACTIONS[status].line, spoken)}
+          {...(advice ? { advice: say(advice, spoken) } : {})}
+          tips={TIPS.map((tip) => say(tip, spoken))}
+          size={80}
+        />
+      </div>
+
       <div className="flex flex-wrap items-center gap-2">
         {status === 'running' ? (
           <button
@@ -163,26 +188,22 @@ export function Playground() {
         </label>
       </div>
 
-      <Mascot
-        mood={REACTIONS[status].mood}
-        line={say(REACTIONS[status].line, spoken)}
-        {...(advice ? { advice: say(advice, spoken) } : {})}
-        tips={TIPS.map((tip) => say(tip, spoken))}
-        size={72}
-      />
-
       <div className="grid gap-3 lg:grid-cols-2">
-        <section className="panel">
-          <h2 className="panel-title">
-            main.hing <span>Ctrl + Enter to run · Ctrl + Space to suggest</span>
+        <section className="code-window">
+          <h2 className="window-bar">
+            <WindowDots />
+            main.hing
+            <span className="window-hint">Ctrl + Enter to run · Ctrl + Space to suggest</span>
           </h2>
           <Editor code={code} onChange={setCode} onRun={start} />
         </section>
 
         <div className="flex min-w-0 flex-col gap-3">
-          <section className="panel">
-            <h2 className="panel-title">
-              Input <span>one line for each suno</span>
+          <section className="code-window">
+            <h2 className="window-bar">
+              <WindowDots />
+              input
+              <span className="window-hint">one line for each suno</span>
             </h2>
             <textarea
               className="input-box"
@@ -190,16 +211,23 @@ export function Playground() {
               value={input}
               onChange={(event) => setInput(event.target.value)}
               rows={3}
+              placeholder="Type here what suno() should read."
               spellCheck={false}
             />
           </section>
-          <section className="panel flex-1">
-            <h2 className="panel-title">
-              Output
-              <span role="status" className={`status status-${status}`}>
-                {say(STATUS_LABEL[status], spoken)}
+          <section className="code-window flex-1">
+            <div className="window-bar">
+              <WindowDots />
+              <h2>output</h2>
+              <span className="ml-auto flex items-center gap-2 text-xs font-normal">
+                {(output || message) && (
+                  <CopyButton text={[output, message].filter(Boolean).join('\n')} />
+                )}
+                <span role="status" className={`status status-${status}`}>
+                  {say(STATUS_LABEL[status], spoken)}
+                </span>
               </span>
-            </h2>
+            </div>
             <pre className="output">
               {output}
               {message && (

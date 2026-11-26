@@ -271,13 +271,17 @@
     color: var(--button-ink);
   }
 
+  .status {
+    @apply rounded-full border border-line px-2.5 py-0.5 text-muted;
+  }
+
   .status-ok {
-    color: var(--tok-string) !important;
+    color: var(--tok-call);
   }
 
   .status-compile-error,
   .status-runtime-error {
-    color: var(--error) !important;
+    color: var(--error);
   }
 
   .status-running {
@@ -297,26 +301,77 @@
     border-left: 4px solid var(--button);
   }
 
-  .panel {
-    @apply flex min-w-0 flex-col overflow-hidden rounded-xl border border-line;
-    background: var(--code);
+  /* A dark code window, the same in both themes. */
+  .code-window {
+    @apply flex min-w-0 flex-col overflow-hidden rounded-xl;
+    color-scheme: dark;
+    background: #272822;
+    /* Monokai colours; the suggestion list inside picks them up too. */
+    --page: #1e1f1c;
+    --surface: #3e3d32;
+    --ink: #f8f8f2;
+    --muted: #a5a698;
+    --line: #49483e;
+    --link: #66d9ef;
+    --error: #ff8f87;
+    --tok-keyword: #ff4f8b;
+    --tok-string: #e6db74;
+    --tok-number: #ae81ff;
+    --tok-comment: #96947f;
+    --tok-call: #a6e22e;
+    --tok-literal: #ae81ff;
+    --tok-builtin: #66d9ef;
+    color: var(--ink);
   }
 
-  .panel-title {
-    @apply flex justify-between gap-2 border-b border-line bg-surface px-4 py-2 text-sm font-semibold;
+  .window-bar {
+    @apply flex flex-wrap items-center gap-x-4 gap-y-1 px-4 pt-4 pb-1 text-sm font-semibold;
   }
 
-  .panel-title span {
-    @apply font-normal text-muted;
+  .window-dots {
+    @apply flex gap-2;
+  }
+  .window-dots i {
+    @apply h-3 w-3 rounded-full;
+    background: #ff5f56;
+  }
+  .window-dots i:nth-child(2) {
+    background: #ffbd2e;
+  }
+  .window-dots i:nth-child(3) {
+    background: #27c93f;
+  }
+
+  .window-hint {
+    @apply ml-auto text-xs font-normal text-muted;
+  }
+
+  .code-window .tok-keyword,
+  .code-window .tok-literal {
+    font-weight: 400;
+  }
+  .code-window .tok-builtin {
+    font-style: italic;
+  }
+  .code-window .tok-operator {
+    color: var(--tok-keyword);
   }
 
   .editor-scroll {
-    @apply h-[50vh] min-h-72 overflow-auto lg:h-[65vh];
+    @apply flex h-[50vh] min-h-72 items-start overflow-auto lg:h-[65vh];
+  }
+
+  /* Stays in view while long lines scroll sideways. */
+  .line-numbers {
+    @apply sticky left-0 z-[1] m-0 min-h-full shrink-0 py-4 pr-1 pl-4 text-right text-sm leading-6 select-none;
+    min-width: 3rem;
+    color: var(--muted);
+    background: #272822;
   }
 
   /* The textarea sits exactly on top of the highlighted copy of its text. */
   .editor {
-    @apply relative min-h-full w-max min-w-full;
+    @apply relative min-h-full w-max flex-1 shrink-0;
   }
 
   .editor pre,
@@ -336,7 +391,7 @@
   }
 
   .input-box {
-    @apply w-full resize-y bg-transparent px-4 py-3 text-sm leading-6 -outline-offset-2;
+    @apply w-full resize-y bg-transparent px-4 py-3 text-sm leading-6 -outline-offset-2 placeholder:text-muted;
   }
 
   .tok-keyword {
@@ -381,6 +436,19 @@
   /* A fixed width keeps the layout still while the lines change on their own. */
   .mascot-auto .bubble {
     @apply w-60;
+  }
+
+  .mascot-reverse {
+    @apply ml-auto flex-row-reverse;
+  }
+  .mascot-reverse .mascot-button {
+    transform: scaleX(-1);
+  }
+  .mascot-reverse .bubble {
+    @apply w-72;
+  }
+  .mascot-reverse .bubble::before {
+    @apply -right-[5px] left-auto rotate-[225deg];
   }
 
   .bubble-tip {
