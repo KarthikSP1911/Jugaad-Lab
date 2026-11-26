@@ -89,9 +89,9 @@ More programs are in [examples/](examples/). The full rules are in the
 
 ## Website
 
-Documentation (getting started, language tour, reference, error codes) and an
-in-browser playground that runs programs in a Web Worker. It is not deployed
-yet.
+Documentation (getting started, language tour, reference, cheat sheet, error
+codes) with search, and an in-browser playground with autocomplete that runs
+programs in a Web Worker. It is not deployed yet.
 
 ```sh
 npm run dev -w @jugaad-hinglish/docs   # http://localhost:3000
