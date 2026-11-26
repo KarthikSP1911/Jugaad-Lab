@@ -11,22 +11,25 @@ const TALK_MS = 900;
 interface Props {
   mood: Mood;
   line: string;
+  /** Shown under the line until Mithu is clicked. */
+  advice?: string;
   /** Said one after another on each click. */
   tips: readonly string[];
   size?: number;
 }
 
-export function Mascot({ mood, line, tips, size = 96 }: Props) {
+export function Mascot({ mood, line, advice, tips, size = 96 }: Props) {
   const { play } = useSound();
   const [tip, setTip] = useState<string | null>(null);
   const [talking, setTalking] = useState(false);
-  const [seen, setSeen] = useState(line);
+  const current = `${line}\n${advice ?? ''}`;
+  const [seen, setSeen] = useState(current);
   const next = useRef(0);
   const timer = useRef<number | undefined>(undefined);
 
   // A new line from the page replaces whatever Mithu was saying.
-  if (seen !== line) {
-    setSeen(line);
+  if (seen !== current) {
+    setSeen(current);
     setTip(null);
     setTalking(false);
   }
@@ -58,6 +61,7 @@ export function Mascot({ mood, line, tips, size = 96 }: Props) {
           animate={{ opacity: 1, y: 0 }}
         >
           {text}
+          {!tip && advice && <span className="bubble-tip">Tip: {advice}</span>}
         </motion.span>
       </p>
     </div>

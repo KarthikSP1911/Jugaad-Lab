@@ -1,4 +1,10 @@
-import { renderDiagnostic, renderRuntimeError, run, type Lang } from '@jugaad-hinglish/core';
+import {
+  renderDiagnostic,
+  renderRuntimeError,
+  run,
+  type DiagnosticCode,
+  type Lang,
+} from '@jugaad-hinglish/core';
 import { MESSAGES, say } from './say';
 
 export const FILE = 'main.hing';
@@ -12,6 +18,8 @@ export interface ExecuteResult {
   outcome: Outcome;
   /** Rendered errors or the reason for stopping; empty on success. */
   message: string;
+  /** Code of the first error, when the program had one. */
+  code?: DiagnosticCode;
 }
 
 export interface ExecuteOptions {
@@ -55,7 +63,9 @@ export function execute(
       result.status === 'runtime-error'
         ? renderRuntimeError(result.error, source, render)
         : result.diagnostics.map((d) => renderDiagnostic(d, source, render)).join('\n\n');
-    return { outcome: result.status, message };
+    const first =
+      result.status === 'runtime-error' ? result.error.diagnostic : result.diagnostics[0];
+    return { outcome: result.status, message, ...(first ? { code: first.code } : {}) };
   } catch (error) {
     if (error instanceof OutputLimit) {
       return { outcome: 'stopped', message: say(MESSAGES.tooMuchOutput, lang) };

@@ -1,10 +1,10 @@
 'use client';
 
-import type { Bilingual, Lang } from '@jugaad-hinglish/core';
+import type { Bilingual, DiagnosticCode, Lang } from '@jugaad-hinglish/core';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { EXAMPLES } from '../lib/examples';
-import { REACTIONS, TIPS, type Status } from '../lib/mascot';
+import { advise, REACTIONS, TIPS, type Status } from '../lib/mascot';
 import type { RunRequest, WorkerMessage } from '../lib/messages';
 import { MESSAGES, say } from '../lib/say';
 import { decodeShare, encodeShare } from '../lib/share';
@@ -35,6 +35,9 @@ export function Playground() {
   const timer = useRef<number | undefined>(undefined);
   const { play } = useSound();
   const spoken = lang === 'en' ? 'en' : 'hi';
+  const [errorCode, setErrorCode] = useState<DiagnosticCode>();
+  const [runs, setRuns] = useState(0);
+  const advice = advise(status, errorCode, runs);
 
   function react(next: Status) {
     setStatus(next);
@@ -58,6 +61,8 @@ export function Playground() {
     dispose();
     setOutput('');
     setMessage('');
+    setErrorCode(undefined);
+    setRuns((count) => count + 1);
     react('running');
     const next = new Worker(new URL('../lib/run.worker.ts', import.meta.url));
     next.onmessage = ({ data }: MessageEvent<WorkerMessage>) => {
@@ -66,6 +71,7 @@ export function Playground() {
         return;
       }
       dispose();
+      setErrorCode(data.result.code);
       react(data.result.outcome);
       setMessage(data.result.message);
     };
@@ -160,6 +166,7 @@ export function Playground() {
       <Mascot
         mood={REACTIONS[status].mood}
         line={say(REACTIONS[status].line, spoken)}
+        {...(advice ? { advice: say(advice, spoken) } : {})}
         tips={TIPS.map((tip) => say(tip, spoken))}
         size={72}
       />

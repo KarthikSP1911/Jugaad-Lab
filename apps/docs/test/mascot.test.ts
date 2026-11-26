@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { REACTIONS, TIPS } from '../lib/mascot';
+import { execute } from '../lib/execute';
+import { advise, ERROR_TIPS, REACTIONS, TIPS } from '../lib/mascot';
 import { SOUNDS } from '../lib/sound';
 
 describe('mascot', () => {
@@ -22,6 +23,26 @@ describe('mascot', () => {
     for (const status of ['compile-error', 'runtime-error', 'stopped'] as const) {
       expect(REACTIONS[status].mood).toBe('worried');
     }
+  });
+
+  it('matches the tip to the error code', () => {
+    const result = execute('bolo(x);', () => {});
+    expect(result.code).toBe('E0301');
+    expect(advise(result.outcome, result.code, 0)).toBe(ERROR_TIPS.E0301);
+  });
+
+  it('reports the code of a runtime error', () => {
+    expect(execute('bolo(1 / 0);', () => {}).code).toBe('E0403');
+  });
+
+  it('has a tip for errors without a specific one', () => {
+    expect(advise('runtime-error', 'E0403', 0)).not.toBeNull();
+  });
+
+  it('rotates general tips between runs and stays silent while running', () => {
+    expect(advise('ok', undefined, 1)).toBe(TIPS[1]);
+    expect(advise('ok', undefined, TIPS.length)).toBe(TIPS[0]);
+    expect(advise('running', undefined, 1)).toBeNull();
   });
 
   it('stays quiet before anything has run', () => {

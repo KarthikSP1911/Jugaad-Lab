@@ -378,6 +378,10 @@
     @apply relative max-w-60 min-w-0 rounded-xl border border-line bg-page px-3 py-2 text-sm font-medium shadow-sm;
   }
 
+  .bubble-tip {
+    @apply mt-1 block font-normal text-muted;
+  }
+
   /* The tail of the speech bubble: a rotated corner pointing at the parrot. */
   .bubble::before {
     @apply absolute top-1/2 -left-[5px] h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b border-l border-line bg-page;
