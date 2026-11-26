@@ -30,7 +30,7 @@ are placeholders until the owner confirms them.
 | true / false / null | `sach` / `jhooth` / `khaali` |
 | while / counted loop | `jabtak` / `chalo (init; test; step)` |
 | break / continue | `ruko` / `agla` |
-| and / or / not | `aur` / `ya` / `nahi` (aliases of `&&`, `||`, `!`) |
+| and / or / not | `aur` / `ya` / `nahi` (aliases of `&&`, `\|\|`, `!`) |
 
 `bolo` and `suno` are built-in functions, not keywords. Reserved words are
 case-sensitive and cannot be used as identifiers.
