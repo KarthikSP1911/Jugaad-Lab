@@ -36,7 +36,8 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const emit = useCallback((name: SoundName) => {
-    if (silenced.current) return;
+    // Automatic callers can run before the visitor has clicked or typed.
+    if (silenced.current || navigator.userActivation?.hasBeenActive === false) return;
     try {
       audio.current ??= new AudioContext();
       if (audio.current.state === 'suspended') void audio.current.resume();

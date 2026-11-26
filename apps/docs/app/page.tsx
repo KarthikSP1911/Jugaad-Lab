@@ -65,7 +65,7 @@ export default function Home() {
           <div className="min-w-0">
             <Reveal className="flex flex-wrap items-center gap-x-5 gap-y-3">
               <Logo size={96} />
-              <Mascot mood="idle" line={GREETING} tips={TIPS.map(({ hi }) => hi)} />
+              <Mascot auto mood="idle" line={GREETING} tips={TIPS.map(({ hi }) => hi)} />
             </Reveal>
             <Reveal delay={0.08}>
               <h1 className="mt-6 text-4xl font-bold tracking-tight text-brand sm:text-5xl">

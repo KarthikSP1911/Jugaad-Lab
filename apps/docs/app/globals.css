@@ -378,6 +378,11 @@
     @apply relative max-w-60 min-w-0 rounded-xl border border-line bg-page px-3 py-2 text-sm font-medium shadow-sm;
   }
 
+  /* A fixed width keeps the layout still while the lines change on their own. */
+  .mascot-auto .bubble {
+    @apply w-60;
+  }
+
   .bubble-tip {
     @apply mt-1 block font-normal text-muted;
   }

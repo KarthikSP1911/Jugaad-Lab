@@ -1,12 +1,13 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import type { Mood } from '../lib/mascot';
 import { Parrot } from './parrot';
 import { useSound } from './sound';
 
 const TALK_MS = 900;
+const AUTO_MS = 4_500;
 
 interface Props {
   mood: Mood;
@@ -16,9 +17,11 @@ interface Props {
   /** Said one after another on each click. */
   tips: readonly string[];
   size?: number;
+  /** Says the tips on its own, pausing while pointed at or focused. */
+  auto?: boolean;
 }
 
-export function Mascot({ mood, line, advice, tips, size = 96 }: Props) {
+export function Mascot({ mood, line, advice, tips, size = 96, auto = false }: Props) {
   const { play } = useSound();
   const [tip, setTip] = useState<string | null>(null);
   const [talking, setTalking] = useState(false);
@@ -26,6 +29,7 @@ export function Mascot({ mood, line, advice, tips, size = 96 }: Props) {
   const [seen, setSeen] = useState(current);
   const next = useRef(0);
   const timer = useRef<number | undefined>(undefined);
+  const [held, setHeld] = useState(false);
 
   // A new line from the page replaces whatever Mithu was saying.
   if (seen !== current) {
@@ -36,8 +40,8 @@ export function Mascot({ mood, line, advice, tips, size = 96 }: Props) {
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  function speak() {
-    play('chirp');
+  function speak(aloud: boolean) {
+    if (aloud) play('chirp');
     setTip(tips[next.current % tips.length] ?? null);
     next.current += 1;
     setTalking(true);
@@ -45,14 +49,37 @@ export function Mascot({ mood, line, advice, tips, size = 96 }: Props) {
     timer.current = window.setTimeout(() => setTalking(false), TALK_MS);
   }
 
+  const autoSpeak = useEffectEvent(() => {
+    // Chirps for one round of tips only, so a page left open goes quiet.
+    if (!held && !document.hidden) speak(next.current < tips.length);
+  });
+
+  useEffect(() => {
+    if (!auto || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const interval = window.setInterval(() => autoSpeak(), AUTO_MS);
+    return () => window.clearInterval(interval);
+  }, [auto]);
+
   const text = tip ?? line;
 
   return (
-    <div className="mascot">
-      <button type="button" className="mascot-button" onClick={speak} aria-label="Talk to Mithu">
+    <div
+      className={auto ? 'mascot mascot-auto' : 'mascot'}
+      onPointerEnter={() => setHeld(true)}
+      onPointerLeave={() => setHeld(false)}
+      onFocus={() => setHeld(true)}
+      onBlur={() => setHeld(false)}
+    >
+      <button
+        type="button"
+        className="mascot-button"
+        onClick={() => speak(true)}
+        aria-label="Talk to Mithu"
+      >
         <Parrot mood={talking ? 'talking' : mood} size={size} />
       </button>
-      <p className="bubble" aria-live="polite">
+      {/* Unprompted lines are not announced, so screen readers are not interrupted. */}
+      <p className="bubble" aria-live={auto && !held ? 'off' : 'polite'}>
         <motion.span
           data-reveal
           key={text}
