@@ -30,6 +30,8 @@ export interface DictExpr {
 }
 
 export interface VarExpr {
+  /** Scopes between this use and the declaration; set by the resolver. */
+  depth?: number;
   kind: 'Var';
   name: string;
   span: Span;

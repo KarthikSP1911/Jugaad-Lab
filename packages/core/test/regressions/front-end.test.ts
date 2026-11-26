@@ -1,12 +1,12 @@
 // One block per audited defect the front end covers, numbered as in CLAUDE.md.
 import { describe, expect, it } from 'vitest';
-import { check } from '../../src/check.js';
 import { tokenize } from '../../src/lexer/lexer.js';
 import { hinglish } from '../../src/packs/hinglish.js';
 import { print } from '../ast-printer.js';
+import { syntax } from '../syntax.js';
 
 function tree(source: string): string {
-  const { ast, diagnostics } = check(source);
+  const { ast, diagnostics } = syntax(source);
   expect(diagnostics).toEqual([]);
   return (ast?.body ?? []).map(print).join(' ');
 }
@@ -41,7 +41,7 @@ describe('defect 6: no string escapes', () => {
 
 describe('defect 9: errors without line and column', () => {
   it('locates a diagnostic', () => {
-    const [diagnostic] = check('rakho a = 1;\nrakho b = ;', { file: 'x.hing' }).diagnostics;
+    const [diagnostic] = syntax('rakho a = 1;\nrakho b = ;', 'x.hing').diagnostics;
     expect(diagnostic).toMatchObject({ file: 'x.hing', span: { line: 2, column: 11 } });
   });
 });
@@ -62,9 +62,9 @@ describe('defect 11: quadratic tokenizing', () => {
 
 describe('defect 13: global singletons', () => {
   it('shares no state between runs', () => {
-    expect(check('+;').diagnostics).toHaveLength(1);
-    expect(check('a;').diagnostics).toEqual([]);
-    expect(check('+;').diagnostics).toHaveLength(1);
+    expect(syntax('+;').diagnostics).toHaveLength(1);
+    expect(syntax('1;').diagnostics).toEqual([]);
+    expect(syntax('+;').diagnostics).toHaveLength(1);
   });
 });
 
