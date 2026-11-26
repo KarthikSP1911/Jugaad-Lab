@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "paths": { "@jugaad-hinglish/core": ["../core/src/index.ts"] }
+  },
+  "include": ["src"]
+}
