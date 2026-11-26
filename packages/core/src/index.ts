@@ -3,7 +3,7 @@ export const VERSION = '0.1.0';
 export type * from './ast/expr.js';
 export type * from './ast/stmt.js';
 export { check, type CheckOptions, type CheckResult } from './check.js';
-export type { DiagnosticCode } from './diagnostics/codes.js';
+export { TITLES, type DiagnosticCode } from './diagnostics/codes.js';
 export type { Bilingual, Diagnostic } from './diagnostics/diagnostic.js';
 export { InternalError } from './diagnostics/internal-error.js';
 export {

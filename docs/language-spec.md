@@ -242,3 +242,5 @@ Galti E0301 [naam nahi mila] at kaam.hing:3:9
 'totl' declare nahi hua (undefined variable). Kya aapka matlab 'total' tha?
 ```
 
+With `--lang=hi` the location and call trace are in Hinglish too (`yahan: kaam.hing:3:9`).
+The website playground uses this by default.

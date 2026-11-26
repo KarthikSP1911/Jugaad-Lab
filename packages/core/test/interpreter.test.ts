@@ -100,6 +100,15 @@ describe('run', () => {
     expect(runProgram(source, { maxDepth: 10_000_000 }).codes).toEqual(['E0402']);
   });
 
+  it('renders the call trace in Hinglish when asked', () => {
+    const source = 'kaam a() { wapas 1 / 0; }\na();';
+    const { result } = runProgram(source, { file: 't.hing' });
+    if (result.status !== 'runtime-error') throw new Error('expected a runtime error');
+    const lines = renderRuntimeError(result.error, source, { lang: 'hi' }).split('\n');
+    expect(lines[0]).toContain('yahan: t.hing:1:');
+    expect(lines.at(-1)).toBe('  a ke andar (t.hing:2:1)');
+  });
+
   it('renders the call trace, innermost first', () => {
     const source = 'kaam a() { wapas 1 / 0; }\nkaam b() { a(); }\nb();';
     const { result } = runProgram(source, { file: 't.hing' });
