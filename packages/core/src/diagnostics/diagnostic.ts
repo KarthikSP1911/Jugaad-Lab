@@ -3,6 +3,8 @@ import type { Span } from './span.js';
 
 export interface Bilingual {
   hi: string;
+  /** Hindi in Devanagari. */
+  deva: string;
   en: string;
 }
 

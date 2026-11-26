@@ -92,9 +92,9 @@ bolo(factorial(5));   // 120
 
 ## Diagnostics
 
-- `Diagnostic {code, severity, message{hi,en}, span, file, hint?}`. Compile-time ones are collected (program does not run if any error). Runtime throws one `HinglishError` with call-stack frames. Internal bugs throw `InternalError`.
+- `Diagnostic {code, severity, message{hi,en,deva}, span, file, hint?}`. Compile-time ones are collected (program does not run if any error). Runtime throws one `HinglishError` with call-stack frames. Internal bugs throw `InternalError`.
 - Codes: E01xx lexical, E02xx syntax, E03xx semantic, E04xx runtime. Resolver: E0301 undefined name, E0302 duplicate declaration, E0303 assign to constant, E0304 use in own initialiser, E0305 `ruko`/`agla` outside loop, E0306 `wapas` outside function, E0307 wrong arity on direct call. E0402 call depth exceeded, E0405 non-boolean condition.
-- Messages are bilingual (Hinglish first, English in brackets), with file:line:column, source line, caret. CLI `--lang=en|hi`. Exit codes: 0 ok, 65 compile errors, 70 runtime error.
+- Messages are bilingual (Hinglish first, English in brackets), with file:line:column, source line, caret. CLI `--lang=en|hi`; a third Devanagari text (`deva`) serves the Hindi website (ADR 0005). Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 - Tests assert on codes, never on message text.
 
 ## Defects from the audited repo that must never return

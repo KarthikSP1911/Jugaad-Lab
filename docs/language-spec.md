@@ -243,4 +243,7 @@ Galti E0301 [naam nahi mila] at kaam.hing:3:9
 ```
 
 With `--lang=hi` the location and call trace are in Hinglish too (`yahan: kaam.hing:3:9`).
-The website playground uses this by default.
+The website playground uses this by default on its English pages.
+
+Every message also has a Hindi version in Devanagari, selected with `lang: 'deva'` in the
+library. The Hindi pages of the website use it; the command line does not offer it.
