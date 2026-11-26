@@ -13,6 +13,11 @@ Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 
 | Code | Meaning |
 | --- | --- |
+| E0101 | unknown character |
+| E0102 | unterminated string |
+| E0103 | invalid escape |
+| E0104 | malformed number |
+| E0105 | unterminated block comment |
 | E0301 | undefined name |
 | E0302 | duplicate declaration |
 | E0303 | assignment to a constant |
