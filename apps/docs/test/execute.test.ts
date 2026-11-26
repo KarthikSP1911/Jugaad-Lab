@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EXAMPLES } from '../lib/examples';
+import { examples } from '../lib/examples';
 import { execute, type ExecuteOptions } from '../lib/execute';
 
 function capture(source: string, options?: ExecuteOptions) {
@@ -40,12 +40,12 @@ describe('execute', () => {
 });
 
 describe('examples', () => {
-  it.each(EXAMPLES.filter(({ id }) => id !== 'errors'))('$id runs', ({ code, input }) => {
+  it.each([...examples('en'), ...examples('hi')].filter(({ id }) => id !== 'errors'))('$id runs', ({ code, input }) => {
     expect(capture(code, input ? { input } : {})).toMatchObject({ outcome: 'ok' });
   });
 
   it('the error example fails as described', () => {
-    const errors = EXAMPLES.find(({ id }) => id === 'errors');
+    const errors = [...examples('en'), ...examples('hi')].find(({ id }) => id === 'errors');
     expect(capture(errors?.code ?? '').outcome).toBe('compile-error');
   });
 });

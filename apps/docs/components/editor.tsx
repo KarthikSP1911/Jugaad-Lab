@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useRef, useState, type KeyboardEvent } from 'react';
 import { complete, type Completion } from '../lib/complete';
 import { Highlighted } from './code';
+import { useDictionary, useLocale } from './locale';
 
 const INDENT = '    ';
 /** Matches the editor's padding and line height in the stylesheet. */
@@ -37,6 +38,8 @@ interface Props {
 }
 
 export function Editor({ code, onChange, onRun }: Props) {
+  const locale = useLocale();
+  const { editor: text } = useDictionary();
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [popup, setPopup] = useState<Popup | null>(null);
   /** After Escape, Tab moves focus instead of indenting. */
@@ -45,7 +48,7 @@ export function Editor({ code, onChange, onRun }: Props) {
   function suggest(editor: HTMLTextAreaElement, explicit = false) {
     const found =
       editor.selectionStart === editor.selectionEnd
-        ? complete(editor.value, editor.selectionStart, explicit)
+        ? complete(editor.value, editor.selectionStart, explicit, locale)
         : null;
     setPopup(found && { ...found, selected: 0, ...position(editor, found.from) });
   }
@@ -120,7 +123,7 @@ export function Editor({ code, onChange, onRun }: Props) {
         </pre>
         <textarea
           ref={textarea}
-          aria-label="Program source. Control and space shows suggestions. Escape, then Tab, leaves the editor."
+          aria-label={text.label}
           aria-autocomplete="list"
           aria-controls={popup ? 'suggestions' : undefined}
           aria-activedescendant={popup ? `suggestion-${popup.selected}` : undefined}
@@ -143,7 +146,7 @@ export function Editor({ code, onChange, onRun }: Props) {
             <motion.ul
               id="suggestions"
               role="listbox"
-              aria-label="Suggestions"
+              aria-label={text.suggestions}
               className="suggestions"
               style={{ top: popup.top, left: popup.left }}
               initial={{ opacity: 0, y: -4 }}

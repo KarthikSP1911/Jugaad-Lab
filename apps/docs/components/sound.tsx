@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { play, type SoundName } from '../lib/sound';
+import { useDictionary } from './locale';
 
 const STORAGE_KEY = 'sound';
 
@@ -78,14 +79,15 @@ export function SoundProvider({ children }: { children: ReactNode }) {
 
 export function SoundToggle() {
   const { muted, toggle } = useSound();
+  const { header } = useDictionary();
   return (
     <button
       type="button"
       className="icon-button"
       onClick={toggle}
-      aria-label="Sound"
+      aria-label={header.sound}
       aria-pressed={!muted}
-      title={muted ? 'Sound is off' : 'Sound is on'}
+      title={muted ? header.soundOff : header.soundOn}
     >
       <svg
         viewBox="0 0 24 24"

@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## Unreleased
+
+- Website in English and Hindi, with Devanagari diagnostics.
+- Mithu, a parrot in the playground that reacts to runs and gives tips.
+- Sound effects with a mute button.
+- Rewritten README.
+
+## 0.1.0 (2026-11-26)
 
 First usable version. Name, file extension, command and keyword spellings may
 still change.
@@ -11,3 +18,4 @@ still change.
   `prakar`.
 - Bilingual diagnostics with codes, locations and suggestions.
 - `hinglish run`, `hinglish check` and a REPL.
+- Website and playground.

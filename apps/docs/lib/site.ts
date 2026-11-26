@@ -1,18 +1,23 @@
+import { localePath, type Dictionary, type Locale } from './i18n';
+
 export const SITE = {
   name: 'Jugaad Hinglish',
-  tagline: 'A small programming language with Roman-script Hindi keywords.',
   repository: 'https://github.com/KarthikSP1911/Jugaad-Lab',
 } as const;
 
-export const NAV = [
-  { href: '/docs', label: 'Docs' },
-  { href: '/playground', label: 'Playground' },
-] as const;
+export function mainNav(locale: Locale, { nav }: Dictionary) {
+  return [
+    { href: localePath(locale, '/docs'), label: nav.docs },
+    { href: localePath(locale, '/playground'), label: nav.playground },
+  ];
+}
 
-export const DOCS_NAV = [
-  { href: '/docs', label: 'Getting started' },
-  { href: '/docs/tour', label: 'Language tour' },
-  { href: '/docs/cheatsheet', label: 'Cheatsheet' },
-  { href: '/docs/reference', label: 'Reference' },
-  { href: '/docs/errors', label: 'Error codes' },
-] as const;
+export function docsNav(locale: Locale, { docsNav: labels }: Dictionary) {
+  return [
+    { href: localePath(locale, '/docs'), label: labels.start },
+    { href: localePath(locale, '/docs/tour'), label: labels.tour },
+    { href: localePath(locale, '/docs/cheatsheet'), label: labels.cheatsheet },
+    { href: localePath(locale, '/docs/reference'), label: labels.reference },
+    { href: localePath(locale, '/docs/errors'), label: labels.errors },
+  ];
+}

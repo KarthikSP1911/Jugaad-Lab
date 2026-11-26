@@ -1,6 +1,7 @@
 import { hinglish, tokenize } from '@jugaad-hinglish/core';
 import { highlight } from './highlight';
-import { BUILTINS, KEYWORD_MEANINGS } from './reference';
+import { DEFAULT_LOCALE, DICTIONARIES, type Locale } from './i18n';
+import { builtins as builtinList, KEYWORD_MEANINGS } from './reference';
 
 export interface Suggestion {
   label: string;
@@ -49,16 +50,17 @@ function insideOpenString(source: string, cursor: number): boolean {
   return quote !== '';
 }
 
-function candidates(source: string, from: number): Suggestion[] {
+function candidates(source: string, from: number, locale: Locale): Suggestion[] {
+  const { editor } = DICTIONARIES[locale];
   const keywords = [...hinglish].map(
     ([word, kind]): Suggestion => ({
       label: word,
       kind: 'keyword',
-      detail: KEYWORD_MEANINGS[kind] ?? 'keyword',
+      detail: KEYWORD_MEANINGS[locale][kind] ?? editor.keyword,
       insert: word,
     }),
   );
-  const builtins = BUILTINS.map(({ name, does }): Suggestion => {
+  const builtins = builtinList(locale).map(({ name, does }): Suggestion => {
     const label = name.slice(0, name.indexOf('('));
     return { label, kind: 'builtin', detail: does, insert: `${label}(` };
   });
@@ -71,7 +73,7 @@ function candidates(source: string, from: number): Suggestion[] {
     (name): Suggestion => ({
       label: name,
       kind: 'name',
-      detail: 'in this program',
+      detail: editor.ownName,
       insert: name,
     }),
   );
@@ -82,7 +84,12 @@ function candidates(source: string, from: number): Suggestion[] {
  * Suggestions for the word ending at the cursor. `explicit` (Ctrl+Space) also
  * offers everything when nothing has been typed.
  */
-export function complete(source: string, cursor: number, explicit = false): Completion | null {
+export function complete(
+  source: string,
+  cursor: number,
+  explicit = false,
+  locale: Locale = DEFAULT_LOCALE,
+): Completion | null {
   const before = source.slice(0, cursor);
   if (insideText(source, cursor) || insideOpenString(source, cursor)) return null;
   const prefix = PREFIX.exec(before)?.[0] ?? '';
@@ -91,7 +98,7 @@ export function complete(source: string, cursor: number, explicit = false): Comp
   if (prefix && PARTIAL_NUMBER.test(source.slice(0, start))) return null;
   if (!prefix && !explicit) return null;
 
-  const all = candidates(source, start);
+  const all = candidates(source, start, locale);
   // A finished word needs no popup, so Enter keeps adding a new line.
   if (!explicit && all.some(({ label }) => label === prefix)) return null;
   const typed = prefix.toLowerCase();

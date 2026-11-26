@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useDictionary } from './locale';
 
 export function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
+  const { code } = useDictionary();
 
   async function copy() {
     try {
@@ -17,7 +19,7 @@ export function CopyButton({ text }: { text: string }) {
 
   return (
     <button type="button" className="copy-button" onClick={copy} aria-live="polite">
-      {copied ? 'Copied ✓' : 'Copy'}
+      {copied ? code.copied : code.copy}
     </button>
   );
 }
