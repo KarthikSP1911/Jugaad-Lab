@@ -1,0 +1,4 @@
+bolo("shuru");
+kaam bhag(a, b) { wapas a / b; }
+bolo(bhag(1, 0));
+bolo("kabhi nahi");

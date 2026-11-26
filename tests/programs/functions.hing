@@ -1,0 +1,16 @@
+kaam jodo(a, b) { wapas a + b; }
+bolo(jodo(2, 3));
+
+kaam factorial(n) {
+    agar (n <= 1) { wapas 1; }
+    wapas n * factorial(n-1);
+}
+bolo(factorial(5));
+
+kaam counter() {
+    rakho c = 0;
+    wapas kaam () { c += 1; wapas c; };
+}
+rakho gino = counter();
+gino();
+bolo(gino());

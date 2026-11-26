@@ -4,16 +4,17 @@
 
 - Phase 0: workspaces, CI, ADRs, spec v0.1 draft, `NOTICE`.
 - Phase 1: lexer, AST, parser with recovery, diagnostics and renderer, `check`.
+- Phase 2: resolver, interpreter, `bolo`, `Host`, call-depth and step limits, `run`.
 
 ## Next
 
-- Phase 2: resolver and interpreter (expressions, variables, blocks, control
-  flow, functions, closures, `bolo`, `Host`, limits).
-- Golden runner: add `.out` and runtime `.err` handling once `run` exists.
+- Phase 3: lists, dictionaries on `Map`, index read and write, remaining
+  built-ins. Until then the interpreter throws `InternalError` on `List`, `Dict`
+  and `Index`.
 
 ## Blockers
 
 - Owner to confirm name, extension, CLI command and keyword spellings (needed
   before freezing).
-- [Open questions](language-spec.md#open-questions) in the spec; division and
-  remainder by zero is needed for phase 2.
+- [Open questions](language-spec.md#open-questions) in the spec, needed for
+  phase 3.
