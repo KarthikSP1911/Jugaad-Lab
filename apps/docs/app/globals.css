@@ -84,8 +84,8 @@
   --color-link: var(--link);
   --color-accent: var(--accent);
   --color-error: var(--error);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-sans: var(--font-inter), var(--font-devanagari), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), var(--font-devanagari), ui-monospace, monospace;
 }
 
 @layer base {
@@ -707,4 +707,9 @@ html {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Letter spacing pulls Devanagari vowel signs apart from their consonants. */
+:lang(hi) * {
+  letter-spacing: normal !important;
 }

@@ -2,11 +2,18 @@ import type { ReactNode } from 'react';
 import Markdown from 'react-markdown';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import type { Locale } from '../lib/i18n/locales';
 import { headings, readDoc } from '../lib/markdown';
 import { Toc } from './toc';
 
-export function MarkdownPage({ file, notice }: { file: string; notice?: ReactNode }) {
-  const source = readDoc(file);
+interface Props {
+  file: string;
+  locale: Locale;
+  notice?: ReactNode;
+}
+
+export function MarkdownPage({ file, locale, notice }: Props) {
+  const source = readDoc(file, locale);
   return (
     <div className="flex gap-10">
       <article className="prose min-w-0 flex-1">

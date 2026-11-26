@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { search, type SearchEntry } from '../lib/search';
+import { useDictionary } from './locale';
 
 function isTyping(target: EventTarget | null): boolean {
   return target instanceof HTMLElement && target.matches('input, textarea, select');
@@ -11,6 +12,7 @@ function isTyping(target: EventTarget | null): boolean {
 export function Search({ entries }: { entries: SearchEntry[] }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const router = useRouter();
+  const { search: text } = useDictionary();
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(0);
   const results = search(entries, query);
@@ -53,18 +55,18 @@ export function Search({ entries }: { entries: SearchEntry[] }) {
 
   return (
     <>
-      <button type="button" className="search-trigger" onClick={open} aria-label="Search the docs">
+      <button type="button" className="search-trigger" onClick={open} aria-label={text.open}>
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
           <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
           <path d="m20 20-4-4" stroke="currentColor" strokeWidth="2" />
         </svg>
-        <span className="hidden md:inline">Search docs</span>
+        <span className="hidden md:inline">{text.button}</span>
         <kbd className="hidden md:inline">Ctrl K</kbd>
       </button>
       <dialog
         ref={dialog}
         className="search-dialog"
-        aria-label="Search the docs"
+        aria-label={text.open}
         onClick={(event) => {
           // A click on the dialog itself, not its content, is on the backdrop.
           if (event.target === dialog.current) dialog.current.close();
@@ -74,8 +76,8 @@ export function Search({ entries }: { entries: SearchEntry[] }) {
           <input
             type="search"
             className="search-input"
-            placeholder="Search: loops, suno, E0301…"
-            aria-label="Search"
+            placeholder={text.placeholder}
+            aria-label={text.label}
             value={query}
             onChange={(event) => {
               setQuery(event.target.value);
@@ -98,7 +100,7 @@ export function Search({ entries }: { entries: SearchEntry[] }) {
                 </button>
               </li>
             ))}
-            {results.length === 0 && <li className="p-3 text-sm text-muted">Nothing found.</li>}
+            {results.length === 0 && <li className="p-3 text-sm text-muted">{text.empty}</li>}
           </ul>
         </div>
       </dialog>

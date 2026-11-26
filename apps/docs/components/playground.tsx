@@ -3,25 +3,27 @@
 import type { Bilingual, DiagnosticCode, Lang } from '@jugaad-hinglish/core';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { EXAMPLES } from '../lib/examples';
+import { examples } from '../lib/examples';
+import { ERROR_LANG } from '../lib/i18n/locales';
 import { advise, REACTIONS, TIPS, type Status } from '../lib/mascot';
 import type { RunRequest, WorkerMessage } from '../lib/messages';
 import { MESSAGES, say } from '../lib/say';
 import { decodeShare, encodeShare } from '../lib/share';
 import { CopyButton } from './copy-button';
 import { Editor } from './editor';
+import { useDictionary, useLocale } from './locale';
 import { Mascot } from './mascot';
 import { useSound } from './sound';
 
 const TIMEOUT_MS = 5_000;
 
 const STATUS_LABEL: Record<Status, Bilingual> = {
-  idle: { hi: 'Taiyaar', en: 'Ready' },
-  running: { hi: 'Chal raha hai…', en: 'Running…' },
-  ok: { hi: 'Ho gaya', en: 'Finished' },
-  'compile-error': { hi: 'Code mein galti', en: 'Compile error' },
-  'runtime-error': { hi: 'Chalte waqt galti', en: 'Runtime error' },
-  stopped: { hi: 'Roka gaya', en: 'Stopped' },
+  idle: { hi: 'Taiyaar', deva: 'तैयार', en: 'Ready' },
+  running: { hi: 'Chal raha hai…', deva: 'चल रहा है…', en: 'Running…' },
+  ok: { hi: 'Ho gaya', deva: 'हो गया', en: 'Finished' },
+  'compile-error': { hi: 'Code mein galti', deva: 'कोड में गलती', en: 'Compile error' },
+  'runtime-error': { hi: 'Chalte waqt galti', deva: 'चलते समय गलती', en: 'Runtime error' },
+  stopped: { hi: 'Roka gaya', deva: 'रोका गया', en: 'Stopped' },
 };
 
 function WindowDots() {
@@ -36,9 +38,12 @@ function WindowDots() {
 
 /** `children` is the page's heading, shown to the left of Mithu. */
 export function Playground({ children }: { children: ReactNode }) {
-  const [code, setCode] = useState(EXAMPLES[0].code);
+  const locale = useLocale();
+  const { playground: text } = useDictionary();
+  const samples = examples(locale);
+  const [code, setCode] = useState(samples[0].code);
   const [input, setInput] = useState('');
-  const [lang, setLang] = useState<Lang | ''>('hi');
+  const [lang, setLang] = useState<Lang | ''>(ERROR_LANG[locale]);
   const [output, setOutput] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
@@ -46,7 +51,7 @@ export function Playground({ children }: { children: ReactNode }) {
   const worker = useRef<Worker | null>(null);
   const timer = useRef<number | undefined>(undefined);
   const { play } = useSound();
-  const spoken = lang === 'en' ? 'en' : 'hi';
+  const spoken = lang === 'en' ? 'en' : ERROR_LANG[locale];
   const [errorCode, setErrorCode] = useState<DiagnosticCode>();
   const [runs, setRuns] = useState(0);
   const advice = advise(status, errorCode, runs);
@@ -143,22 +148,22 @@ export function Playground({ children }: { children: ReactNode }) {
             className="button button-primary"
             onClick={() => stop(MESSAGES.stopped)}
           >
-            Stop
+            {text.stop}
           </button>
         ) : (
           <button type="button" className="button button-primary" onClick={start}>
-            Run
+            {text.run}
           </button>
         )}
         <button type="button" className="button" onClick={share}>
-          {copied ? 'Link copied' : 'Share'}
+          {copied ? text.linkCopied : text.share}
         </button>
         <select
           className="button"
-          aria-label="Load an example"
+          aria-label={text.loadExample}
           value=""
           onChange={(event) => {
-            const example = EXAMPLES.find(({ id }) => id === event.target.value);
+            const example = samples.find(({ id }) => id === event.target.value);
             if (!example) return;
             setCode(example.code);
             setInput(example.input ?? '');
@@ -166,24 +171,33 @@ export function Playground({ children }: { children: ReactNode }) {
           }}
         >
           <option value="" disabled>
-            Examples
+            {text.examples}
           </option>
-          {EXAMPLES.map(({ id, title }) => (
+          {samples.map(({ id, title }) => (
             <option key={id} value={id}>
               {title}
             </option>
           ))}
         </select>
         <label className="flex items-center gap-2 text-sm text-muted sm:ml-auto">
-          Error language
+          {text.errorLanguage}
           <select
             className="button"
             value={lang}
             onChange={(event) => setLang(event.target.value as Lang | '')}
           >
-            <option value="hi">Hinglish</option>
-            <option value="en">English</option>
-            <option value="">Both</option>
+            {locale === 'en' ? (
+              <>
+                <option value="hi">{text.hinglish}</option>
+                <option value="en">{text.english}</option>
+                <option value="">{text.both}</option>
+              </>
+            ) : (
+              <>
+                <option value="deva">{text.hindi}</option>
+                <option value="en">{text.english}</option>
+              </>
+            )}
           </select>
         </label>
       </div>
@@ -193,7 +207,7 @@ export function Playground({ children }: { children: ReactNode }) {
           <h2 className="window-bar">
             <WindowDots />
             main.hing
-            <span className="window-hint">Ctrl + Enter to run · Ctrl + Space to suggest</span>
+            <span className="window-hint">{text.runHint}</span>
           </h2>
           <Editor code={code} onChange={setCode} onRun={start} />
         </section>
@@ -202,23 +216,23 @@ export function Playground({ children }: { children: ReactNode }) {
           <section className="code-window">
             <h2 className="window-bar">
               <WindowDots />
-              input
-              <span className="window-hint">one line for each suno</span>
+              {text.input}
+              <span className="window-hint">{text.inputHint}</span>
             </h2>
             <textarea
               className="input-box"
-              aria-label="Program input, one line for each suno"
+              aria-label={text.inputLabel}
               value={input}
               onChange={(event) => setInput(event.target.value)}
               rows={3}
-              placeholder="Type here what suno() should read."
+              placeholder={text.inputPlaceholder}
               spellCheck={false}
             />
           </section>
           <section className="code-window flex-1">
             <div className="window-bar">
               <WindowDots />
-              <h2>output</h2>
+              <h2>{text.output}</h2>
               <span className="ml-auto flex items-center gap-2 text-xs font-normal">
                 {(output || message) && (
                   <CopyButton text={[output, message].filter(Boolean).join('\n')} />
@@ -241,7 +255,7 @@ export function Playground({ children }: { children: ReactNode }) {
                 </motion.span>
               )}
               {status === 'idle' && (
-                <span className="text-muted">Press Run to see the output.</span>
+                <span className="text-muted">{text.outputEmpty}</span>
               )}
             </pre>
           </section>

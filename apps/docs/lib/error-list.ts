@@ -1,22 +1,25 @@
 import { TITLES } from '@jugaad-hinglish/core';
+import { ERROR_LANG, type Locale } from './i18n/locales';
 import { readDoc } from './markdown';
 
 export interface ErrorEntry {
   code: string;
-  hinglish: string;
-  english: string;
+  /** In the page's error language: Hinglish or Devanagari. */
+  title: string;
+  meaning: string;
 }
 
-/** Hinglish titles come from `core`; English meanings from `docs/error-codes.md`. */
-export function errorList(): ErrorEntry[] {
+/** Titles come from `core`; meanings from the locale's `docs/error-codes.md`. */
+export function errorList(locale: Locale): ErrorEntry[] {
   const meanings = new Map(
-    [...readDoc('error-codes.md').matchAll(/^\| (E\d{4}) \| (.+?) \|\s*$/gm)].map(
+    [...readDoc('error-codes.md', locale).matchAll(/^\| (E\d{4}) \| (.+?) \|\s*$/gm)].map(
       (row) => [row[1], row[2]?.replaceAll('`', '') ?? ''] as const,
     ),
   );
+  const lang = ERROR_LANG[locale];
   return Object.entries(TITLES).map(([code, title]) => ({
     code,
-    hinglish: title.hi,
-    english: meanings.get(code) ?? title.en,
+    title: title[lang],
+    meaning: meanings.get(code) ?? title.en,
   }));
 }

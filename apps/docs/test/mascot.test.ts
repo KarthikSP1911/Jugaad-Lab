@@ -4,11 +4,12 @@ import { advise, ERROR_TIPS, REACTIONS, TIPS } from '../lib/mascot';
 import { SOUNDS } from '../lib/sound';
 
 describe('mascot', () => {
-  it('has both languages for every line', () => {
+  it('has every language for every line', () => {
     const lines = [...Object.values(REACTIONS).map(({ line }) => line), ...TIPS];
-    for (const { hi, en } of lines) {
+    for (const { hi, en, deva } of lines) {
       expect(hi).not.toBe('');
       expect(en).not.toBe('');
+      expect(deva).toMatch(/\p{Script=Devanagari}/u);
     }
   });
 

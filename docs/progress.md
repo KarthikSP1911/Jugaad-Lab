@@ -12,6 +12,8 @@
 - Phase 6: docs site and playground in `apps/docs`, with search,
   autocomplete and Hinglish errors. Not deployed.
 - Phase 7: version 0.1.0, changelog and README. Not tagged or published.
+- Website in English and Hindi (Devanagari) under `/en` and `/hi`
+  ([ADR 0005](decisions/0005-site-i18n.md)). Hindi text awaits review.
 
 ## Next
 

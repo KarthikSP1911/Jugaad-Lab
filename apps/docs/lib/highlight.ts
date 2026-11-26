@@ -1,5 +1,5 @@
 import { hinglish, tokenize, type Token } from '@jugaad-hinglish/core';
-import { BUILTINS } from './reference';
+import { builtins } from './reference';
 
 export type SegmentKind =
   | 'plain'
@@ -20,7 +20,7 @@ export interface Segment {
 const COMMENT = /(\/\/[^\n]*|\/\*[\s\S]*?(?:\*\/|$))/;
 const PUNCTUATION = /^[(){}[\],;:]$/;
 const LITERALS = new Set<Token['kind']>(['True', 'False', 'Null']);
-const BUILTIN_NAMES = new Set<string>(BUILTINS.map(({ name }) => name.split('(')[0] ?? name));
+const BUILTIN_NAMES = new Set<string>(builtins('en').map(({ name }) => name.split('(')[0] ?? name));
 
 function kindOf(token: Token, next: Token | undefined): SegmentKind {
   if (LITERALS.has(token.kind)) return 'literal';

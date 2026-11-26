@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import type { Mood } from '../lib/mascot';
+import { useDictionary } from './locale';
 import { Parrot } from './parrot';
 import { useSound } from './sound';
 
@@ -26,6 +27,7 @@ interface Props {
 export function Mascot(props: Props) {
   const { mood, line, advice, tips, size = 96, auto = false, reverse = false } = props;
   const { play } = useSound();
+  const { mascot } = useDictionary();
   const [tip, setTip] = useState<string | null>(null);
   const [talking, setTalking] = useState(false);
   const current = `${line}\n${advice ?? ''}`;
@@ -77,7 +79,7 @@ export function Mascot(props: Props) {
         type="button"
         className="mascot-button"
         onClick={() => speak(true)}
-        aria-label="Talk to Mithu"
+        aria-label={mascot.talk}
       >
         <Parrot mood={talking ? 'talking' : mood} size={size} />
       </button>
@@ -91,7 +93,9 @@ export function Mascot(props: Props) {
           animate={{ opacity: 1, y: 0 }}
         >
           {text}
-          {!tip && advice && <span className="bubble-tip">Tip: {advice}</span>}
+          {!tip && advice && <span className="bubble-tip">
+              {mascot.tip} {advice}
+            </span>}
         </motion.span>
       </p>
     </div>

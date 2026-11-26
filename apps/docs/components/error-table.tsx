@@ -2,22 +2,24 @@
 
 import { useEffect, useState } from 'react';
 import type { ErrorEntry } from '../lib/error-list';
+import { useDictionary } from './locale';
 
 const STAGES = [
-  { prefix: '', label: 'All' },
-  { prefix: 'E01', label: 'Lexical' },
-  { prefix: 'E02', label: 'Syntax' },
-  { prefix: 'E03', label: 'Semantic' },
-  { prefix: 'E04', label: 'Runtime' },
-];
+  { prefix: '', key: 'all' },
+  { prefix: 'E01', key: 'lexical' },
+  { prefix: 'E02', key: 'syntax' },
+  { prefix: 'E03', key: 'semantic' },
+  { prefix: 'E04', key: 'runtime' },
+] as const;
 
 export function ErrorTable({ errors }: { errors: ErrorEntry[] }) {
+  const { errors: text } = useDictionary();
   const [query, setQuery] = useState('');
   const [stage, setStage] = useState('');
   const needle = query.trim().toLowerCase();
   const shown = errors.filter(
-    ({ code, hinglish, english }) =>
-      code.startsWith(stage) && `${code} ${hinglish} ${english}`.toLowerCase().includes(needle),
+    ({ code, title, meaning }) =>
+      code.startsWith(stage) && `${code} ${title} ${meaning}`.toLowerCase().includes(needle),
   );
 
   // The rows render on the client's first pass, after the browser has looked for the fragment.
@@ -31,20 +33,20 @@ export function ErrorTable({ errors }: { errors: ErrorEntry[] }) {
         <input
           type="search"
           className="filter-input"
-          placeholder="Filter by code or words"
-          aria-label="Filter error codes"
+          placeholder={text.filterPlaceholder}
+          aria-label={text.filterLabel}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
-        {STAGES.map(({ prefix, label }) => (
+        {STAGES.map(({ prefix, key }) => (
           <button
-            key={label}
+            key={key}
             type="button"
             className="chip"
             aria-pressed={stage === prefix}
             onClick={() => setStage(prefix)}
           >
-            {label}
+            {text.stages[key]}
           </button>
         ))}
       </div>
@@ -52,26 +54,28 @@ export function ErrorTable({ errors }: { errors: ErrorEntry[] }) {
         <table>
           <thead>
             <tr>
-              <th>Code</th>
-              <th>Hinglish</th>
-              <th>English</th>
+              <th>{text.code}</th>
+              <th>{text.titleColumn}</th>
+              <th>{text.meaningColumn}</th>
             </tr>
           </thead>
           <tbody>
-            {shown.map(({ code, hinglish, english }) => (
+            {shown.map(({ code, title, meaning }) => (
               <tr key={code} id={code}>
                 <td>
                   <code>{code}</code>
                 </td>
-                <td className="font-medium">{hinglish}</td>
-                <td className="text-muted">{english}</td>
+                <td className="font-medium">{title}</td>
+                <td className="text-muted">{meaning}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <p role="status" className="text-sm text-muted">
-        {shown.length} of {errors.length} codes
+        {text.count
+          .replace('{shown}', String(shown.length))
+          .replace('{total}', String(errors.length))}
       </p>
     </>
   );

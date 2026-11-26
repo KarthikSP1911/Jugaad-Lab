@@ -3,11 +3,13 @@
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import type { Heading } from '../lib/markdown';
+import { useDictionary } from './locale';
 
 /** Distance below the top at which a heading counts as being read. */
 const READING_LINE = 140;
 
 export function Toc({ headings }: { headings: Heading[] }) {
+  const { docsNav } = useDictionary();
   const [active, setActive] = useState(headings[0]?.id);
 
   useEffect(() => {
@@ -24,8 +26,8 @@ export function Toc({ headings }: { headings: Heading[] }) {
   }, [headings]);
 
   return (
-    <nav aria-label="On this page" className="sticky top-24 text-sm">
-      <p className="mb-2 font-semibold">On this page</p>
+    <nav aria-label={docsNav.onThisPage} className="sticky top-24 text-sm">
+      <p className="mb-2 font-semibold">{docsNav.onThisPage}</p>
       {headings.map(({ id, text }) => (
         <a
           key={id}
