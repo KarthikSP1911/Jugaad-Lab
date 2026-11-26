@@ -141,7 +141,7 @@ Initialise with `git init` on `main` if no repo exists. Never commit secrets, `n
 
 **Commit policy**
 - Commit after each noticeable, working step: a scaffold, a stage or feature that builds and passes its tests, a bug fix with its regression test, a docs milestone. One logical change per commit; do not bundle unrelated work.
-- Before every commit: run typecheck and the tests for what changed. Never commit a red build, except an explicit `wip` on a feature branch.
+- Check once, at the end of the task: write all the code first, then run typecheck, lint and tests a single time, fix failures, and make the commits. Never commit a red build, except an explicit `wip` on a feature branch.
 - Use short-lived branches off `main` (`feat/lexer`, `fix/negative-numbers`); merge with a fast-forward or squash.
 - Stage explicit paths (`git add <paths>`), not `git add -A`, and read `git diff --staged --stat` first.
 
@@ -166,7 +166,7 @@ Initialise with `git init` on `main` if no repo exists. Never commit secrets, `n
 
 - Read before writing, but read narrowly: use search and `offset`/`limit` for the part you need instead of whole files. Do not re-read a file you just edited.
 - Do not paste large files, logs or test output into the conversation. Pipe to `head`, `tail`, or `grep`; show only failing cases.
-- Run the narrowest test first (`vitest run path/to/file`), the full suite only before a commit or a phase exit.
+- Do not run tests after each step. Run the full check at the end; rerun only the failing files (`vitest run path/to/file`) while fixing.
 - Keep one source of truth. This file plus `docs/language-spec.md` hold the design; do not re-derive or restate it in replies.
 - Write whole files once, in stages (outline, then sections), not repeated full rewrites. Use targeted edits for changes.
 - Batch independent tool calls in one turn. Avoid exploratory loops; if two attempts fail, stop and report.
