@@ -14,6 +14,22 @@ export const TITLES = {
   E0207: { hi: 'yahan declaration nahi', en: 'declaration not allowed here' },
   E0208: { hi: 'key chahiye', en: 'expected a dictionary key' },
   E0209: { hi: 'bahut gehra code', en: 'code nested too deeply' },
+  E0301: { hi: 'naam nahi mila', en: 'undefined name' },
+  E0302: { hi: 'naam dobara', en: 'duplicate declaration' },
+  E0303: { hi: 'pakka nahi badalta', en: 'assignment to a constant' },
+  E0304: { hi: 'naam abhi bana nahi', en: 'used in own initialiser' },
+  E0305: { hi: 'loop ke bahar', en: 'outside a loop' },
+  E0306: { hi: 'kaam ke bahar', en: 'outside a function' },
+  E0307: { hi: 'argument ki ginti galat', en: 'wrong number of arguments' },
+  E0401: { hi: 'galat type', en: 'wrong operand type' },
+  E0402: { hi: 'bahut gehri call', en: 'call depth exceeded' },
+  E0403: { hi: 'zero se bhag', en: 'division by zero' },
+  E0404: { hi: 'yeh kaam nahi hai', en: 'not a function' },
+  E0405: { hi: 'sach ya jhooth chahiye', en: 'boolean expected' },
+  E0406: { hi: 'value abhi nahi hai', en: 'used before it has a value' },
+  E0407: { hi: 'argument ki ginti galat', en: 'wrong number of arguments' },
+  E0408: { hi: 'step limit poori', en: 'step limit exceeded' },
+  E0409: { hi: 'string bahut lambi', en: 'string too long' },
 } as const;
 
 export type DiagnosticCode = keyof typeof TITLES;

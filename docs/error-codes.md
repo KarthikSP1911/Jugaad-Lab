@@ -26,7 +26,7 @@ Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 | E0206 | `pakka` without an initial value |
 | E0207 | declaration where only a statement is allowed |
 | E0208 | expected a dictionary key (string or name) |
-| E0209 | code nested more than 256 levels deep |
+| E0209 | code nested too deeply (256 levels, or an expression tree 1000 deep) |
 | E0301 | undefined name |
 | E0302 | duplicate declaration |
 | E0303 | assignment to a constant |
@@ -34,7 +34,14 @@ Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 | E0305 | `ruko` or `agla` outside a loop |
 | E0306 | `wapas` outside a function |
 | E0307 | wrong number of arguments on a direct call |
+| E0401 | operand has the wrong type |
 | E0402 | call depth exceeded |
-| E0405 | non-boolean condition |
+| E0403 | division or remainder by zero |
+| E0404 | calling a value that is not a function |
+| E0405 | non-boolean condition or logical operand |
+| E0406 | name used before it has a value |
+| E0407 | wrong number of arguments at run time |
+| E0408 | step limit exceeded |
+| E0409 | string too long |
 
 New codes are added here in the same change that introduces them.

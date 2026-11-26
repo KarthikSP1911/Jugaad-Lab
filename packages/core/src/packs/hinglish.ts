@@ -21,3 +21,25 @@ export const hinglish: LanguagePack = new Map<string, KeywordKind>([
   ['ya', 'OrOr'],
   ['nahi', 'Bang'],
 ]);
+
+/** Keyword spellings that output and messages need. */
+export const WORDS = {
+  true: 'sach',
+  false: 'jhooth',
+  null: 'khaali',
+  function: 'kaam',
+  return: 'wapas',
+  break: 'ruko',
+  continue: 'agla',
+} as const;
+
+/** Type names as programs and error messages see them. */
+export const TYPE_NAMES = {
+  number: 'sankhya',
+  string: 'shabd',
+  boolean: 'bool',
+  null: WORDS.null,
+  list: 'soochi',
+  dictionary: 'kosh',
+  function: WORDS.function,
+} as const;
