@@ -8,7 +8,9 @@ Reused third-party material (name, source, licence):
   Inter (https://github.com/rsms/inter), SIL Open Font License 1.1.
   JetBrains Mono (https://github.com/JetBrains/JetBrainsMono), SIL Open Font
   License 1.1.
-  Both are used by the website only.
+  Noto Sans Devanagari (https://github.com/notofonts/devanagari), SIL Open Font
+  License 1.1.
+  All three are used by the website only.
 
   KannadaScript test programs, translated into Hinglish by tools/migrate-ks.ts
   and stored in tests/programs/migrated/. Licence: MIT, reproduced below.

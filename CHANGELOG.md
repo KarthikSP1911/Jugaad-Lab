@@ -11,3 +11,4 @@ still change.
   `prakar`.
 - Bilingual diagnostics with codes, locations and suggestions.
 - `hinglish run`, `hinglish check` and a REPL.
+- Website and playground in English and Hindi, with Devanagari diagnostics.
