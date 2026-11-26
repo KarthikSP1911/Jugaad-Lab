@@ -1,3 +1,5 @@
+import { WORDS } from '../packs/hinglish.js';
+import type { HinglishError } from '../runtime/hinglish-error.js';
 import { TITLES } from './codes.js';
 import type { Bilingual, Diagnostic } from './diagnostic.js';
 import type { Span } from './span.js';
@@ -44,4 +46,22 @@ export function renderDiagnostic(
     pick(message, lang),
     ...(hint ? [pick(hint, lang)] : []),
   ].join('\n');
+}
+
+const MAX_FRAMES = 10;
+
+/** A runtime diagnostic followed by the calls that led to it, innermost first. */
+export function renderRuntimeError(
+  error: HinglishError,
+  source: string,
+  options: RenderOptions = {},
+): string {
+  const { diagnostic, frames } = error;
+  const trace = frames.slice(0, MAX_FRAMES).map(({ functionName, span }) => {
+    const name = functionName ?? `<${WORDS.function}>`;
+    return `  at ${name} (${diagnostic.file}:${span.line}:${span.column})`;
+  });
+  const hidden = frames.length - trace.length;
+  if (hidden > 0) trace.push(`  ... ${hidden} more`);
+  return [renderDiagnostic(diagnostic, source, options), ...trace].join('\n');
 }

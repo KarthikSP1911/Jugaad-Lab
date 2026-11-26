@@ -7,7 +7,6 @@ are placeholders until the owner confirms them.
 
 | Question | Needed by |
 | --- | --- |
-| Division and remainder by zero | Phase 2 |
 | Missing dictionary key on read | Phase 3 |
 | `nikalo` on an empty list; which strings `sankhya` accepts | Phase 3 |
 
@@ -105,6 +104,8 @@ dictLit     = "{" [ pair { "," pair } [ "," ] ] "}" ;
 pair        = ( STRING | IDENT ) ":" expression ;
 funcExpr    = "kaam" "(" [ params ] ")" block ;
 ```
+
+**Run time:** division or remainder by zero is an error (E0403). The operands of `!`, `&&` and `||` must be booleans (E0405). `==` compares lists, dictionaries and functions by identity. A `chalo` loop variable is one binding shared by all iterations. A name is visible from its declaration onwards (functions from the start of their block); reaching it before it has a value is E0406.
 
 `rakho x;` gives `x` the value `khaali`. `pakka` requires an initial value (E0206). An `agar`, `warna`, `jabtak` or `chalo` body is a statement, so a declaration there needs a block (E0207). Nesting is limited to 256 levels (E0209).
 

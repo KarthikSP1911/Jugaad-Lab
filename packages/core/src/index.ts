@@ -6,9 +6,18 @@ export { check, type CheckOptions, type CheckResult } from './check.js';
 export type { DiagnosticCode } from './diagnostics/codes.js';
 export type { Bilingual, Diagnostic } from './diagnostics/diagnostic.js';
 export { InternalError } from './diagnostics/internal-error.js';
-export { renderDiagnostic, type Lang, type RenderOptions } from './diagnostics/render.js';
+export {
+  renderDiagnostic,
+  renderRuntimeError,
+  type Lang,
+  type RenderOptions,
+} from './diagnostics/render.js';
 export type { Span } from './diagnostics/span.js';
 export { tokenize, type TokenizeOptions, type TokenizeResult } from './lexer/lexer.js';
 export type { Token, TokenKind } from './lexer/token.js';
 export { hinglish, type LanguagePack } from './packs/hinglish.js';
 export { parse, type ParseOptions, type ParseResult } from './parser/parser.js';
+export { resolve, type ResolveOptions } from './resolver/resolver.js';
+export { run, type RunOptions, type RunResult } from './run.js';
+export { HinglishError, type Frame } from './runtime/hinglish-error.js';
+export type { Host } from './runtime/host.js';
