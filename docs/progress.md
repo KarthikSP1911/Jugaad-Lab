@@ -11,15 +11,18 @@
   [baseline timings](baseline-timings.md).
 - Phase 6: docs site and playground in `apps/docs`, with search,
   autocomplete and Hinglish errors. Not deployed.
-- Phase 7: version 0.1.0, changelog and README. Not tagged or published.
+- Phase 7: version 0.1.0, changelog and README. Tagged `v0.1.0`; not published
+  to npm.
 - Website in English and Hindi (Devanagari) under `/en` and `/hi`
   ([ADR 0005](decisions/0005-site-i18n.md)). Hindi text awaits review.
 
 ## Next
 
-- Tag `v0.1.0` once the owner confirms the placeholders.
+- Release hygiene, playground, interpreter limits, CI and site polish.
+- Deploy the site and get the Hindi text reviewed.
 
 ## Blockers
 
 - Owner to confirm name, extension, CLI command and keyword spellings (needed
   before freezing).
+- No licence chosen, so there is no `LICENSE` file yet.

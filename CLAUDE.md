@@ -4,7 +4,7 @@ A small, dynamically typed, lexically scoped programming language with Roman-scr
 
 ## Status and open decisions
 
-- Greenfield. Nothing is implemented yet. Build in the phase order below.
+- Version 0.1.0 is tagged; phases 0 to 7 are built. Current state: `docs/progress.md`.
 - Placeholders to confirm with the owner before freezing: language name (working: Jugaad Hinglish), file extension (`.hing`), CLI command (`hinglish`), final keyword spellings.
 - Licence: KannadaScript appears derived from BhaiLang (inferred from identifiers). Do NOT copy source from either. Write from this spec. Keep a `NOTICE` file for anything reused.
 

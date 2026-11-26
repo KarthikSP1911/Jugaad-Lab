@@ -59,7 +59,7 @@ bolo(factorial(5));   // 120
 
 The same interpreter runs on the command line and in the browser.
 
-> **Status:** version 0.1.0, not yet released. The name, the `.hing` extension, the
+> **Status:** version 0.1.0, not published to npm. The name, the `.hing` extension, the
 > `hinglish` command and the keyword spellings may still change.
 
 ## Features
