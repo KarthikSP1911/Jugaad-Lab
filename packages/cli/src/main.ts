@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { VERSION } from '@jugaad-hinglish/core';
+import { runCli } from './cli.js';
+import { createNodeIo } from './host-node.js';
 
-process.stderr.write(`hinglish ${VERSION}: no commands are implemented yet.\n`);
-process.exitCode = 1;
+process.exitCode = runCli(process.argv.slice(2), createNodeIo());

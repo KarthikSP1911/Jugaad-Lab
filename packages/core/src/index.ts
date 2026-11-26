@@ -19,5 +19,6 @@ export { hinglish, type LanguagePack } from './packs/hinglish.js';
 export { parse, type ParseOptions, type ParseResult } from './parser/parser.js';
 export { resolve, type ResolveOptions } from './resolver/resolver.js';
 export { run, type RunOptions, type RunResult } from './run.js';
+export { createSession, type EntryResult, type Session } from './session.js';
 export { HinglishError, type Frame } from './runtime/hinglish-error.js';
 export type { Host } from './runtime/host.js';
