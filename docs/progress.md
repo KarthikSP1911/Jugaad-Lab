@@ -9,7 +9,8 @@
 - Phase 4: CLI (`run`, `check`, `--lang`, exit codes) and REPL.
 - Phase 5: corpus migration, fuzz tests, long-string hardening,
   [baseline timings](baseline-timings.md).
-- Phase 6: docs site and playground in `apps/docs`. Not deployed.
+- Phase 6: docs site and playground in `apps/docs`, with search,
+  autocomplete and Hinglish errors. Not deployed.
 - Phase 7: version 0.1.0, changelog and README. Not tagged or published.
 
 ## Next

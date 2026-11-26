@@ -40,8 +40,10 @@ export function renderDiagnostic(
   const { lang } = options;
   const label = lang === 'en' ? 'Error' : 'Galti';
   const title = TITLES[code][lang ?? 'hi'];
+  const place = `${file}:${span.line}:${span.column}`;
+  const where = lang === 'hi' ? `yahan: ${place}` : `at ${place}`;
   return [
-    `${label} ${code} [${title}] at ${file}:${span.line}:${span.column}`,
+    `${label} ${code} [${title}] ${where}`,
     ...excerpt(source, span),
     pick(message, lang),
     ...(hint ? [pick(hint, lang)] : []),
@@ -59,9 +61,10 @@ export function renderRuntimeError(
   const { diagnostic, frames } = error;
   const trace = frames.slice(0, MAX_FRAMES).map(({ functionName, span }) => {
     const name = functionName ?? `<${WORDS.function}>`;
-    return `  at ${name} (${diagnostic.file}:${span.line}:${span.column})`;
+    const place = `${diagnostic.file}:${span.line}:${span.column}`;
+    return options.lang === 'hi' ? `  ${name} ke andar (${place})` : `  at ${name} (${place})`;
   });
   const hidden = frames.length - trace.length;
-  if (hidden > 0) trace.push(`  ... ${hidden} more`);
+  if (hidden > 0) trace.push(`  ... ${hidden} ${options.lang === 'hi' ? 'aur' : 'more'}`);
   return [renderDiagnostic(diagnostic, source, options), ...trace].join('\n');
 }

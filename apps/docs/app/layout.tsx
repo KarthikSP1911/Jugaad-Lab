@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
+import { MotionProvider } from '../components/motion';
 import { SITE } from '../lib/site';
 import './globals.css';
 
@@ -22,16 +23,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Animated content starts hidden, so show it when scripts are off. */}
+        <noscript>
+          <style>{'[data-reveal]{opacity:1!important;transform:none!important}'}</style>
+        </noscript>
       </head>
       <body className="flex min-h-screen flex-col">
         <a href="#content" className="skip-link">
           Skip to content
         </a>
-        <Header />
-        <main id="content" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <MotionProvider>
+          <Header />
+          <main id="content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

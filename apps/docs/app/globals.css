@@ -20,6 +20,8 @@
   --tok-number: #7c3aad;
   --tok-comment: #5c6a87;
   --tok-call: #1559a8;
+  --tok-literal: #7c3aad;
+  --tok-builtin: #0b6e75;
   --logo-filter: none;
 }
 
@@ -43,6 +45,8 @@
     --tok-number: #c4a7ee;
     --tok-comment: #848d97;
     --tok-call: #79b8ff;
+    --tok-literal: #c4a7ee;
+    --tok-builtin: #6fd3d8;
     --logo-filter: brightness(0.9);
   }
 }
@@ -65,6 +69,8 @@
   --tok-number: #c4a7ee;
   --tok-comment: #848d97;
   --tok-call: #79b8ff;
+  --tok-literal: #c4a7ee;
+  --tok-builtin: #6fd3d8;
   --logo-filter: brightness(0.9);
 }
 
@@ -118,11 +124,15 @@
   }
 
   .nav-link {
-    @apply rounded-md px-3 py-1.5 text-sm font-medium text-muted hover:bg-surface hover:text-ink;
+    @apply relative rounded-md transition-colors px-3 py-1.5 text-sm font-medium text-muted hover:bg-surface hover:text-ink;
   }
 
   .nav-link[aria-current='page'] {
-    @apply bg-surface text-ink;
+    @apply text-ink;
+  }
+
+  .nav-pill {
+    @apply absolute inset-0 rounded-md border border-line bg-surface;
   }
 
   .icon-button {
@@ -130,7 +140,7 @@
   }
 
   .button {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-lg border border-line bg-page px-4 py-2 text-sm font-semibold text-ink hover:bg-surface;
+    @apply inline-flex cursor-pointer transition items-center justify-center rounded-lg border border-line bg-page px-4 py-2 text-sm font-semibold text-ink hover:bg-surface;
   }
 
   .button-primary {
@@ -144,13 +154,142 @@
     filter: brightness(1.07);
   }
 
+  .button:active {
+    transform: scale(0.97);
+  }
+
   .card {
-    @apply rounded-xl border border-line bg-page p-5;
+    @apply rounded-xl border border-line bg-page p-5 transition duration-200;
+  }
+
+  .card:hover {
+    @apply -translate-y-0.5 shadow-lg;
+    border-color: color-mix(in srgb, var(--button) 55%, var(--line));
+  }
+
+  .card-link {
+    @apply block;
+  }
+
+  .step-number {
+    @apply inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-bold;
+    background: var(--button);
+    color: var(--button-ink);
+  }
+
+  .hero {
+    background:
+      radial-gradient(60rem 24rem at 85% 0%, color-mix(in srgb, var(--button) 12%, transparent), transparent),
+      radial-gradient(50rem 24rem at 0% 100%, color-mix(in srgb, var(--link) 12%, transparent), transparent),
+      var(--surface);
+  }
+
+  .code-card {
+    @apply my-4 min-w-0 overflow-hidden rounded-xl border border-line;
+    background: var(--code);
+  }
+
+  .code-card figcaption {
+    @apply flex items-center justify-between border-b border-line px-4 py-1.5 text-xs font-medium text-muted;
+  }
+
+  .copy-button {
+    @apply cursor-pointer rounded-md px-2 py-1 transition-colors hover:bg-surface hover:text-ink;
+  }
+
+  .demo-output {
+    @apply flex min-h-24 flex-col rounded-xl border border-line px-4 py-3 font-mono text-sm leading-6;
+    background: var(--code);
+  }
+
+  .suggestions {
+    @apply absolute z-10 max-h-60 w-max max-w-[min(28rem,80vw)] min-w-56 overflow-auto rounded-lg border border-line bg-page p-1 font-mono text-sm shadow-2xl;
+  }
+
+  .suggestions li {
+    @apply flex cursor-pointer items-baseline justify-between gap-4 rounded-md px-2 py-1;
+  }
+
+  .suggestions li > span:last-child {
+    @apply truncate font-sans text-xs;
+  }
+
+  .suggestions li[aria-selected='true'] {
+    @apply bg-surface;
+    box-shadow: inset 2px 0 var(--button);
+  }
+
+  .search-trigger {
+    @apply flex cursor-pointer items-center gap-2 rounded-lg border border-line p-2 text-sm text-muted transition-colors hover:text-ink md:px-3 md:py-1.5;
+  }
+
+  .search-trigger kbd {
+    @apply rounded border border-line px-1.5 font-mono text-xs;
+  }
+
+  .search-dialog {
+    @apply m-auto mt-[12vh] w-[min(36rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-line bg-page p-0 text-ink shadow-2xl;
+  }
+
+  .search-dialog[open] {
+    animation: pop 0.18s ease-out;
+  }
+
+  .search-dialog::backdrop {
+    background: rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(3px);
+  }
+
+  .search-input {
+    @apply w-full border-b border-line bg-transparent px-4 py-3 outline-none;
+  }
+
+  .search-result {
+    @apply flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm;
+  }
+
+  .search-result[aria-current='true'] {
+    @apply bg-surface;
+  }
+
+  .toc-marker {
+    @apply absolute inset-y-1 left-0 w-0.5 rounded;
+    background: var(--button);
+  }
+
+  .filter-input {
+    @apply min-w-52 rounded-lg border border-line bg-page px-3 py-1.5 text-sm;
+  }
+
+  .chip {
+    @apply cursor-pointer rounded-full border border-line px-3 py-1 text-sm text-muted transition-colors hover:text-ink;
+  }
+
+  .chip[aria-pressed='true'] {
+    background: var(--button);
+    border-color: var(--button);
+    color: var(--button-ink);
+  }
+
+  .status-ok {
+    color: var(--tok-string) !important;
+  }
+
+  .status-compile-error,
+  .status-runtime-error {
+    color: var(--error) !important;
+  }
+
+  .status-running {
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .page-enter {
+    animation: enter 0.35s ease-out;
   }
 
   .code-block {
-    @apply overflow-x-auto rounded-xl border border-line p-4 text-sm leading-6;
-    background: var(--code);
+    @apply overflow-x-auto p-4 text-sm leading-6;
   }
 
   .notice {
@@ -202,6 +341,14 @@
 
   .tok-keyword {
     color: var(--tok-keyword);
+    font-weight: 600;
+  }
+  .tok-literal {
+    color: var(--tok-literal);
+    font-weight: 600;
+  }
+  .tok-builtin {
+    color: var(--tok-builtin);
   }
   .tok-string {
     color: var(--tok-string);
@@ -224,6 +371,12 @@
   }
   .prose h1 {
     @apply mb-4 text-3xl font-bold tracking-tight text-brand;
+  }
+  .prose tr {
+    @apply scroll-mt-28;
+  }
+  .prose tr:target {
+    background: color-mix(in srgb, var(--button) 14%, transparent);
   }
   .prose h2 {
     @apply mt-10 mb-3 scroll-mt-28 border-b border-line pb-2 text-xl font-semibold tracking-tight;
@@ -261,5 +414,39 @@
   }
   .prose th {
     @apply bg-surface font-semibold;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }

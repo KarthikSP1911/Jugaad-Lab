@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { NavLinks } from '../../components/nav-links';
+import { Pager } from '../../components/pager';
 import { DOCS_NAV } from '../../lib/site';
 
 export default function DocsLayout({ children }: { children: ReactNode }) {
@@ -10,10 +11,16 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
           aria-label="Documentation"
           className="flex flex-wrap gap-1 md:sticky md:top-24 md:flex-col"
         >
-          <NavLinks items={DOCS_NAV} />
+          <p className="hidden px-3 pb-1 text-xs font-semibold tracking-wider text-muted uppercase md:block">
+            Documentation
+          </p>
+          <NavLinks items={DOCS_NAV} group="docs" />
         </nav>
       </aside>
-      <div className="min-w-0 flex-1">{children}</div>
+      <div className="min-w-0 flex-1">
+        {children}
+        <Pager />
+      </div>
     </div>
   );
 }

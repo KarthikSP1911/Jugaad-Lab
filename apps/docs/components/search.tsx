@@ -1,0 +1,107 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { search, type SearchEntry } from '../lib/search';
+
+function isTyping(target: EventTarget | null): boolean {
+  return target instanceof HTMLElement && target.matches('input, textarea, select');
+}
+
+export function Search({ entries }: { entries: SearchEntry[] }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const router = useRouter();
+  const [query, setQuery] = useState('');
+  const [selected, setSelected] = useState(0);
+  const results = search(entries, query);
+
+  function open() {
+    if (dialog.current?.open) return;
+    setQuery('');
+    setSelected(0);
+    dialog.current?.showModal();
+  }
+
+  function go(href: string) {
+    dialog.current?.close();
+    router.push(href);
+  }
+
+  useEffect(() => {
+    function onKey(event: globalThis.KeyboardEvent) {
+      const shortcut = event.key.toLowerCase() === 'k' && (event.ctrlKey || event.metaKey);
+      if (!shortcut && !(event.key === '/' && !isTyping(event.target))) return;
+      event.preventDefault();
+      open();
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  function onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const step = event.key === 'ArrowDown' ? 1 : -1;
+      const next = (selected + step + results.length) % Math.max(results.length, 1);
+      setSelected(next);
+      document.getElementById(`result-${next}`)?.scrollIntoView({ block: 'nearest' });
+    } else if (event.key === 'Enter') {
+      const result = results[selected];
+      if (result) go(result.href);
+    }
+  }
+
+  return (
+    <>
+      <button type="button" className="search-trigger" onClick={open} aria-label="Search the docs">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
+          <path d="m20 20-4-4" stroke="currentColor" strokeWidth="2" />
+        </svg>
+        <span className="hidden md:inline">Search docs</span>
+        <kbd className="hidden md:inline">Ctrl K</kbd>
+      </button>
+      <dialog
+        ref={dialog}
+        className="search-dialog"
+        aria-label="Search the docs"
+        onClick={(event) => {
+          // A click on the dialog itself, not its content, is on the backdrop.
+          if (event.target === dialog.current) dialog.current.close();
+        }}
+      >
+        <div>
+          <input
+            type="search"
+            className="search-input"
+            placeholder="Search: loops, suno, E0301…"
+            aria-label="Search"
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setSelected(0);
+            }}
+            onKeyDown={onKeyDown}
+          />
+          <ul className="max-h-80 overflow-auto p-2">
+            {results.map(({ title, section, href }, index) => (
+              <li key={href + title} id={`result-${index}`}>
+                <button
+                  type="button"
+                  className="search-result"
+                  aria-current={index === selected}
+                  onMouseMove={() => setSelected(index)}
+                  onClick={() => go(href)}
+                >
+                  <span className="font-medium">{title}</span>
+                  <span className="text-xs text-muted">{section}</span>
+                </button>
+              </li>
+            ))}
+            {results.length === 0 && <li className="p-3 text-sm text-muted">Nothing found.</li>}
+          </ul>
+        </div>
+      </dialog>
+    </>
+  );
+}
