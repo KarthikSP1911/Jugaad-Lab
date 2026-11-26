@@ -4,6 +4,7 @@ import { NAV, SITE } from '../lib/site';
 import { Logo } from './logo';
 import { NavLinks } from './nav-links';
 import { Search } from './search';
+import { SoundToggle } from './sound';
 import { ThemeToggle } from './theme-toggle';
 
 export function Header() {
@@ -21,6 +22,7 @@ export function Header() {
           <a href={SITE.repository} className="nav-link">
             GitHub
           </a>
+          <SoundToggle />
           <ThemeToggle />
         </div>
         <nav aria-label="Main" className="flex w-full gap-1 pt-1 sm:w-auto sm:pt-0">

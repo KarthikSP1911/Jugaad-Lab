@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
 import { MotionProvider } from '../components/motion';
+import { SoundProvider } from '../components/sound';
 import { SITE } from '../lib/site';
 import './globals.css';
 
@@ -33,11 +34,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <MotionProvider>
-          <Header />
-          <main id="content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <SoundProvider>
+            <Header />
+            <main id="content" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </SoundProvider>
         </MotionProvider>
       </body>
     </html>
