@@ -11,6 +11,7 @@ synchronous `Host`.
 | --- | --- | --- |
 | `packages/core` | the language; runs in Node and the browser | only itself |
 | `packages/cli` | command line and Node host | `core`, Node |
+| `apps/docs` | website and browser playground | `core`, npm packages |
 
 ESLint enforces the `core` import rule, and its TypeScript config loads no Node
 or DOM types. Neither package keeps global mutable state.

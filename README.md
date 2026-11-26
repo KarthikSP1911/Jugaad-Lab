@@ -1,5 +1,7 @@
 # Jugaad-Lab
 
+<img src="apps/docs/public/logo.png" alt="Jugaad Hinglish logo" width="160">
+
 Jugaad Hinglish (working name): a small, dynamically typed, lexically scoped
 programming language with Roman-script Hindi keywords, implemented as a
 TypeScript tree-walking interpreter.
@@ -20,6 +22,15 @@ npm run build
 node packages/cli/dist/main.js run examples/hello.hing
 node packages/cli/dist/main.js check examples/fizzbuzz.hing --lang=en
 node packages/cli/dist/main.js          # REPL
+```
+
+## Website
+
+Documentation and an in-browser playground.
+
+```sh
+npm run dev -w @jugaad-hinglish/docs   # http://localhost:3000
+npm run build                          # static site in apps/docs/out
 ```
 
 ## Develop

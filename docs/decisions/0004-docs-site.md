@@ -1,0 +1,20 @@
+# 4. Documentation site and playground
+
+Status: accepted
+
+## Decision
+
+`apps/docs` is a Next.js App Router site with Tailwind, exported as static files.
+The reference and error code pages render `docs/*.md` at build time. The
+playground runs `core` in a Web Worker with a step budget, an output cap and a
+5 second timeout. The editor and highlighter use the `core` lexer, with no editor
+library.
+
+Fonts are Inter and JetBrains Mono, downloaded at build time by `next/font` and
+served from the site itself.
+
+## Consequences
+
+Building needs network access for the fonts, and `core` must be built first,
+which the workspace order guarantees. `apps/docs/lib/status.ts` must be updated
+when the language gains features.
