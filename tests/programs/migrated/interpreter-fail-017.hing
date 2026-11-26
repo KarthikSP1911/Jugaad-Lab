@@ -1,0 +1,2 @@
+rakho a = 8;
+bolo(a, b);

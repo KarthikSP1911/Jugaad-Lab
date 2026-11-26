@@ -6,6 +6,7 @@ import {
   wrongArgumentType,
 } from '../diagnostics/runtime-messages.js';
 import { TYPE_NAMES } from '../packs/hinglish.js';
+import { codePointLength } from './collections.js';
 import { toText } from './stringify.js';
 import { NativeFunction, typeName, type Value } from './value.js';
 
@@ -31,8 +32,7 @@ export function createBuiltins(): NativeFunction[] {
       host.readLine(toText(prompt, fail)),
     ),
     new NativeFunction('lambai', 1, ([value = null], _host, fail) => {
-      // Strings are measured in Unicode code points, not UTF-16 units.
-      if (typeof value === 'string') return Array.from(value).length;
+      if (typeof value === 'string') return codePointLength(value);
       if (Array.isArray(value)) return value.length;
       if (value instanceof Map) return value.size;
       const expected = [TYPE_NAMES.string, TYPE_NAMES.list, TYPE_NAMES.dictionary].join(', ');

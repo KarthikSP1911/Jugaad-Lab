@@ -1,0 +1,6 @@
+rakho a;
+agar (a) {
+  bolo(a);
+} warna {
+  bolo("not khali");
+}

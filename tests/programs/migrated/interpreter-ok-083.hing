@@ -1,0 +1,13 @@
+rakho a = 5;
+rakho step = 0;
+jabtak (a > 0) {
+  step += 1;
+  agar (a % 2 == 0){
+    a -= 2;
+    agla;
+  }
+  a -= 1;
+  agla;
+  bolo("oye oye oye.. yha tk nhi aana tha anna");
+}
+bolo(step);

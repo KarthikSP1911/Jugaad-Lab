@@ -55,6 +55,12 @@ describe('lists, dictionaries and indexing', () => {
     expect(outputOf(source)).toBe('{"a": [[3]], "b": 4} 2\n');
   });
 
+  it('measures and indexes a very long string', () => {
+    const source = `rakho s = "a"; chalo (rakho i = 0; i < 24; i += 1) { s = s + s; }
+      bolo(lambai(s), s[lambai(s) - 1]);`;
+    expect(outputOf(source)).toBe('16777216 a\n');
+  });
+
   it.each([
     ['bolo([1][1]);', 'E0410'],
     ['bolo([1][-1]);', 'E0410'],

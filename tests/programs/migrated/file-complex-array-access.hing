@@ -1,0 +1,4 @@
+rakho numbers = [10, 20, 30];
+bolo(numbers[1]);
+rakho nested = [[1, 2], [3, 4]];
+bolo(nested[0][1]);

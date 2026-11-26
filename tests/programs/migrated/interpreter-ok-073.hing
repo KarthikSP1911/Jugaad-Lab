@@ -1,0 +1,5 @@
+rakho x = 9;
+agar (x >= 9) {
+  x = 5;
+  bolo(x);
+}

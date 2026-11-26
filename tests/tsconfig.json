@@ -4,5 +4,5 @@
     "types": ["node"],
     "paths": { "@jugaad-hinglish/core": ["../packages/core/src/index.ts"] }
   },
-  "include": ["."]
+  "include": [".", "../tools"]
 }
