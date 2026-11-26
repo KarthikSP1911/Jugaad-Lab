@@ -1,6 +1,15 @@
-import type { Assign, BinaryOp, Call, Expr, Unary, VarExpr } from '../ast/expr.js';
+import type {
+  Assign,
+  AssignOp,
+  BinaryOp,
+  Call,
+  Expr,
+  IndexExpr,
+  Unary,
+  VarExpr,
+} from '../ast/expr.js';
 import type { For, Program, Stmt, While } from '../ast/stmt.js';
-import type { DiagnosticDraft } from '../diagnostics/diagnostic.js';
+import type { DiagnosticDraft, Fail } from '../diagnostics/diagnostic.js';
 import { InternalError } from '../diagnostics/internal-error.js';
 import {
   booleanExpected,
@@ -13,6 +22,8 @@ import {
 } from '../diagnostics/runtime-messages.js';
 import type { Span } from '../diagnostics/span.js';
 import { createBuiltins } from '../runtime/builtins.js';
+import { readIndex, writeIndex } from '../runtime/collections.js';
+import { toText } from '../runtime/stringify.js';
 import { Environment } from '../runtime/environment.js';
 import { HinglishError, type Frame } from '../runtime/hinglish-error.js';
 import type { Host } from '../runtime/host.js';
@@ -29,22 +40,50 @@ export interface InterpreterOptions {
   maxSteps?: number;
 }
 
-/** Holds all the state of one run. Expects a resolved program. */
+/** `+=` and friends are the binary operator without the trailing `=`. */
+function binaryOperator(op: Exclude<AssignOp, '='>): BinaryOp {
+  return op.slice(0, -1) as BinaryOp;
+}
+
+/** Holds all the state of one run or REPL session. Expects resolved programs. */
 export class Interpreter {
   private readonly frames: Frame[] = [];
   private lastCall: Span | undefined;
   private steps = 0;
 
+  private readonly globals: Environment;
+
   constructor(
     private readonly host: Host,
     private readonly options: InterpreterOptions,
-  ) {}
-
-  run(program: Program): void {
+  ) {
     const builtins = new Environment();
     for (const native of createBuiltins()) builtins.define(native.name, native);
+    this.globals = new Environment(builtins);
+  }
+
+  /** Whether a top-level name has received a value. */
+  hasGlobal(name: string): boolean {
+    return this.globals.get(name, 0) !== undefined;
+  }
+
+  /** With `echo`, returns the text of a final expression's value unless it is null. */
+  run(program: Program, echo = false): string | undefined {
+    this.steps = 0;
+    const last = program.body.at(-1);
+    const shown =
+      echo && last?.kind === 'ExprStmt' && last.expr.kind !== 'Assign' ? last : undefined;
     try {
-      this.executeAll(program.body, new Environment(builtins));
+      this.hoist(program.body, this.globals);
+      for (const stmt of program.body) {
+        if (stmt !== shown) {
+          this.execute(stmt, this.globals);
+          continue;
+        }
+        const value = this.evaluate(shown.expr, this.globals);
+        return value === null ? undefined : toText(value, this.failAt(shown.span));
+      }
+      return undefined;
     } catch (error) {
       // The host stack can run out before the call-depth limit is reached.
       if (error instanceof Error && /call stack|too much recursion/i.test(error.message)) {
@@ -54,12 +93,17 @@ export class Interpreter {
     }
   }
 
-  private executeAll(body: readonly Stmt[], env: Environment): Completion {
+  /** Functions are usable throughout their block. */
+  private hoist(body: readonly Stmt[], env: Environment): void {
     for (const stmt of body) {
       if (stmt.kind !== 'FuncDecl') continue;
       const { name } = stmt.name;
       env.define(name, new HinglishFunction(name, stmt.params, stmt.body, env));
     }
+  }
+
+  private executeAll(body: readonly Stmt[], env: Environment): Completion {
+    this.hoist(body, env);
     for (const stmt of body) {
       const completion = this.execute(stmt, env);
       if (completion.type !== 'normal') return completion;
@@ -145,9 +189,14 @@ export class Interpreter {
       case 'Function':
         return new HinglishFunction(undefined, expr.params, expr.body, env);
       case 'List':
+        return expr.elements.map((element) => this.evaluate(element, env));
       case 'Dict':
-      case 'Index':
-        throw new InternalError('lists and dictionaries are not supported yet');
+        return new Map(expr.entries.map(({ key, value }) => [key, this.evaluate(value, env)]));
+      case 'Index': {
+        const object = this.evaluate(expr.object, env);
+        const index = this.evaluate(expr.index, env);
+        return readIndex(object, index, this.failAt(expr.span));
+      }
       default: {
         const missing: never = expr;
         return missing;
@@ -171,7 +220,7 @@ export class Interpreter {
   }
 
   private binary(op: BinaryOp, left: Value, right: Value, span: Span): Value {
-    return applyBinary(op, left, right, (draft) => this.fail(draft, span));
+    return applyBinary(op, left, right, this.failAt(span));
   }
 
   private read(expr: VarExpr, env: Environment): Value {
@@ -180,21 +229,31 @@ export class Interpreter {
     return value;
   }
 
-  private assign({ target, op, value, span }: Assign, env: Environment): Value {
-    if (target.kind !== 'Var') throw new InternalError('index assignment is not supported yet');
-    let result: Value;
-    if (op === '=') {
-      result = this.evaluate(value, env);
-    } else {
-      const current = this.read(target, env);
-      // `+=` and friends are the binary operator without the trailing `=`.
-      const binaryOp = op.slice(0, -1) as BinaryOp;
-      result = this.binary(binaryOp, current, this.evaluate(value, env), span);
-    }
+  private assign(expr: Assign, env: Environment): Value {
+    const { target } = expr;
+    if (target.kind === 'Index') return this.assignIndex(target, expr, env);
+    const result = this.assigned(expr, () => this.read(target, env), env);
     if (!env.assign(target.name, this.depthOf(target), result)) {
       this.fail(usedBeforeValue(target.name), target.span);
     }
     return result;
+  }
+
+  /** The object and the index are evaluated once, even for `+=` and friends. */
+  private assignIndex(target: IndexExpr, expr: Assign, env: Environment): Value {
+    const object = this.evaluate(target.object, env);
+    const index = this.evaluate(target.index, env);
+    const fail = this.failAt(target.span);
+    const result = this.assigned(expr, () => readIndex(object, index, fail), env);
+    writeIndex(object, index, result, fail);
+    return result;
+  }
+
+  /** The value to store; `current` is read only by compound operators. */
+  private assigned({ op, value, span }: Assign, current: () => Value, env: Environment): Value {
+    if (op === '=') return this.evaluate(value, env);
+    const left = current();
+    return this.binary(binaryOperator(op), left, this.evaluate(value, env), span);
   }
 
   private call({ callee, args, span }: Call, env: Environment): Value {
@@ -204,7 +263,7 @@ export class Interpreter {
       if (target.arity !== null && target.arity !== values.length) {
         this.fail(wrongArity(target.name, target.arity, values.length), span);
       }
-      return target.call(values, this.host);
+      return target.call(values, this.host, this.failAt(span));
     }
     if (!(target instanceof HinglishFunction)) this.fail(notCallable(typeName(target)), span);
     const { name, params, body, closure } = target;
@@ -229,6 +288,10 @@ export class Interpreter {
   private depthOf(expr: VarExpr): number {
     if (expr.depth === undefined) throw new InternalError(`'${expr.name}' was not resolved`);
     return expr.depth;
+  }
+
+  private failAt(span: Span): Fail {
+    return (draft) => this.fail(draft, span);
   }
 
   private fail(draft: DiagnosticDraft, span: Span): never {

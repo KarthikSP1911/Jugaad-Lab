@@ -1,5 +1,6 @@
 // Golden programs. `name.err` lists one `CODE line:column` per diagnostic.
-// A program with a `.out` file is run; any other is only checked.
+// A program with a `.out` file is run, reading lines from `name.in`; any other
+// program is only checked.
 import { check, run } from '@jugaad-hinglish/core';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
@@ -16,11 +17,15 @@ describe('golden programs', () => {
     const source = read(new URL(file, directory));
     const outFile = sibling(file, '.out');
     let output = '';
+    const input = read(sibling(file, '.in')).split('\n');
     const host = {
       write: (text: string) => {
         output += text;
       },
-      readLine: () => '',
+      readLine: (prompt: string) => {
+        output += prompt;
+        return input.shift() ?? '';
+      },
     };
     const { diagnostics } = existsSync(outFile)
       ? run(source, host, { file, maxSteps: 1_000_000 })

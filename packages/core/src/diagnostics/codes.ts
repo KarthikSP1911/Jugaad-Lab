@@ -30,6 +30,13 @@ export const TITLES = {
   E0407: { hi: 'argument ki ginti galat', en: 'wrong number of arguments' },
   E0408: { hi: 'step limit poori', en: 'step limit exceeded' },
   E0409: { hi: 'string bahut lambi', en: 'string too long' },
+  E0410: { hi: 'index range ke bahar', en: 'index out of range' },
+  E0411: { hi: 'galat index', en: 'wrong index type' },
+  E0412: { hi: 'index nahi lagta', en: 'value cannot be indexed' },
+  E0413: { hi: 'string nahi badalta', en: 'string is read-only' },
+  E0414: { hi: 'khaali soochi', en: 'empty list' },
+  E0415: { hi: 'sankhya nahi bani', en: 'invalid number' },
+  E0416: { hi: 'galat argument', en: 'wrong argument type' },
 } as const;
 
 export type DiagnosticCode = keyof typeof TITLES;

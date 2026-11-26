@@ -36,3 +36,6 @@ export class DiagnosticBag {
     this.items.push({ ...draft, severity: 'error', span, file: this.file });
   }
 }
+
+/** Raises a program error at a location the receiver already knows. */
+export type Fail = (draft: DiagnosticDraft) => never;

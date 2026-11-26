@@ -1,0 +1,5 @@
+rakho naam = suno("Aapka naam? ");
+bolo();
+rakho saal = sankhya(suno("Janm ka saal? "));
+bolo();
+bolo("Namaste " + naam + ", umar kareeb", 2026 - saal);

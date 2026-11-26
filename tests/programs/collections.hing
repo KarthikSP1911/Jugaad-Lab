@@ -1,0 +1,16 @@
+rakho fal = ["aam", "kela", 1 + 2];
+fal[0] = "seb";
+joro(fal, "angoor");
+bolo(lambai(fal), fal[1]);
+bolo(fal);
+bolo(nikalo(fal), fal);
+
+rakho chhatra = { "naam": "Ravi", "shehar": "Pune" };
+chhatra["umar"] = 21;
+chhatra["umar"] += 1;
+bolo(chhatra["naam"], lambai(chhatra), chhatra["pata"]);
+bolo(chhatra);
+
+joro(fal, fal);
+bolo(fal);
+bolo("namaste"[0], lambai("namaste"), prakar(fal), prakar(chhatra));

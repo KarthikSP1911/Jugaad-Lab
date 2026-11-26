@@ -1,3 +1,4 @@
+import type { Fail } from '../diagnostics/diagnostic.js';
 import type { Name } from '../ast/expr.js';
 import type { Block } from '../ast/stmt.js';
 import { TYPE_NAMES } from '../packs/hinglish.js';
@@ -18,7 +19,8 @@ export class NativeFunction {
     readonly name: string,
     /** `null` accepts any number of arguments. */
     readonly arity: number | null,
-    readonly call: (args: readonly Value[], host: Host) => Value,
+    /** `fail` reports a program error at the call. */
+    readonly call: (args: readonly Value[], host: Host, fail: Fail) => Value,
   ) {}
 }
 

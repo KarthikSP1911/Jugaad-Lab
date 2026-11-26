@@ -1,10 +1,8 @@
 import type { BinaryOp } from '../ast/expr.js';
-import type { DiagnosticDraft } from '../diagnostics/diagnostic.js';
+import type { Fail } from '../diagnostics/diagnostic.js';
 import { divisionByZero, stringTooLong, wrongOperandType } from '../diagnostics/runtime-messages.js';
-import { stringify } from '../runtime/stringify.js';
+import { toText } from '../runtime/stringify.js';
 import { typeName, type Value } from '../runtime/value.js';
-
-export type Fail = (draft: DiagnosticDraft) => never;
 
 /** Applies a binary operator, checking the types of the values themselves. */
 export function applyBinary(op: BinaryOp, left: Value, right: Value, fail: Fail): Value {
@@ -58,8 +56,10 @@ function arithmetic(
 }
 
 function join(left: Value, right: Value, fail: Fail): string {
+  const head = toText(left, fail);
+  const tail = toText(right, fail);
   try {
-    return stringify(left) + stringify(right);
+    return head + tail;
   } catch (error) {
     // The engine rejects strings beyond its maximum length.
     if (error instanceof RangeError) return fail(stringTooLong());

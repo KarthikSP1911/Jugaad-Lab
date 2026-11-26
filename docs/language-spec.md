@@ -3,13 +3,6 @@
 Name, file extension (`.hing`), CLI command (`hinglish`) and keyword spellings
 are placeholders until the owner confirms them.
 
-## Open questions
-
-| Question | Needed by |
-| --- | --- |
-| Missing dictionary key on read | Phase 3 |
-| `nikalo` on an empty list; which strings `sankhya` accepts | Phase 3 |
-
 ## Design principles
 
 1. **One word per keyword.** Multi-word keywords are fragile (defect 10). Hinglish builds `else if` from two single-word tokens in the grammar instead.
@@ -125,6 +118,17 @@ funcExpr    = "kaam" "(" [ params ] ")" block ;
 | `prakar(x)` | Type name as a string: `sankhya`, `shabd`, `bool`, `khaali`, `soochi`, `kosh`, `kaam` |
 
 Booleans and null print as `sach`, `jhooth` and `khaali`; only `shabd` does this conversion, never a variable read (defects 7 and 8).
+
+### Collections, strings and conversion
+
+- A list or string index is a whole number from 0 to length - 1; anything outside is E0410, another type E0411. Assigning to a list index replaces an element and never grows the list.
+- Dictionary keys are strings (E0411 otherwise). Reading a missing key gives `khaali`; writing it adds the key. In a literal the last duplicate wins.
+- Strings can be indexed but not changed (E0413). Indexing and `lambai` count Unicode code points.
+- `a[i] += x` evaluates `a` and `i` once.
+- Lists print as `[1, "a"]` and dictionaries as `{"k": 1}`, in insertion order, with strings quoted and escaped. A collection inside itself prints as `[...]` or `{...}`.
+- `nikalo` on an empty list is E0414.
+- `sankhya` takes a string: an optional `-`, digits and an optional fraction, with surrounding spaces ignored. Other text is E0415. A built-in given the wrong type is E0416.
+- `suno` hands its prompt to the host and returns the line without its ending; at end of input it returns `""`.
 
 ## Examples
 

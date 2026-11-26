@@ -36,8 +36,8 @@ interface DirectCall {
   span: Span;
 }
 
-class Resolver {
-  private readonly bag: DiagnosticBag;
+export class Resolver {
+  private bag: DiagnosticBag;
   private readonly scopes: Scope[];
   private readonly directCalls: DirectCall[] = [];
   private functionDepth = 0;
@@ -45,19 +45,44 @@ class Resolver {
   private treeDepth = 0;
   private tooDeep = false;
 
-  constructor(file: string) {
+  constructor(private readonly file: string) {
     this.bag = new DiagnosticBag(file);
     const builtins: Scope = new Map();
-    for (const { name } of createBuiltins()) {
-      builtins.set(name, { isConst: true, ready: true, functionDepth: 0, reassigned: false });
+    for (const { name, arity } of createBuiltins()) {
+      const binding: Binding = { isConst: true, ready: true, functionDepth: 0, reassigned: false };
+      if (arity !== null) binding.arity = arity;
+      builtins.set(name, binding);
     }
     this.scopes = [builtins];
   }
 
   program(program: Program): Diagnostic[] {
     this.scoped(() => this.statements(program.body));
+    return this.finish();
+  }
+
+  /** Resolves one REPL entry in a global scope that outlives it. */
+  entry(program: Program): Diagnostic[] {
+    this.bag = new DiagnosticBag(this.file);
+    this.tooDeep = false;
+    if (this.scopes.length === 1) this.scopes.push(new Map());
+    const before = new Set(this.scopes[1]?.keys());
+    this.statements(program.body);
+    const diagnostics = this.finish();
+    // A rejected entry declares nothing.
+    if (diagnostics.length > 0) this.forget((name) => before.has(name));
+    return diagnostics;
+  }
+
+  /** Drops REPL globals that `keep` rejects. */
+  forget(keep: (name: string) => boolean): void {
+    const globals = this.scopes[1];
+    for (const name of [...(globals?.keys() ?? [])]) if (!keep(name)) globals?.delete(name);
+  }
+
+  private finish(): Diagnostic[] {
     // Only now is it known which function names are ever reassigned.
-    for (const { binding, name, argCount, span } of this.directCalls) {
+    for (const { binding, name, argCount, span } of this.directCalls.splice(0)) {
       if (binding.arity !== undefined && !binding.reassigned && binding.arity !== argCount) {
         this.report(wrongArgumentCount(name, binding.arity, argCount), span);
       }

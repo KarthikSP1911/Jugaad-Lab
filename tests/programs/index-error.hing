@@ -1,0 +1,3 @@
+rakho a = [1, 2];
+bolo(a[1]);
+bolo(a[2]);

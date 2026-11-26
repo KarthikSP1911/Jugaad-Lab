@@ -43,5 +43,12 @@ Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 | E0407 | wrong number of arguments at run time |
 | E0408 | step limit exceeded |
 | E0409 | string too long |
+| E0410 | list or string index out of range |
+| E0411 | index has the wrong type (not a whole number, or a key that is not a string) |
+| E0412 | indexing a value that cannot be indexed |
+| E0413 | assigning into a string |
+| E0414 | `nikalo` on an empty list |
+| E0415 | `sankhya` on a string that is not a number |
+| E0416 | wrong argument type for a built-in |
 
 New codes are added here in the same change that introduces them.
