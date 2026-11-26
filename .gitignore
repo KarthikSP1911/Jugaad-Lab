@@ -8,3 +8,7 @@ coverage/
 .env
 .env.*
 !.env.example
+
+# local presentation demo scripts
+/demo/
+/start.sh
