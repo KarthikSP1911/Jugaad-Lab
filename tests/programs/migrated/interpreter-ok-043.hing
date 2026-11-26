@@ -1,0 +1,2 @@
+rakho a = 2; rakho b = 60;
+bolo((a * (4 + 8) + 10), b);

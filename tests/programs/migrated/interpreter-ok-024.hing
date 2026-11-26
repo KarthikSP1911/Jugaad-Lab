@@ -1,0 +1,6 @@
+rakho a = "khali";
+agar (khaali == a) {
+  bolo("hai khali");
+} warna {
+  bolo("not khali");
+}

@@ -1,0 +1,3 @@
+jabtak (x > 9) {
+  bolo("hello");
+}

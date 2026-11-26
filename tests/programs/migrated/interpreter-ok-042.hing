@@ -1,0 +1,2 @@
+rakho a = 1.2; rakho b = 2.3;
+bolo(a + b);

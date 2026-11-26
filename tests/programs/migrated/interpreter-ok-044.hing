@@ -1,0 +1,4 @@
+rakho a = 2; rakho b = 60;
+
+a = b + 3;
+bolo(a, b);

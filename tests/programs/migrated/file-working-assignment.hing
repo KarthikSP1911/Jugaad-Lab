@@ -1,0 +1,4 @@
+rakho greeting = "Hello";
+rakho name = "Ravi";
+rakho message = greeting + " " + name;
+bolo(message);

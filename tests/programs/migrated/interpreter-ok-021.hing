@@ -1,0 +1,4 @@
+rakho a;
+agar (khaali == a) {
+  bolo("hai khali");
+}

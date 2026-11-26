@@ -1,0 +1,5 @@
+rakho a = 0;
+jabtak (a < 1) {
+  bolo("anna");
+  a += 1;
+}

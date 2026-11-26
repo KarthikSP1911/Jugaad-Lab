@@ -1,0 +1,2 @@
+rakho numbers = [1, 2, 3];
+bolo(numbers[0]);

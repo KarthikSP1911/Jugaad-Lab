@@ -1,0 +1,5 @@
+kaam add(a, b) {
+    wapas a + b;
+}
+
+bolo(add(5, 3));

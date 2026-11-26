@@ -1,0 +1,12 @@
+rakho a = 10;
+rakho step = 0;
+jabtak (a > 0) {
+  agar (a % 2 == 0){
+    a -= 3;
+    agla;
+  }
+  a -= 1;
+  agar (step == 1) agla
+  step += 1;
+}
+bolo(step);
