@@ -20,12 +20,12 @@ interface Props {
   size?: number;
   /** Says the tips on its own, pausing while pointed at or focused. */
   auto?: boolean;
-  /** Puts the parrot on the right, facing its speech bubble. */
-  reverse?: boolean;
+  /** Never announces its lines, where the page already announces the same news. */
+  quiet?: boolean;
 }
 
 export function Mascot(props: Props) {
-  const { mood, line, advice, tips, size = 96, auto = false, reverse = false } = props;
+  const { mood, line, advice, tips, size = 96, auto = false, quiet = false } = props;
   const { play } = useSound();
   const { mascot } = useDictionary();
   const [tip, setTip] = useState<string | null>(null);
@@ -69,7 +69,7 @@ export function Mascot(props: Props) {
 
   return (
     <div
-      className={`mascot${auto ? ' mascot-auto' : ''}${reverse ? ' mascot-reverse' : ''}`}
+      className={`mascot${auto ? ' mascot-auto' : ''}`}
       onPointerEnter={() => setHeld(true)}
       onPointerLeave={() => setHeld(false)}
       onFocus={() => setHeld(true)}
@@ -84,7 +84,7 @@ export function Mascot(props: Props) {
         <Parrot mood={talking ? 'talking' : mood} size={size} />
       </button>
       {/* Unprompted lines are not announced, so screen readers are not interrupted. */}
-      <p className="bubble" aria-live={auto && !held ? 'off' : 'polite'}>
+      <p className="bubble" aria-live={quiet || (auto && !held) ? 'off' : 'polite'}>
         <motion.span
           data-reveal
           key={text}

@@ -14,7 +14,7 @@ Mithu the parrot is inline SVG animated with CSS, and its sounds are synthesised
 with Web Audio, so neither adds a dependency or an asset file. Sound is on by
 default, starts only after a click or key press, and can be muted from the header.
 
-Fonts are Inter and JetBrains Mono, downloaded at build time by `next/font` and
+Fonts are Bricolage Grotesque (headings), Inter and JetBrains Mono, downloaded at build time by `next/font` and
 served from the site itself.
 
 ## Consequences

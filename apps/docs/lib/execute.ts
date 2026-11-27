@@ -2,10 +2,11 @@ import {
   renderDiagnostic,
   renderRuntimeError,
   run,
+  type Diagnostic,
   type DiagnosticCode,
   type Lang,
 } from '@jugaad-hinglish/core';
-import { MESSAGES, say } from './say';
+import { everyLanguage, MESSAGES, say, type Messages } from './say';
 
 export const FILE = 'main.hing';
 export const MAX_STEPS = 5_000_000;
@@ -14,12 +15,24 @@ export const MAX_OUTPUT_WRITES = 2_000;
 
 export type Outcome = 'ok' | 'compile-error' | 'runtime-error' | 'stopped';
 
+/** Where an error points, for the editor. Both numbers start at 1. */
+export interface Marker {
+  line: number;
+  column: number;
+  code: DiagnosticCode;
+}
+
 export interface ExecuteResult {
   outcome: Outcome;
   /** Rendered errors or the reason for stopping; empty on success. */
   message: string;
   /** Code of the first error, when the program had one. */
   code?: DiagnosticCode;
+  /** `message` in each language; absent on success. */
+  messages?: Messages;
+  markers: Marker[];
+  /** `suno` was called after the last input line. */
+  inputRanOut: boolean;
 }
 
 export interface ExecuteOptions {
@@ -38,7 +51,7 @@ export function execute(
 ): ExecuteResult {
   const { lang, maxSteps = MAX_STEPS, input = '' } = options;
   const lines = input === '' ? [] : input.split(/\r?\n/);
-  const render = lang ? { lang } : {};
+  let inputRanOut = false;
   let chars = 0;
   let writes = 0;
   const host = {
@@ -50,26 +63,47 @@ export function execute(
     },
     // Shows the line after its prompt, as a terminal would.
     readLine(prompt: string) {
+      if (lines.length === 0) inputRanOut = true;
       const line = lines.shift() ?? '';
       host.write(`${prompt}${line}\n`);
       return line;
     },
   };
 
+  function failed(
+    outcome: Outcome,
+    diagnostics: readonly Diagnostic[],
+    render: (language: Lang | undefined) => string,
+  ): ExecuteResult {
+    const messages = everyLanguage(render);
+    const first = diagnostics[0];
+    return {
+      outcome,
+      message: messages[lang ?? 'both'],
+      messages,
+      markers: diagnostics.map(({ code, span }) => ({ line: span.line, column: span.column, code })),
+      inputRanOut,
+      ...(first ? { code: first.code } : {}),
+    };
+  }
+
+  const renderOptions = (language: Lang | undefined) => (language ? { lang: language } : {});
+
   try {
     const result = run(source, host, { file: FILE, maxSteps });
-    if (result.status === 'ok') return { outcome: 'ok', message: '' };
-    const message =
-      result.status === 'runtime-error'
-        ? renderRuntimeError(result.error, source, render)
-        : result.diagnostics.map((d) => renderDiagnostic(d, source, render)).join('\n\n');
-    const first =
-      result.status === 'runtime-error' ? result.error.diagnostic : result.diagnostics[0];
-    return { outcome: result.status, message, ...(first ? { code: first.code } : {}) };
-  } catch (error) {
-    if (error instanceof OutputLimit) {
-      return { outcome: 'stopped', message: say(MESSAGES.tooMuchOutput, lang) };
+    if (result.status === 'ok') return { outcome: 'ok', message: '', markers: [], inputRanOut };
+    if (result.status === 'runtime-error') {
+      const { error } = result;
+      return failed(result.status, [error.diagnostic], (language) =>
+        renderRuntimeError(error, source, renderOptions(language)),
+      );
     }
-    return { outcome: 'stopped', message: say(MESSAGES.failed, lang) };
+    const { diagnostics } = result;
+    return failed(result.status, diagnostics, (language) =>
+      diagnostics.map((d) => renderDiagnostic(d, source, renderOptions(language))).join('\n\n'),
+    );
+  } catch (error) {
+    const reason = error instanceof OutputLimit ? MESSAGES.tooMuchOutput : MESSAGES.failed;
+    return failed('stopped', [], (language) => say(reason, language));
   }
 }

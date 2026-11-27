@@ -5,6 +5,16 @@ export function say(text: Bilingual, lang: Lang | undefined): string {
   return lang === undefined ? `${text.hi} (${text.en})` : text[lang];
 }
 
+/** `both` shows Hinglish with English in brackets. */
+export type MessageLang = Lang | 'both';
+
+export type Messages = Record<MessageLang, string>;
+
+/** Renders a message in every language, so switching needs no second run. */
+export function everyLanguage(render: (lang: Lang | undefined) => string): Messages {
+  return { hi: render('hi'), en: render('en'), deva: render('deva'), both: render(undefined) };
+}
+
 export const MESSAGES = {
   tooMuchOutput: {
     hi: 'Roka gaya: program ne bahut zyada output diya.',

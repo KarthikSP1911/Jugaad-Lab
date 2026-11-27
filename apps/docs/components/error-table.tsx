@@ -24,7 +24,16 @@ export function ErrorTable({ errors }: { errors: ErrorEntry[] }) {
 
   // The rows render on the client's first pass, after the browser has looked for the fragment.
   useEffect(() => {
-    document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+    const reveal = () => document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+    // A filter could be hiding the row a link points at.
+    function follow() {
+      setQuery('');
+      setStage('');
+      window.requestAnimationFrame(reveal);
+    }
+    reveal();
+    window.addEventListener('hashchange', follow);
+    return () => window.removeEventListener('hashchange', follow);
   }, []);
 
   return (
@@ -50,7 +59,7 @@ export function ErrorTable({ errors }: { errors: ErrorEntry[] }) {
           </button>
         ))}
       </div>
-      <div className="table-wrap">
+      <div className="table-wrap" tabIndex={0}>
         <table>
           <thead>
             <tr>
@@ -63,12 +72,21 @@ export function ErrorTable({ errors }: { errors: ErrorEntry[] }) {
             {shown.map(({ code, title, meaning }) => (
               <tr key={code} id={code}>
                 <td>
-                  <code>{code}</code>
+                  <a href={`#${code}`} title={text.link}>
+                    <code>{code}</code>
+                  </a>
                 </td>
                 <td className="font-medium">{title}</td>
                 <td className="text-muted">{meaning}</td>
               </tr>
             ))}
+            {shown.length === 0 && (
+              <tr>
+                <td colSpan={3} className="text-muted">
+                  {text.none}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

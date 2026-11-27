@@ -37,7 +37,7 @@ export default async function Cheatsheet(props: LocaleProps) {
       <CodeBlock source={shapes(text)} />
 
       <h2 id="keywords">{text.keywords}</h2>
-      <div className="table-wrap">
+      <div className="table-wrap" tabIndex={0}>
         <table>
           <thead>
             <tr>
@@ -59,7 +59,7 @@ export default async function Cheatsheet(props: LocaleProps) {
       </div>
 
       <h2 id="builtins">{text.builtins}</h2>
-      <div className="table-wrap">
+      <div className="table-wrap" tabIndex={0}>
         <table>
           <thead>
             <tr>

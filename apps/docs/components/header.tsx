@@ -4,6 +4,7 @@ import { searchIndex } from '../lib/search-index';
 import { mainNav, SITE } from '../lib/site';
 import { LanguageSwitch } from './language-switch';
 import { Logo } from './logo';
+import { Menu } from './menu';
 import { NavLinks } from './nav-links';
 import { Search } from './search';
 import { SoundToggle } from './sound';
@@ -12,26 +13,30 @@ import { ThemeToggle } from './theme-toggle';
 export function Header({ locale }: { locale: Locale }) {
   const t = DICTIONARIES[locale];
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-page/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 px-4 py-2.5">
-        <Link href={localePath(locale, '/')} className="flex items-center gap-2.5 font-semibold tracking-tight">
-          <Logo size={36} />
-          <span className="text-lg">
+    <header className="site-header">
+      <div className="mx-auto flex h-full max-w-7xl items-center gap-2 px-4">
+        <Link href={localePath(locale, '/')} className="brand">
+          <Logo size={32} />
+          <span>
             Jugaad <span className="text-accent">Hinglish</span>
           </span>
         </Link>
-        <div className="ml-auto flex items-center gap-1 sm:order-2">
+        <Menu>
+          <nav aria-label={t.nav.main} className="flex flex-col gap-1 md:flex-row">
+            <NavLinks items={mainNav(locale, t)} group="main" nested />
+          </nav>
+          <div className="flex items-center gap-1 md:ml-auto">
+            <a href={SITE.repository} className="nav-link">
+              GitHub
+            </a>
+            <LanguageSwitch />
+            <SoundToggle />
+          </div>
+        </Menu>
+        <div className="ml-auto flex items-center gap-1 md:ml-0">
           <Search entries={searchIndex(locale)} />
-          <LanguageSwitch />
-          <a href={SITE.repository} className="nav-link">
-            GitHub
-          </a>
-          <SoundToggle />
           <ThemeToggle />
         </div>
-        <nav aria-label={t.nav.main} className="flex w-full gap-1 pt-1 sm:w-auto sm:pt-0">
-          <NavLinks items={mainNav(locale, t)} group="main" nested />
-        </nav>
       </div>
     </header>
   );

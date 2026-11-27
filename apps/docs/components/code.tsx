@@ -17,7 +17,7 @@ export function CodeBlock({ source, title = 'Hinglish' }: { source: string; titl
         {title}
         <CopyButton text={text} />
       </figcaption>
-      <pre className="code-block">
+      <pre className="code-block" tabIndex={0}>
         <code>
           <Highlighted source={text} />
         </code>
@@ -34,7 +34,7 @@ export function ShellBlock({ source, title = 'Terminal' }: { source: string; tit
         {title}
         <CopyButton text={source} />
       </figcaption>
-      <pre className="code-block">
+      <pre className="code-block" tabIndex={0}>
         <code>{source}</code>
       </pre>
     </figure>

@@ -1,50 +1,56 @@
 @import 'tailwindcss';
 
-/* Navy and blue come from the circuit half of the logo, saffron from the mandala. */
+/*
+ * Navy and blue come from the circuit half of the logo, saffron from the mandala.
+ * `line` separates areas; `control` outlines things you can use, at 3:1 or better.
+ */
 :root {
   color-scheme: light;
   --page: #ffffff;
-  --surface: #f5f7fb;
+  --surface: #f4f6fb;
   --ink: #101c3d;
-  --muted: #52607d;
-  --line: #dfe4ee;
+  --muted: #4c5a78;
+  --line: #dde3ef;
+  --control: #7e89a3;
   --brand: #14367a;
   --link: #1559a8;
   --accent: #b34700;
   --button: #f57c1f;
   --button-ink: #1a1203;
   --error: #b3261e;
-  --code: #f6f8fc;
+  --code: #f7f9fd;
   --tok-keyword: #a84300;
   --tok-string: #17703a;
   --tok-number: #7c3aad;
-  --tok-comment: #5c6a87;
+  --tok-comment: #55627f;
   --tok-call: #1559a8;
   --tok-literal: #7c3aad;
   --tok-builtin: #0b6e75;
   --logo-filter: none;
+  --header-height: 3.5rem;
 }
 
 /* The dark values appear twice: once for the system setting, once for the toggle. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --page: #0d1117;
-    --surface: #151b23;
-    --ink: #e6edf3;
-    --muted: #9198a1;
-    --line: #2a313c;
-    --brand: #f0f6fc;
-    --link: #79b8ff;
-    --accent: #f0a05a;
-    --button: #e8832e;
-    --error: #ff7b72;
-    --code: #11161d;
-    --tok-keyword: #f0a05a;
+    --page: #0b1020;
+    --surface: #131a2e;
+    --ink: #e8ecf7;
+    --muted: #9ca6c0;
+    --line: #252e48;
+    --control: #66739b;
+    --brand: #f2f5ff;
+    --link: #85beff;
+    --accent: #f5a560;
+    --button: #f08a35;
+    --error: #ff8078;
+    --code: #0f1526;
+    --tok-keyword: #f5a560;
     --tok-string: #8ccf9b;
     --tok-number: #c4a7ee;
-    --tok-comment: #848d97;
-    --tok-call: #79b8ff;
+    --tok-comment: #8791ab;
+    --tok-call: #85beff;
     --tok-literal: #c4a7ee;
     --tok-builtin: #6fd3d8;
     --logo-filter: brightness(0.9);
@@ -53,22 +59,23 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --page: #0d1117;
-  --surface: #151b23;
-  --ink: #e6edf3;
-  --muted: #9198a1;
-  --line: #2a313c;
-  --brand: #f0f6fc;
-  --link: #79b8ff;
-  --accent: #f0a05a;
-  --button: #e8832e;
-  --error: #ff7b72;
-  --code: #11161d;
-  --tok-keyword: #f0a05a;
+  --page: #0b1020;
+  --surface: #131a2e;
+  --ink: #e8ecf7;
+  --muted: #9ca6c0;
+  --line: #252e48;
+  --control: #66739b;
+  --brand: #f2f5ff;
+  --link: #85beff;
+  --accent: #f5a560;
+  --button: #f08a35;
+  --error: #ff8078;
+  --code: #0f1526;
+  --tok-keyword: #f5a560;
   --tok-string: #8ccf9b;
   --tok-number: #c4a7ee;
-  --tok-comment: #848d97;
-  --tok-call: #79b8ff;
+  --tok-comment: #8791ab;
+  --tok-call: #85beff;
   --tok-literal: #c4a7ee;
   --tok-builtin: #6fd3d8;
   --logo-filter: brightness(0.9);
@@ -80,10 +87,12 @@
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-control: var(--control);
   --color-brand: var(--brand);
   --color-link: var(--link);
   --color-accent: var(--accent);
   --color-error: var(--error);
+  --font-display: var(--font-bricolage), var(--font-devanagari), var(--font-inter), sans-serif;
   --font-sans: var(--font-inter), var(--font-devanagari), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), var(--font-devanagari), ui-monospace, monospace;
 }
@@ -94,6 +103,11 @@
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-display);
   }
 
   code,
@@ -123,8 +137,31 @@
     @apply text-link underline-offset-4 hover:underline;
   }
 
+  .eyebrow {
+    @apply text-xs font-semibold tracking-wider text-muted uppercase;
+  }
+
+  /* Header */
+  .site-header {
+    @apply sticky top-0 z-20 border-b border-line bg-page;
+    height: var(--header-height);
+  }
+
+  .brand {
+    @apply mr-2 flex items-center gap-2.5 text-base font-bold tracking-tight whitespace-nowrap sm:text-lg;
+    font-family: var(--font-display);
+  }
+
+  .site-menu {
+    @apply hidden md:flex md:flex-1 md:items-center md:gap-2;
+  }
+
+  .site-menu[data-open='true'] {
+    @apply max-md:absolute max-md:inset-x-0 max-md:top-full max-md:flex max-md:flex-col max-md:items-stretch max-md:gap-3 max-md:border-b max-md:border-line max-md:bg-page max-md:p-4 max-md:shadow-lg;
+  }
+
   .nav-link {
-    @apply relative rounded-md transition-colors px-3 py-1.5 text-sm font-medium text-muted hover:bg-surface hover:text-ink;
+    @apply relative rounded-md px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-ink;
   }
 
   .nav-link[aria-current='page'] {
@@ -132,15 +169,17 @@
   }
 
   .nav-pill {
-    @apply absolute inset-0 rounded-md border border-line bg-surface;
+    @apply absolute inset-0 rounded-md bg-surface;
+    box-shadow: inset 0 -2px var(--button);
   }
 
+  /* Controls */
   .icon-button {
     @apply cursor-pointer rounded-md p-2 text-muted hover:bg-surface hover:text-ink;
   }
 
   .button {
-    @apply inline-flex cursor-pointer transition items-center justify-center rounded-lg border border-line bg-page px-4 py-2 text-sm font-semibold text-ink hover:bg-surface;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-control bg-page px-3.5 py-1.5 text-sm font-semibold text-ink transition hover:bg-surface;
   }
 
   .button-primary {
@@ -154,21 +193,59 @@
     filter: brightness(1.07);
   }
 
+  .button-large {
+    @apply px-6 py-3 text-base;
+  }
+
   .button:active {
     transform: scale(0.97);
   }
 
   .card {
-    @apply rounded-xl border border-line bg-page p-5 transition duration-200;
+    @apply rounded-lg border border-line bg-page p-4 transition-colors;
   }
 
   .card:hover {
-    @apply -translate-y-0.5 shadow-lg;
-    border-color: color-mix(in srgb, var(--button) 55%, var(--line));
+    @apply bg-surface;
+    border-color: var(--button);
   }
 
   .card-link {
     @apply block;
+  }
+
+  /* Home */
+  .hero {
+    @apply border-b border-line bg-surface;
+  }
+
+  /* The preview starts level with the heading and ends with the section's padding. */
+  .hero .code-card {
+    @apply mt-0 mb-3;
+  }
+
+  .hero-title {
+    @apply text-4xl leading-tight font-extrabold tracking-tight text-brand sm:text-6xl sm:leading-[1.15];
+  }
+
+  .home-section {
+    @apply grid gap-6 border-b border-line py-14 last:border-b-0 lg:grid-cols-[14rem_1fr] lg:gap-12;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold tracking-tight;
+  }
+
+  .path {
+    @apply grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3;
+  }
+
+  .path li {
+    @apply grid;
+  }
+
+  .path-step {
+    @apply block bg-page p-5 -outline-offset-2 transition-colors hover:bg-surface;
   }
 
   .step-number {
@@ -177,15 +254,24 @@
     color: var(--button-ink);
   }
 
-  .hero {
-    background:
-      radial-gradient(60rem 24rem at 85% 0%, color-mix(in srgb, var(--button) 12%, transparent), transparent),
-      radial-gradient(50rem 24rem at 0% 100%, color-mix(in srgb, var(--link) 12%, transparent), transparent),
-      var(--surface);
+  .features {
+    @apply grid gap-x-10 sm:grid-cols-2;
+  }
+
+  .features > div {
+    @apply border-t border-line py-4;
+  }
+
+  .features dt {
+    @apply font-semibold text-brand;
+  }
+
+  .features dd {
+    @apply mt-1 text-sm leading-6 text-muted;
   }
 
   .code-card {
-    @apply my-4 min-w-0 overflow-hidden rounded-xl border border-line;
+    @apply my-4 min-w-0 overflow-hidden rounded-lg border border-line;
     background: var(--code);
   }
 
@@ -194,16 +280,21 @@
   }
 
   .copy-button {
-    @apply cursor-pointer rounded-md px-2 py-1 transition-colors hover:bg-surface hover:text-ink;
+    @apply cursor-pointer rounded-md px-2 py-1 transition-colors hover:bg-surface hover:text-ink disabled:cursor-default disabled:opacity-50;
+  }
+
+  .code-block {
+    @apply overflow-x-auto p-4 text-sm leading-6 -outline-offset-2;
   }
 
   .demo-output {
-    @apply flex min-h-24 flex-col rounded-xl border border-line px-4 py-3 font-mono text-sm leading-6;
+    @apply flex min-h-24 flex-col rounded-lg border border-line px-4 py-3 font-mono text-sm leading-6;
     background: var(--code);
   }
 
+  /* Editor suggestions */
   .suggestions {
-    @apply absolute z-10 max-h-60 w-max max-w-[min(28rem,80vw)] min-w-56 overflow-auto rounded-lg border border-line bg-page p-1 font-mono text-sm shadow-2xl;
+    @apply absolute z-10 max-h-60 w-max max-w-[min(28rem,80vw)] min-w-56 overflow-auto rounded-lg border border-control bg-page p-1 font-mono text-sm shadow-2xl;
   }
 
   .suggestions li {
@@ -219,8 +310,9 @@
     box-shadow: inset 2px 0 var(--button);
   }
 
+  /* Search */
   .search-trigger {
-    @apply flex cursor-pointer items-center gap-2 rounded-lg border border-line p-2 text-sm text-muted transition-colors hover:text-ink md:px-3 md:py-1.5;
+    @apply flex cursor-pointer items-center gap-2 rounded-md border border-control p-2 text-sm text-muted transition-colors hover:text-ink lg:px-3 lg:py-1.5;
   }
 
   .search-trigger kbd {
@@ -241,14 +333,14 @@
   }
 
   .search-input {
-    @apply w-full border-b border-line bg-transparent px-4 py-3 outline-none;
+    @apply min-w-0 flex-1 bg-transparent px-4 py-3 -outline-offset-2;
   }
 
   .search-result {
     @apply flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm;
   }
 
-  .search-result[aria-current='true'] {
+  .search-result[aria-selected='true'] {
     @apply bg-surface;
   }
 
@@ -258,11 +350,11 @@
   }
 
   .filter-input {
-    @apply min-w-52 rounded-lg border border-line bg-page px-3 py-1.5 text-sm;
+    @apply min-w-52 rounded-md border border-control bg-page px-3 py-1.5 text-base sm:text-sm;
   }
 
   .chip {
-    @apply cursor-pointer rounded-full border border-line px-3 py-1 text-sm text-muted transition-colors hover:text-ink;
+    @apply cursor-pointer rounded-full border border-control px-3 py-1 text-sm text-muted transition-colors hover:text-ink;
   }
 
   .chip[aria-pressed='true'] {
@@ -276,7 +368,7 @@
   }
 
   .status-ok {
-    color: var(--tok-call);
+    color: var(--tok-string);
   }
 
   .status-compile-error,
@@ -292,81 +384,142 @@
     animation: enter 0.35s ease-out;
   }
 
-  .code-block {
-    @apply overflow-x-auto p-4 text-sm leading-6;
-  }
-
   .notice {
     @apply mb-6 rounded-lg border border-line bg-surface p-4 text-sm;
     border-left: 4px solid var(--button);
   }
 
-  /* A dark code window, the same in both themes. */
-  .code-window {
-    @apply flex min-w-0 flex-col overflow-hidden rounded-xl;
-    color-scheme: dark;
-    background: #272822;
-    /* Monokai colours; the suggestion list inside picks them up too. */
-    --page: #1e1f1c;
-    --surface: #3e3d32;
-    --ink: #f8f8f2;
-    --muted: #a5a698;
-    --line: #49483e;
-    --link: #66d9ef;
-    --error: #ff8f87;
-    --tok-keyword: #ff4f8b;
-    --tok-string: #e6db74;
-    --tok-number: #ae81ff;
-    --tok-comment: #96947f;
-    --tok-call: #a6e22e;
-    --tok-literal: #ae81ff;
-    --tok-builtin: #66d9ef;
-    color: var(--ink);
+  /* Playground workbench */
+  .workbench-page {
+    @apply mx-auto max-w-[100rem] px-4 py-3;
   }
 
-  .window-bar {
-    @apply flex flex-wrap items-center gap-x-4 gap-y-1 px-4 pt-4 pb-1 text-sm font-semibold;
+  .workbench {
+    @apply flex scroll-mt-16 flex-col overflow-hidden rounded-lg border border-line;
   }
 
-  .window-dots {
-    @apply flex gap-2;
-  }
-  .window-dots i {
-    @apply h-3 w-3 rounded-full;
-    background: #ff5f56;
-  }
-  .window-dots i:nth-child(2) {
-    background: #ffbd2e;
-  }
-  .window-dots i:nth-child(3) {
-    background: #27c93f;
+  .toolbar {
+    @apply flex flex-wrap items-center gap-2 border-b border-line bg-surface px-3 py-2;
   }
 
-  .window-hint {
+  .toolbar-title {
+    @apply mr-3 w-full text-lg font-bold tracking-tight text-brand sm:w-auto;
+  }
+
+  .toolbar-end {
+    @apply ml-auto flex items-center gap-2 text-sm text-muted;
+  }
+
+  .workbench-notice {
+    @apply flex flex-wrap items-center gap-2 border-b border-line px-3 py-2 text-sm;
+    background: color-mix(in srgb, var(--button) 14%, var(--page));
+  }
+
+  .tabs {
+    @apply flex border-b border-line lg:hidden;
+  }
+
+  .tabs button {
+    @apply flex flex-1 cursor-pointer items-center justify-center gap-2 border-b-2 border-transparent py-2 text-sm font-semibold text-muted capitalize -outline-offset-2;
+  }
+
+  .tabs button[aria-pressed='true'] {
+    @apply text-ink;
+    border-color: var(--button);
+  }
+
+  .dot {
+    @apply h-2 w-2 rounded-full border-0 bg-current p-0;
+  }
+
+  .dot.status-idle {
+    @apply hidden;
+  }
+
+  /* Narrow screens show one pane at a time; wide ones show all three. */
+  .panes {
+    @apply grid grid-cols-1;
+    height: max(28rem, calc(100dvh - var(--header-height) - 11rem));
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .pane {
+    @apply hidden min-h-0 min-w-0 flex-col;
+  }
+
+  .workbench[data-tab='code'] .pane-code,
+  .workbench[data-tab='input'] .pane-input,
+  .workbench[data-tab='output'] .pane-output {
+    @apply flex;
+  }
+
+  @media (width >= 64rem) {
+    .panes {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      height: max(26rem, calc(100dvh - var(--header-height) - 7rem));
+    }
+
+    .workbench[data-tab] .pane {
+      @apply flex;
+    }
+
+    .workbench .pane-code {
+      @apply row-span-2 border-r border-line;
+    }
+
+    .pane-input {
+      @apply border-b border-line;
+    }
+  }
+
+  .pane-bar {
+    @apply flex min-h-10 flex-wrap items-center gap-x-4 gap-y-1 border-b border-line bg-surface px-4 py-1.5 text-sm font-semibold;
+  }
+
+  .pane-bar h2 {
+    font-family: var(--font-sans);
+  }
+
+  .pane-hint {
     @apply ml-auto text-xs font-normal text-muted;
   }
 
-  .code-window .tok-keyword,
-  .code-window .tok-literal {
-    font-weight: 400;
+  .pane-foot {
+    @apply border-t border-line px-4 py-1.5 text-xs text-muted;
   }
-  .code-window .tok-builtin {
-    font-style: italic;
-  }
-  .code-window .tok-operator {
-    color: var(--tok-keyword);
+
+  /* Keyboard help is noise on a touch screen. */
+  @media (pointer: coarse) {
+    .keys {
+      display: none;
+    }
   }
 
   .editor-scroll {
-    @apply flex h-[50vh] min-h-72 items-start overflow-auto lg:h-[65vh];
+    @apply flex min-h-0 flex-1 items-start overflow-auto;
+    background: var(--code);
   }
 
   /* Stays in view while long lines scroll sideways. */
   .line-numbers {
-    @apply sticky left-0 z-[1] m-0 min-h-full shrink-0 py-4 pr-1 pl-4 text-right text-sm leading-6 select-none;
+    @apply sticky left-0 z-[1] flex min-h-full shrink-0 flex-col border-r border-line py-4 text-right font-mono text-base leading-6 text-muted select-none sm:text-sm;
     min-width: 3rem;
-    color: var(--muted);
-    background: #272822;
+    background: var(--code);
+  }
+
+  .line-numbers span {
+    @apply pr-2 pl-3;
+  }
+
+  .line-numbers .has-error {
+    @apply font-bold text-error;
+    box-shadow: inset 3px 0 var(--error);
+  }
+
+  .error-line {
+    @apply absolute inset-x-0 h-6;
+    background: color-mix(in srgb, var(--error) 14%, transparent);
   }
 
   /* The textarea sits exactly on top of the highlighted copy of its text. */
@@ -374,10 +527,15 @@
     @apply relative min-h-full w-max flex-1 shrink-0;
   }
 
+  /* 16px on small screens stops phones zooming in on focus. */
   .editor pre,
   .editor textarea {
-    @apply m-0 p-4 text-sm leading-6 whitespace-pre;
+    @apply m-0 p-4 text-base leading-6 whitespace-pre sm:text-sm;
     tab-size: 4;
+  }
+
+  .editor pre {
+    @apply relative;
   }
 
   .editor textarea {
@@ -387,13 +545,30 @@
   }
 
   .output {
-    @apply h-72 overflow-auto p-4 text-sm leading-6 break-words whitespace-pre-wrap lg:h-0 lg:min-h-40 lg:flex-auto;
+    @apply m-0 min-h-24 flex-1 overflow-auto p-4 text-sm leading-6 break-words whitespace-pre-wrap -outline-offset-2;
+  }
+
+  .problems {
+    @apply flex max-h-28 flex-col gap-1.5 overflow-auto border-t border-line px-4 py-2 text-sm;
+  }
+
+  .problems li {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .mascot-dock {
+    @apply border-t border-line bg-surface px-3 py-2;
+  }
+
+  .mascot-dock .bubble {
+    @apply max-w-none flex-1;
   }
 
   .input-box {
-    @apply w-full resize-y bg-transparent px-4 py-3 text-sm leading-6 -outline-offset-2 placeholder:text-muted;
+    @apply w-full flex-1 resize-none bg-transparent px-4 py-3 text-base leading-6 -outline-offset-2 placeholder:text-muted sm:text-sm lg:flex-none lg:resize-y;
   }
 
+  /* Highlighting */
   .tok-keyword {
     color: var(--tok-keyword);
     font-weight: 600;
@@ -421,6 +596,7 @@
     color: var(--muted);
   }
 
+  /* Mithu */
   .mascot {
     @apply flex min-w-0 items-center gap-3;
   }
@@ -436,19 +612,6 @@
   /* A fixed width keeps the layout still while the lines change on their own. */
   .mascot-auto .bubble {
     @apply w-60;
-  }
-
-  .mascot-reverse {
-    @apply ml-auto flex-row-reverse;
-  }
-  .mascot-reverse .mascot-button {
-    transform: scaleX(-1);
-  }
-  .mascot-reverse .bubble {
-    @apply w-72;
-  }
-  .mascot-reverse .bubble::before {
-    @apply -right-[5px] left-auto rotate-[225deg];
   }
 
   .bubble-tip {
@@ -564,11 +727,26 @@
     animation: chatter 0.18s ease-in-out 5;
   }
 
+  /* Documentation */
+  .docs-pages {
+    @apply mt-2 hidden flex-col gap-5 md:mt-0 md:flex;
+  }
+  .docs-pages[data-open='true'] {
+    @apply flex;
+  }
+
+  .toc-inline {
+    @apply mb-6 rounded-lg border border-line px-4 py-2 text-sm xl:hidden;
+  }
+  .toc-inline summary {
+    @apply cursor-pointer font-semibold;
+  }
+
   .prose {
-    @apply leading-7;
+    @apply max-w-3xl leading-7;
   }
   .prose h1 {
-    @apply mb-4 text-3xl font-bold tracking-tight text-brand;
+    @apply mb-4 text-3xl font-bold tracking-tight text-brand sm:text-4xl;
   }
   .prose tr {
     @apply scroll-mt-28;
@@ -577,7 +755,7 @@
     background: color-mix(in srgb, var(--button) 14%, transparent);
   }
   .prose h2 {
-    @apply mt-10 mb-3 scroll-mt-28 border-b border-line pb-2 text-xl font-semibold tracking-tight;
+    @apply mt-10 mb-3 scroll-mt-20 border-b border-line pb-2 text-xl font-semibold tracking-tight;
   }
   .prose p,
   .prose ul,
@@ -597,18 +775,21 @@
     @apply rounded border border-line bg-surface px-1 py-0.5 text-[0.85em] break-words;
   }
   .prose pre:not(.code-block) {
-    @apply my-4 overflow-x-auto rounded-xl border border-line p-4 text-sm leading-6;
+    @apply my-4 overflow-x-auto rounded-lg border border-line p-4 text-sm leading-6;
     background: var(--code);
   }
   .table-wrap {
-    @apply my-4 overflow-x-auto;
+    @apply my-4 overflow-x-auto rounded-lg border border-line;
   }
   .prose table {
     @apply w-full border-collapse text-sm;
   }
   .prose th,
   .prose td {
-    @apply border border-line px-3 py-2 text-left align-top;
+    @apply border-b border-line px-3 py-2 text-left align-top;
+  }
+  .prose tbody tr:last-child td {
+    @apply border-b-0;
   }
   .prose th {
     @apply bg-surface font-semibold;

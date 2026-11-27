@@ -1,8 +1,9 @@
+import { hinglish } from '@jugaad-hinglish/core';
 import { errorList } from './error-list';
 import { examples } from './examples';
 import { DICTIONARIES, localePath, type Locale } from './i18n';
 import { headings, readDoc } from './markdown';
-import { builtins } from './reference';
+import { builtins, KEYWORD_MEANINGS } from './reference';
 import type { SearchEntry } from './search';
 import { docsNav } from './site';
 
@@ -27,6 +28,13 @@ export function searchIndex(locale: Locale): SearchEntry[] {
       section: t.docsNav.tour,
       href: to(`/docs/tour#${id}`),
       keywords: summary + alias(`${english[index]?.title} ${english[index]?.summary}`),
+    })),
+    ...[...hinglish].map(([word, kind]) => ({
+      title: word,
+      section: t.search.keyword,
+      href: to('/docs/cheatsheet#keywords'),
+      keywords:
+        (KEYWORD_MEANINGS[locale][kind] ?? '') + alias(KEYWORD_MEANINGS.en[kind] ?? ''),
     })),
     ...builtins(locale).map(({ name, does }, index) => ({
       title: name,

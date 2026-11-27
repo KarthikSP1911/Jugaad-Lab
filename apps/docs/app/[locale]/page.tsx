@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { CodeBlock } from '../../components/code';
 import { HeroDemo } from '../../components/hero-demo';
-import { Logo } from '../../components/logo';
 import { Mascot } from '../../components/mascot';
 import { Reveal } from '../../components/motion';
 import { examples } from '../../lib/examples';
@@ -29,38 +28,37 @@ export default async function Home(props: LocaleProps) {
   const { code } = sample(locale);
   const lang = ERROR_LANG[locale];
   const status = [
-    { title: home.inVersion, items: STATUS[locale].works },
-    { title: home.notIn, items: STATUS[locale].notYet },
+    { title: home.inVersion, items: STATUS[locale].works, mark: '✓' },
+    { title: home.notIn, items: STATUS[locale].notYet, mark: '–' },
   ];
   return (
     <>
-      <section className="hero border-b border-line">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2 lg:py-20">
+      <section className="hero">
+        <div className="mx-auto grid max-w-7xl items-start gap-8 px-4 py-6 lg:grid-cols-[5fr_6fr] lg:gap-10 lg:py-8">
           <div className="min-w-0">
-            <Reveal className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <Logo size={96} />
-              <Mascot auto mood="idle" line={GREETING[lang]} tips={TIPS.map((tip) => tip[lang])} />
-            </Reveal>
-            <Reveal delay={0.08}>
-              <h1 className="mt-6 text-4xl font-bold tracking-tight text-brand sm:text-5xl">
+            <Reveal>
+              <h1 className="hero-title">
                 {home.headingStart}
                 <span className="text-accent">{home.headingAccent}</span>
                 {home.headingEnd}
               </h1>
             </Reveal>
-            <Reveal delay={0.16}>
+            <Reveal delay={0.08}>
               <p className="mt-4 max-w-xl text-lg text-muted">{t.tagline}</p>
             </Reveal>
-            <Reveal delay={0.24} className="mt-8 flex flex-wrap gap-3">
+            <Reveal delay={0.16} className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
               <Link
                 href={`${localePath(locale, '/playground')}${encodeShare(code)}`}
-                className="button button-primary"
+                className="button button-primary button-large"
               >
                 {home.tryIt}
               </Link>
-              <Link href={localePath(locale, '/docs')} className="button">
-                {home.readDocs}
+              <Link href={localePath(locale, '/docs')} className="link font-semibold">
+                {home.readDocs} →
               </Link>
+            </Reveal>
+            <Reveal delay={0.24} className="mt-6">
+              <Mascot auto mood="idle" line={GREETING[lang]} tips={TIPS.map((tip) => tip[lang])} />
             </Reveal>
           </div>
           <div className="min-w-0">
@@ -69,48 +67,55 @@ export default async function Home(props: LocaleProps) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <h2 className="text-2xl font-bold tracking-tight">{home.startHere}</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          {home.steps.map(({ href, title, body }, index) => (
-            <Reveal key={href} delay={index * 0.08} className="grid">
-              <Link href={localePath(locale, href)} className="card card-link">
-                <span className="step-number">{index + 1}</span>
-                <h3 className="mt-3 font-semibold">{title} →</h3>
-                <p className="mt-1 text-sm leading-6 text-muted">{body}</p>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
+      <div className="mx-auto max-w-7xl px-4">
+        <section className="home-section">
+          <h2 className="section-title">{home.startHere}</h2>
+          <ol className="path">
+            {home.steps.map(({ href, title, body }, index) => (
+              <li key={href}>
+                <Link href={localePath(locale, href)} className="path-step">
+                  <span className="step-number">{index + 1}</span>
+                  <h3 className="mt-3 font-semibold">{title} →</h3>
+                  <p className="mt-1 text-sm leading-6 text-muted">{body}</p>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-        <h2 className="mt-14 text-2xl font-bold tracking-tight">{home.smallOnPurpose}</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {home.features.map(({ title, body }, index) => (
-            <Reveal key={title} delay={(index % 3) * 0.08} className="grid">
-              <article className="card">
-                <h3 className="font-semibold text-brand">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted">{body}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
+        <section className="home-section">
+          <h2 className="section-title">{home.smallOnPurpose}</h2>
+          <dl className="features">
+            {home.features.map(({ title, body }) => (
+              <div key={title}>
+                <dt>{title}</dt>
+                <dd>{body}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
-        <h2 className="mt-14 text-2xl font-bold tracking-tight">{home.whereItStands}</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {status.map(({ title, items }, index) => (
-            <Reveal key={title} delay={index * 0.08} className="grid">
-              <article className="card">
-                <h3 className="font-semibold">{title}</h3>
-                <ul className="mt-2 list-disc pl-5 text-sm leading-7 text-muted">
+        <section className="home-section">
+          <h2 className="section-title">{home.whereItStands}</h2>
+          <div className="grid gap-8 sm:grid-cols-2">
+            {status.map(({ title, items, mark }) => (
+              <div key={title}>
+                <h3 className="border-b-2 border-line pb-2 font-semibold">{title}</h3>
+                <ul className="text-sm text-muted">
                   {items.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item} className="flex gap-3 border-b border-line py-2.5">
+                      <span aria-hidden="true" className="text-accent">
+                        {mark}
+                      </span>
+                      {item}
+                    </li>
                   ))}
                 </ul>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </>
   );
 }

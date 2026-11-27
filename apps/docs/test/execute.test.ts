@@ -49,3 +49,24 @@ describe('examples', () => {
     expect(capture(errors?.code ?? '').outcome).toBe('compile-error');
   });
 });
+
+describe('editor support', () => {
+  it('marks every compile error', () => {
+    const { markers } = capture('bolo(x);\n  bolo(y);');
+    expect(markers).toEqual([
+      { line: 1, column: 6, code: 'E0301' },
+      { line: 2, column: 8, code: 'E0301' },
+    ]);
+  });
+
+  it('renders the message in every language', () => {
+    const { messages } = capture('bolo(x);');
+    expect(Object.keys(messages ?? {}).sort()).toEqual(['both', 'deva', 'en', 'hi']);
+    expect(messages?.en).not.toBe(messages?.hi);
+  });
+
+  it('says when input ran out', () => {
+    expect(capture('suno("");', { input: 'x' }).inputRanOut).toBe(false);
+    expect(capture('suno("");').inputRanOut).toBe(true);
+  });
+});
