@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Footer } from '../../components/footer';
-import { Header } from '../../components/header';
-import { LocaleProvider } from '../../components/locale';
-import { MotionProvider } from '../../components/motion';
-import { SoundProvider } from '../../components/sound';
-import { FONT_CLASSES } from '../../lib/fonts';
+import { Footer } from '../../components/layout/footer';
+import { Header } from '../../components/layout/header';
+import { LocaleProvider } from '../../components/ui/locale';
+import { MotionProvider } from '../../components/ui/motion';
+import { SoundProvider } from '../../components/mascot/sound';
+import { FONT_CLASSES } from '../../lib/config/fonts';
 import { LOCALES } from '../../lib/i18n/locales';
 import { pageLocale, type LocaleProps } from '../../lib/i18n/page';
-import { SITE } from '../../lib/site';
-import { THEME_SCRIPT } from '../../lib/theme-script';
+import { SITE } from '../../lib/config/site';
+import { THEME_SCRIPT } from '../../lib/config/theme-script';
 import '../globals.css';
 
 export const dynamicParams = false;

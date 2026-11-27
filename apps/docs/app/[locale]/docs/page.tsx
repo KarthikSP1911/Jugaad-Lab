@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CodeBlock, ShellBlock } from '../../../components/code';
-import { examples } from '../../../lib/examples';
+import { CodeBlock, ShellBlock } from '../../../components/ui/code';
+import { examples } from '../../../lib/content/examples';
 import { localePath } from '../../../lib/i18n/locales';
 import { pageLocale, type LocaleProps } from '../../../lib/i18n/page';
-import { SITE } from '../../../lib/site';
+import { SITE } from '../../../lib/config/site';
 
 export async function generateMetadata(props: LocaleProps): Promise<Metadata> {
   const { t } = await pageLocale(props);

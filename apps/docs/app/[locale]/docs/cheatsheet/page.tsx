@@ -1,9 +1,9 @@
 import { hinglish } from '@jugaad-hinglish/core';
 import type { Metadata } from 'next';
-import { CodeBlock } from '../../../../components/code';
+import { CodeBlock } from '../../../../components/ui/code';
 import type { Dictionary } from '../../../../lib/i18n';
 import { pageLocale, type LocaleProps } from '../../../../lib/i18n/page';
-import { builtins, KEYWORD_MEANINGS } from '../../../../lib/reference';
+import { builtins, KEYWORD_MEANINGS } from '../../../../lib/content/reference';
 
 export async function generateMetadata(props: LocaleProps): Promise<Metadata> {
   const { t } = await pageLocale(props);

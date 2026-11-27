@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CodeBlock, ShellBlock } from '../../../../components/code';
-import { ErrorTable } from '../../../../components/error-table';
-import { errorList } from '../../../../lib/error-list';
-import { examples } from '../../../../lib/examples';
-import { execute } from '../../../../lib/execute';
+import { CodeBlock, ShellBlock } from '../../../../components/ui/code';
+import { ErrorTable } from '../../../../components/content/error-table';
+import { errorList } from '../../../../lib/content/error-list';
+import { examples } from '../../../../lib/content/examples';
+import { execute } from '../../../../lib/playground/execute';
 import { ERROR_LANG, localePath } from '../../../../lib/i18n/locales';
 import { pageLocale, type LocaleProps } from '../../../../lib/i18n/page';
-import { encodeShare } from '../../../../lib/share';
+import { encodeShare } from '../../../../lib/playground/share';
 
 export async function generateMetadata(props: LocaleProps): Promise<Metadata> {
   const { t } = await pageLocale(props);

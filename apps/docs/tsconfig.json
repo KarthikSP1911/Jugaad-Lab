@@ -15,6 +15,7 @@
     "types.d.ts",
     "app",
     "components",
+    "hooks",
     "lib",
     "next.config.ts",
     ".next/types/**/*.ts",

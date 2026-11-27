@@ -1,0 +1,120 @@
+@layer components {
+  .code-card {
+    @apply my-4 min-w-0 overflow-hidden rounded-lg border border-line;
+    background: var(--code);
+  }
+
+  .code-card figcaption {
+    @apply flex items-center justify-between border-b border-line px-4 py-1.5 text-xs font-medium text-muted;
+  }
+
+  .copy-button {
+    @apply cursor-pointer rounded-md px-2 py-1 transition-colors hover:bg-surface hover:text-ink disabled:cursor-default disabled:opacity-50;
+  }
+
+  .code-block {
+    @apply overflow-x-auto p-4 text-sm leading-6 -outline-offset-2;
+  }
+
+  .demo-output {
+    @apply flex min-h-24 flex-col rounded-lg border border-line px-4 py-3 font-mono text-sm leading-6;
+    background: var(--code);
+  }
+
+  /* Editor suggestions */
+  .suggestions {
+    @apply absolute z-10 max-h-60 w-max max-w-[min(28rem,80vw)] min-w-56 overflow-auto rounded-lg border border-control bg-page p-1 font-mono text-sm shadow-2xl;
+  }
+
+  .suggestions li {
+    @apply flex cursor-pointer items-baseline justify-between gap-4 rounded-md px-2 py-1;
+  }
+
+  .suggestions li > span:last-child {
+    @apply truncate font-sans text-xs;
+  }
+
+  .suggestions li[aria-selected='true'] {
+    @apply bg-surface;
+    box-shadow: inset 2px 0 var(--button);
+  }
+
+  /* Search */
+  .search-trigger {
+    @apply flex cursor-pointer items-center gap-2 rounded-md border border-control p-2 text-sm text-muted transition-colors hover:text-ink lg:px-3 lg:py-1.5;
+  }
+
+  .search-trigger kbd {
+    @apply rounded border border-line px-1.5 font-mono text-xs;
+  }
+
+  .search-dialog {
+    @apply m-auto mt-[12vh] w-[min(36rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-line bg-page p-0 text-ink shadow-2xl;
+  }
+
+  .search-dialog[open] {
+    animation: pop 0.18s ease-out;
+  }
+
+  .search-dialog::backdrop {
+    background: rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(3px);
+  }
+
+  .search-input {
+    @apply min-w-0 flex-1 bg-transparent px-4 py-3 -outline-offset-2;
+  }
+
+  .search-result {
+    @apply flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm;
+  }
+
+  .search-result[aria-selected='true'] {
+    @apply bg-surface;
+  }
+
+  .toc-marker {
+    @apply absolute inset-y-1 left-0 w-0.5 rounded;
+    background: var(--button);
+  }
+
+  .filter-input {
+    @apply min-w-52 rounded-md border border-control bg-page px-3 py-1.5 text-base sm:text-sm;
+  }
+
+  .chip {
+    @apply cursor-pointer rounded-full border border-control px-3 py-1 text-sm text-muted transition-colors hover:text-ink;
+  }
+
+  .chip[aria-pressed='true'] {
+    background: var(--button);
+    border-color: var(--button);
+    color: var(--button-ink);
+  }
+
+  .status {
+    @apply rounded-full border border-line px-2.5 py-0.5 text-muted;
+  }
+
+  .status-ok {
+    color: var(--tok-string);
+  }
+
+  .status-compile-error,
+  .status-runtime-error {
+    color: var(--error);
+  }
+
+  .status-running {
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .page-enter {
+    animation: enter 0.35s ease-out;
+  }
+
+  .notice {
+    @apply mb-6 rounded-lg border border-line bg-surface p-4 text-sm;
+    border-left: 4px solid var(--button);
+  }
+}

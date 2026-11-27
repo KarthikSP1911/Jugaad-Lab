@@ -1,0 +1,42 @@
+@layer components {
+  /* Controls */
+  .icon-button {
+    @apply cursor-pointer rounded-md p-2 text-muted hover:bg-surface hover:text-ink;
+  }
+
+  .button {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-control bg-page px-3.5 py-1.5 text-sm font-semibold text-ink transition hover:bg-surface;
+  }
+
+  .button-primary {
+    background: var(--button);
+    border-color: var(--button);
+    color: var(--button-ink);
+  }
+
+  .button-primary:hover {
+    background: var(--button);
+    filter: brightness(1.07);
+  }
+
+  .button-large {
+    @apply px-6 py-3 text-base;
+  }
+
+  .button:active {
+    transform: scale(0.97);
+  }
+
+  .card {
+    @apply rounded-lg border border-line bg-page p-4 transition-colors;
+  }
+
+  .card:hover {
+    @apply bg-surface;
+    border-color: var(--button);
+  }
+
+  .card-link {
+    @apply block;
+  }
+}

@@ -1,0 +1,29 @@
+@layer components {
+  /* Highlighting */
+  .tok-keyword {
+    color: var(--tok-keyword);
+    font-weight: 600;
+  }
+  .tok-literal {
+    color: var(--tok-literal);
+    font-weight: 600;
+  }
+  .tok-builtin {
+    color: var(--tok-builtin);
+  }
+  .tok-string {
+    color: var(--tok-string);
+  }
+  .tok-number {
+    color: var(--tok-number);
+  }
+  .tok-comment {
+    color: var(--tok-comment);
+  }
+  .tok-call {
+    color: var(--tok-call);
+  }
+  .tok-operator {
+    color: var(--muted);
+  }
+}

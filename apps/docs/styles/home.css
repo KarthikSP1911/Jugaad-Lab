@@ -1,0 +1,57 @@
+@layer components {
+  /* Home */
+  .hero {
+    @apply border-b border-line bg-surface;
+  }
+
+  /* The preview starts level with the heading and ends with the section's padding. */
+  .hero .code-card {
+    @apply mt-0 mb-3;
+  }
+
+  .hero-title {
+    @apply text-4xl leading-tight font-extrabold tracking-tight text-brand sm:text-6xl sm:leading-[1.15];
+  }
+
+  .home-section {
+    @apply grid gap-6 border-b border-line py-14 last:border-b-0 lg:grid-cols-[14rem_1fr] lg:gap-12;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold tracking-tight;
+  }
+
+  .path {
+    @apply grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3;
+  }
+
+  .path li {
+    @apply grid;
+  }
+
+  .path-step {
+    @apply block bg-page p-5 -outline-offset-2 transition-colors hover:bg-surface;
+  }
+
+  .step-number {
+    @apply inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-bold;
+    background: var(--button);
+    color: var(--button-ink);
+  }
+
+  .features {
+    @apply grid gap-x-10 sm:grid-cols-2;
+  }
+
+  .features > div {
+    @apply border-t border-line py-4;
+  }
+
+  .features dt {
+    @apply font-semibold text-brand;
+  }
+
+  .features dd {
+    @apply mt-1 text-sm leading-6 text-muted;
+  }
+}

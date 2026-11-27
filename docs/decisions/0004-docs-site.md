@@ -20,5 +20,5 @@ served from the site itself.
 ## Consequences
 
 Building needs network access for the fonts, and `core` must be built first,
-which the workspace order guarantees. `apps/docs/lib/status.ts` must be updated
+which the workspace order guarantees. `apps/docs/lib/content/status.ts` must be updated
 when the language gains features.

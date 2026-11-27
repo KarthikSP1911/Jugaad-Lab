@@ -1,0 +1,180 @@
+@layer components {
+  /* Playground workbench */
+  .workbench-page {
+    @apply mx-auto max-w-[100rem] px-4 py-3;
+  }
+
+  .workbench {
+    @apply flex scroll-mt-16 flex-col overflow-hidden rounded-lg border border-line;
+  }
+
+  .toolbar {
+    @apply flex flex-wrap items-center gap-2 border-b border-line bg-surface px-3 py-2;
+  }
+
+  .toolbar-title {
+    @apply mr-3 w-full text-lg font-bold tracking-tight text-brand sm:w-auto;
+  }
+
+  .toolbar-end {
+    @apply ml-auto flex items-center gap-2 text-sm text-muted;
+  }
+
+  .workbench-notice {
+    @apply flex flex-wrap items-center gap-2 border-b border-line px-3 py-2 text-sm;
+    background: color-mix(in srgb, var(--button) 14%, var(--page));
+  }
+
+  .tabs {
+    @apply flex border-b border-line lg:hidden;
+  }
+
+  .tabs button {
+    @apply flex flex-1 cursor-pointer items-center justify-center gap-2 border-b-2 border-transparent py-2 text-sm font-semibold text-muted capitalize -outline-offset-2;
+  }
+
+  .tabs button[aria-pressed='true'] {
+    @apply text-ink;
+    border-color: var(--button);
+  }
+
+  .dot {
+    @apply h-2 w-2 rounded-full border-0 bg-current p-0;
+  }
+
+  .dot.status-idle {
+    @apply hidden;
+  }
+
+  /* Narrow screens show one pane at a time; wide ones show all three. */
+  .panes {
+    @apply grid grid-cols-1;
+    height: max(28rem, calc(100dvh - var(--header-height) - 11rem));
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .pane {
+    @apply hidden min-h-0 min-w-0 flex-col;
+  }
+
+  .workbench[data-tab='code'] .pane-code,
+  .workbench[data-tab='input'] .pane-input,
+  .workbench[data-tab='output'] .pane-output {
+    @apply flex;
+  }
+
+  @media (width >= 64rem) {
+    .panes {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      height: max(26rem, calc(100dvh - var(--header-height) - 7rem));
+    }
+
+    .workbench[data-tab] .pane {
+      @apply flex;
+    }
+
+    .workbench .pane-code {
+      @apply row-span-2 border-r border-line;
+    }
+
+    .pane-input {
+      @apply border-b border-line;
+    }
+  }
+
+  .pane-bar {
+    @apply flex min-h-10 flex-wrap items-center gap-x-4 gap-y-1 border-b border-line bg-surface px-4 py-1.5 text-sm font-semibold;
+  }
+
+  .pane-bar h2 {
+    font-family: var(--font-sans);
+  }
+
+  .pane-hint {
+    @apply ml-auto text-xs font-normal text-muted;
+  }
+
+  .pane-foot {
+    @apply border-t border-line px-4 py-1.5 text-xs text-muted;
+  }
+
+  /* Keyboard help is noise on a touch screen. */
+  @media (pointer: coarse) {
+    .keys {
+      display: none;
+    }
+  }
+
+  .editor-scroll {
+    @apply flex min-h-0 flex-1 items-start overflow-auto;
+    background: var(--code);
+  }
+
+  /* Stays in view while long lines scroll sideways. */
+  .line-numbers {
+    @apply sticky left-0 z-[1] flex min-h-full shrink-0 flex-col border-r border-line py-4 text-right font-mono text-base leading-6 text-muted select-none sm:text-sm;
+    min-width: 3rem;
+    background: var(--code);
+  }
+
+  .line-numbers span {
+    @apply pr-2 pl-3;
+  }
+
+  .line-numbers .has-error {
+    @apply font-bold text-error;
+    box-shadow: inset 3px 0 var(--error);
+  }
+
+  .error-line {
+    @apply absolute inset-x-0 h-6;
+    background: color-mix(in srgb, var(--error) 14%, transparent);
+  }
+
+  /* The textarea sits exactly on top of the highlighted copy of its text. */
+  .editor {
+    @apply relative min-h-full w-max flex-1 shrink-0;
+  }
+
+  /* 16px on small screens stops phones zooming in on focus. */
+  .editor pre,
+  .editor textarea {
+    @apply m-0 p-4 text-base leading-6 whitespace-pre sm:text-sm;
+    tab-size: 4;
+  }
+
+  .editor pre {
+    @apply relative;
+  }
+
+  .editor textarea {
+    @apply absolute inset-0 h-full w-full resize-none overflow-hidden bg-transparent -outline-offset-2;
+    color: transparent;
+    caret-color: var(--ink);
+  }
+
+  .output {
+    @apply m-0 min-h-24 flex-1 overflow-auto p-4 text-sm leading-6 break-words whitespace-pre-wrap -outline-offset-2;
+  }
+
+  .problems {
+    @apply flex max-h-28 flex-col gap-1.5 overflow-auto border-t border-line px-4 py-2 text-sm;
+  }
+
+  .problems li {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  .mascot-dock {
+    @apply border-t border-line bg-surface px-3 py-2;
+  }
+
+  .mascot-dock .bubble {
+    @apply max-w-none flex-1;
+  }
+
+  .input-box {
+    @apply w-full flex-1 resize-none bg-transparent px-4 py-3 text-base leading-6 -outline-offset-2 placeholder:text-muted sm:text-sm lg:flex-none lg:resize-y;
+  }
+}

@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import { CodeBlock } from '../../components/code';
-import { HeroDemo } from '../../components/hero-demo';
-import { Mascot } from '../../components/mascot';
-import { Reveal } from '../../components/motion';
-import { examples } from '../../lib/examples';
-import { execute } from '../../lib/execute';
+import { CodeBlock } from '../../components/ui/code';
+import { HeroDemo } from '../../components/content/hero-demo';
+import { Mascot } from '../../components/mascot/mascot';
+import { Reveal } from '../../components/ui/motion';
+import { examples } from '../../lib/content/examples';
+import { execute } from '../../lib/playground/execute';
 import { ERROR_LANG, localePath, type Locale } from '../../lib/i18n/locales';
 import { pageLocale, type LocaleProps } from '../../lib/i18n/page';
-import { GREETING, TIPS } from '../../lib/mascot';
-import { encodeShare } from '../../lib/share';
-import { STATUS } from '../../lib/status';
+import { GREETING, TIPS } from '../../lib/mascot/mascot';
+import { encodeShare } from '../../lib/playground/share';
+import { STATUS } from '../../lib/content/status';
 
 function sample(locale: Locale) {
   const list = examples(locale);

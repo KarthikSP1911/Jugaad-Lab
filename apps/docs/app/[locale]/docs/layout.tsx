@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { DocsNav } from '../../../components/docs-nav';
-import { Pager } from '../../../components/pager';
+import { DocsNav } from '../../../components/layout/docs-nav';
+import { Pager } from '../../../components/layout/pager';
 
 export default function DocsLayout({ children }: { children: ReactNode }) {
   return (

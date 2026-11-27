@@ -1,0 +1,96 @@
+/*
+ * Navy and blue come from the circuit half of the logo, saffron from the mandala.
+ * `line` separates areas; `control` outlines things you can use, at 3:1 or better.
+ */
+:root {
+  color-scheme: light;
+  --page: #ffffff;
+  --surface: #f4f6fb;
+  --ink: #101c3d;
+  --muted: #4c5a78;
+  --line: #dde3ef;
+  --control: #7e89a3;
+  --brand: #14367a;
+  --link: #1559a8;
+  --accent: #b34700;
+  --button: #f57c1f;
+  --button-ink: #1a1203;
+  --error: #b3261e;
+  --code: #f7f9fd;
+  --tok-keyword: #a84300;
+  --tok-string: #17703a;
+  --tok-number: #7c3aad;
+  --tok-comment: #55627f;
+  --tok-call: #1559a8;
+  --tok-literal: #7c3aad;
+  --tok-builtin: #0b6e75;
+  --logo-filter: none;
+  --header-height: 3.5rem;
+}
+
+/* The dark values appear twice: once for the system setting, once for the toggle. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --page: #0b1020;
+    --surface: #131a2e;
+    --ink: #e8ecf7;
+    --muted: #9ca6c0;
+    --line: #252e48;
+    --control: #66739b;
+    --brand: #f2f5ff;
+    --link: #85beff;
+    --accent: #f5a560;
+    --button: #f08a35;
+    --error: #ff8078;
+    --code: #0f1526;
+    --tok-keyword: #f5a560;
+    --tok-string: #8ccf9b;
+    --tok-number: #c4a7ee;
+    --tok-comment: #8791ab;
+    --tok-call: #85beff;
+    --tok-literal: #c4a7ee;
+    --tok-builtin: #6fd3d8;
+    --logo-filter: brightness(0.9);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --page: #0b1020;
+  --surface: #131a2e;
+  --ink: #e8ecf7;
+  --muted: #9ca6c0;
+  --line: #252e48;
+  --control: #66739b;
+  --brand: #f2f5ff;
+  --link: #85beff;
+  --accent: #f5a560;
+  --button: #f08a35;
+  --error: #ff8078;
+  --code: #0f1526;
+  --tok-keyword: #f5a560;
+  --tok-string: #8ccf9b;
+  --tok-number: #c4a7ee;
+  --tok-comment: #8791ab;
+  --tok-call: #85beff;
+  --tok-literal: #c4a7ee;
+  --tok-builtin: #6fd3d8;
+  --logo-filter: brightness(0.9);
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-control: var(--control);
+  --color-brand: var(--brand);
+  --color-link: var(--link);
+  --color-accent: var(--accent);
+  --color-error: var(--error);
+  --font-display: var(--font-bricolage), var(--font-devanagari), var(--font-inter), sans-serif;
+  --font-sans: var(--font-inter), var(--font-devanagari), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), var(--font-devanagari), ui-monospace, monospace;
+}

@@ -1,0 +1,50 @@
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:z-30 focus:bg-page focus:p-3;
+  }
+
+  .logo-tile {
+    @apply rounded-lg border border-line bg-white;
+    filter: var(--logo-filter);
+  }
+
+  .link {
+    @apply text-link underline-offset-4 hover:underline;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold tracking-wider text-muted uppercase;
+  }
+
+  /* Header */
+  .site-header {
+    @apply sticky top-0 z-20 border-b border-line bg-page;
+    height: var(--header-height);
+  }
+
+  .brand {
+    @apply mr-2 flex items-center gap-2.5 text-base font-bold tracking-tight whitespace-nowrap sm:text-lg;
+    font-family: var(--font-display);
+  }
+
+  .site-menu {
+    @apply hidden md:flex md:flex-1 md:items-center md:gap-2;
+  }
+
+  .site-menu[data-open='true'] {
+    @apply max-md:absolute max-md:inset-x-0 max-md:top-full max-md:flex max-md:flex-col max-md:items-stretch max-md:gap-3 max-md:border-b max-md:border-line max-md:bg-page max-md:p-4 max-md:shadow-lg;
+  }
+
+  .nav-link {
+    @apply relative rounded-md px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-ink;
+  }
+
+  .nav-link[aria-current='page'] {
+    @apply text-ink;
+  }
+
+  .nav-pill {
+    @apply absolute inset-0 rounded-md bg-surface;
+    box-shadow: inset 0 -2px var(--button);
+  }
+}

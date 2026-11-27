@@ -1,0 +1,132 @@
+@layer components {
+  /* Mithu */
+  .mascot {
+    @apply flex min-w-0 items-center gap-3;
+  }
+
+  .mascot-button {
+    @apply shrink-0 cursor-pointer rounded-xl;
+  }
+
+  .bubble {
+    @apply relative max-w-60 min-w-0 rounded-xl border border-line bg-page px-3 py-2 text-sm font-medium shadow-sm;
+  }
+
+  /* A fixed width keeps the layout still while the lines change on their own. */
+  .mascot-auto .bubble {
+    @apply w-60;
+  }
+
+  .bubble-tip {
+    @apply mt-1 block font-normal text-muted;
+  }
+
+  /* The tail of the speech bubble: a rotated corner pointing at the parrot. */
+  .bubble::before {
+    @apply absolute top-1/2 -left-[5px] h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b border-l border-line bg-page;
+    content: '';
+  }
+
+  /* Mithu keeps the logo's blue and saffron in both themes. */
+  .parrot {
+    overflow: visible;
+  }
+  .parrot-body {
+    fill: #1f6fc4;
+  }
+  .parrot-wing,
+  .parrot-tail {
+    fill: #14367a;
+  }
+  .parrot-belly,
+  .parrot-crest {
+    fill: #f57c1f;
+  }
+  .parrot-face {
+    fill: #ffffff;
+  }
+  .parrot-pupil {
+    fill: #101c3d;
+  }
+  .parrot-beak {
+    fill: #ffb02e;
+  }
+  .parrot-jaw {
+    fill: #b34700;
+  }
+  .parrot-feet,
+  .parrot-perch {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+  .parrot-node {
+    fill: var(--button);
+  }
+
+  /* Origins are in the drawing's own coordinates: each part turns about its joint. */
+  .parrot-bird {
+    transform-origin: 62px 114px;
+  }
+  .parrot-head {
+    transform-origin: 62px 60px;
+    transition: transform 0.3s ease;
+  }
+  .parrot-wing {
+    transform-origin: 52px 66px;
+  }
+  .parrot-tail {
+    transform-origin: 48px 94px;
+  }
+  .parrot-crest {
+    transform-origin: 64px 18px;
+    transition: transform 0.3s ease;
+  }
+  .parrot-eye {
+    transform-origin: 75px 36px;
+    animation: blink 4s infinite;
+  }
+  .parrot-jaw {
+    transform-origin: 83px 50px;
+  }
+
+  .parrot-idle .parrot-bird,
+  .parrot-talking .parrot-bird {
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  .parrot-idle .parrot-tail {
+    animation: sway 2.4s ease-in-out infinite;
+  }
+  .mascot-button:hover .parrot-head {
+    transform: rotate(8deg);
+  }
+
+  .parrot-thinking .parrot-head {
+    animation: ponder 1.2s ease-in-out infinite;
+  }
+
+  .parrot-happy .parrot-bird {
+    animation: hop 0.5s ease-out 3;
+  }
+  .parrot-happy .parrot-wing {
+    animation: flap 0.25s ease-in-out 6;
+  }
+  .parrot-happy .parrot-crest {
+    transform: scale(1.2);
+  }
+
+  .parrot-worried .parrot-bird {
+    animation: shake 0.4s ease-in-out 2;
+  }
+  .parrot-worried .parrot-head {
+    transform: rotate(14deg);
+  }
+  .parrot-worried .parrot-crest {
+    transform: rotate(-35deg) scale(0.85);
+  }
+
+  .parrot-talking .parrot-jaw {
+    animation: chatter 0.18s ease-in-out 5;
+  }
+}

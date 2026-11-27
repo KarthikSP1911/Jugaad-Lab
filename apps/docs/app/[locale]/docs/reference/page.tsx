@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { MarkdownPage } from '../../../../components/markdown-page';
+import { MarkdownPage } from '../../../../components/content/markdown-page';
 import { pageLocale, type LocaleProps } from '../../../../lib/i18n/page';
 
 export async function generateMetadata(props: LocaleProps): Promise<Metadata> {
