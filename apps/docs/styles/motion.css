@@ -29,9 +29,36 @@
   }
 }
 
-@keyframes bob {
+@keyframes breathe {
   50% {
-    transform: translateY(-3px);
+    transform: scale(1.01, 1.03);
+  }
+}
+
+/* A curious tilt of the head, now and then. */
+@keyframes peek {
+  0%,
+  70%,
+  100% {
+    transform: rotate(0deg);
+  }
+  78%,
+  90% {
+    transform: rotate(-9deg);
+  }
+}
+
+@keyframes drift {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    translate: 4px -8px;
   }
 }
 
@@ -60,6 +87,12 @@
 @keyframes flap {
   50% {
     transform: rotate(40deg);
+  }
+}
+
+@keyframes flap-back {
+  50% {
+    transform: rotate(-35deg);
   }
 }
 

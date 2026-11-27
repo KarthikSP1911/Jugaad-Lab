@@ -20,9 +20,11 @@ export const en = {
   },
   header: {
     language: 'Language',
-    sound: 'Sound',
-    soundOn: 'Sound is on',
-    soundOff: 'Sound is off',
+    soundLevel: {
+      soft: 'Sound is soft',
+      loud: 'Sound is loud',
+      off: 'Sound is off',
+    },
     menu: 'Menu',
     toDark: 'Switch to dark theme',
     toLight: 'Switch to light theme',

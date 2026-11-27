@@ -6,7 +6,7 @@ import { useRunner } from '../../hooks/use-runner';
 import { DEMO_IDS, DEMOS, type DemoId } from '../../lib/content/home';
 import { ERROR_LANG, localePath } from '../../lib/i18n/locales';
 import { say } from '../../lib/i18n/bilingual';
-import { advise, GREETING, REACTIONS, TIPS } from '../../lib/mascot/mascot';
+import { advise, GREETING, pick, REACTIONS, TIPS } from '../../lib/mascot/mascot';
 import { encodeShare } from '../../lib/playground/share';
 import { Mascot } from '../mascot/mascot';
 import { Editor } from '../playground/editor';
@@ -74,11 +74,16 @@ export function HeroDemo() {
             dismissible
             quiet
             mood={REACTIONS[status].mood}
-            line={status === 'idle' ? GREETING[lang] : say(REACTIONS[status].line, lang)}
+            line={
+              status === 'idle'
+                ? GREETING[lang]
+                : say(pick(REACTIONS[status].lines, runner.runs), lang)
+            }
             // Nothing to advise before the first run: the greeting stays short.
             {...(advice && status !== 'idle' ? { advice: say(advice, lang) } : {})}
             tips={TIPS.map((tip) => say(tip, lang))}
             size={80}
+            flip
           />
         </div>
 

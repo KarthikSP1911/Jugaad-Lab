@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Community } from '../../components/home/community';
 import { Features } from '../../components/home/features';
-import { HeroDemo } from '../../components/home/hero-demo';
+import { HeroArt } from '../../components/home/hero-art';
 import { Keywords } from '../../components/home/keywords';
 import { LearningPaths } from '../../components/home/learning-paths';
 import { QuickStart } from '../../components/home/quick-start';
@@ -36,7 +36,7 @@ export default async function Home(props: LocaleProps) {
               ))}
             </ul>
           </div>
-          <HeroDemo />
+          <HeroArt locale={locale} />
         </div>
       </section>
       <Keywords locale={locale} t={t} />

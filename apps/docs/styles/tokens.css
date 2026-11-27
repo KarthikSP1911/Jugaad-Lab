@@ -44,7 +44,7 @@
   /* Layout, narrow screens first. */
   --content: 75rem;
   --pad-inline: calc(var(--space-4) + var(--space-1));
-  --hero-start: var(--space-5);
+  --hero-start: var(--space-6);
   --hero-end: var(--space-7);
   --section-pad: calc(var(--space-7) + var(--space-2));
 

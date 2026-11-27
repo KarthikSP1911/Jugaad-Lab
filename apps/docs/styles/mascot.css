@@ -16,11 +16,6 @@
     box-shadow: var(--shadow-sm);
   }
 
-  /* A fixed width keeps the layout still while the lines change on their own. */
-  .mascot-auto .bubble {
-    @apply w-60;
-  }
-
   .bubble-close {
     position: absolute;
     inset-block-start: calc(-1 * var(--space-3));
@@ -54,22 +49,11 @@
     content: '';
   }
 
-  /* Mithu keeps the logo's blue and saffron in both themes. */
+  /* Mithu keeps the logo's blue and saffron in both themes; gradients are in the SVG. */
   .parrot {
     overflow: visible;
   }
-  .parrot-body {
-    fill: #1f6fc4;
-  }
-  .parrot-wing,
-  .parrot-tail {
-    fill: #14367a;
-  }
-  .parrot-belly,
-  .parrot-crest {
-    fill: #f57c1f;
-  }
-  .parrot-face {
+  .parrot-white {
     fill: #ffffff;
   }
   .parrot-pupil {
@@ -81,6 +65,21 @@
   .parrot-jaw {
     fill: #b34700;
   }
+  .parrot-feather,
+  .parrot-scallop {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    opacity: 0.45;
+  }
+  .parrot-lid {
+    display: none;
+    fill: none;
+    stroke: #101c3d;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
   .parrot-feet,
   .parrot-perch {
     fill: none;
@@ -88,23 +87,41 @@
     stroke-width: 4;
     stroke-linecap: round;
   }
+  .parrot-feet {
+    stroke: #c25a0c;
+    stroke-width: 3.5;
+  }
   .parrot-node {
     fill: var(--button);
+  }
+  .parrot-zzz {
+    fill: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .parrot-zzz text {
+    animation: drift 2.4s ease-in-out infinite;
+  }
+  .parrot-zzz text + text {
+    animation-delay: 0.8s;
   }
 
   /* Origins are in the drawing's own coordinates: each part turns about its joint. */
   .parrot-bird {
-    transform-origin: 62px 114px;
+    transform-origin: 62px 116px;
   }
   .parrot-head {
     transform-origin: 62px 60px;
     transition: transform 0.3s ease;
   }
   .parrot-wing {
-    transform-origin: 52px 66px;
+    transform-origin: 50px 66px;
+  }
+  .parrot-wing-back {
+    transform-origin: 80px 66px;
   }
   .parrot-tail {
-    transform-origin: 48px 94px;
+    transform-origin: 50px 94px;
   }
   .parrot-crest {
     transform-origin: 64px 18px;
@@ -114,23 +131,51 @@
     transform-origin: 75px 36px;
     animation: blink 4s infinite;
   }
+  /* The pupils follow the pointer; a hook sets the two variables. */
+  .parrot-look {
+    translate: var(--look-x, 0px) var(--look-y, 0px);
+    transition: translate 0.12s ease-out;
+  }
   .parrot-jaw {
     transform-origin: 83px 50px;
   }
 
   .parrot-idle .parrot-bird,
   .parrot-talking .parrot-bird {
-    animation: bob 2.4s ease-in-out infinite;
+    animation: breathe 2.4s ease-in-out infinite;
   }
   .parrot-idle .parrot-tail {
     animation: sway 2.4s ease-in-out infinite;
   }
+  .parrot-idle .parrot-head {
+    animation: peek 7s ease-in-out infinite;
+  }
   .mascot-button:hover .parrot-head {
     transform: rotate(8deg);
+    animation: none;
+  }
+  .mascot-button:hover .parrot-crest {
+    transform: scale(1.15);
+  }
+
+  /* Hovering: a flap of the wings and a wag of the tail. */
+  .mascot-button:hover .parrot-wing {
+    animation: flap 0.3s ease-in-out 4;
+  }
+
+  .mascot-button:hover .parrot-wing-back {
+    animation: flap-back 0.3s ease-in-out 4;
+  }
+
+  .mascot-button:hover .parrot-tail {
+    animation: sway 0.4s ease-in-out 3;
   }
 
   .parrot-thinking .parrot-head {
     animation: ponder 1.2s ease-in-out infinite;
+  }
+  .parrot-thinking .parrot-tail {
+    animation: sway 0.8s ease-in-out infinite;
   }
 
   .parrot-happy .parrot-bird {
@@ -139,8 +184,17 @@
   .parrot-happy .parrot-wing {
     animation: flap 0.25s ease-in-out 6;
   }
+  .parrot-happy .parrot-wing-back {
+    animation: flap-back 0.25s ease-in-out 6;
+  }
+  .parrot-happy .parrot-tail {
+    animation: sway 0.3s ease-in-out 5;
+  }
+  .parrot-happy .parrot-jaw {
+    animation: chatter 0.16s ease-in-out 3;
+  }
   .parrot-happy .parrot-crest {
-    transform: scale(1.2);
+    transform: scale(1.3);
   }
 
   .parrot-worried .parrot-bird {
@@ -149,11 +203,54 @@
   .parrot-worried .parrot-head {
     transform: rotate(14deg);
   }
+  .parrot-worried .parrot-jaw {
+    animation: chatter 0.22s ease-in-out 2;
+  }
   .parrot-worried .parrot-crest {
     transform: rotate(-35deg) scale(0.85);
   }
 
+  /* Lasts as long as the pose, which the component times to the sound. */
   .parrot-talking .parrot-jaw {
-    animation: chatter 0.18s ease-in-out 5;
+    animation: chatter 0.16s ease-in-out infinite;
+  }
+
+  .parrot-sleeping .parrot-bird {
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+  .parrot-sleeping .parrot-head {
+    transform: rotate(13deg);
+  }
+  .parrot-sleeping .parrot-crest {
+    transform: rotate(-20deg) scale(0.85);
+  }
+  .parrot-sleeping .parrot-eye {
+    display: none;
+  }
+  .parrot-sleeping .parrot-lid {
+    display: inline;
+  }
+
+  /* A wash of saffron, so what Mithu says stands out from the page. */
+  .bubble,
+  .bubble::before {
+    --bubble: color-mix(in srgb, var(--button) 14%, var(--raised));
+    border-color: var(--button);
+    background: var(--bubble);
+  }
+
+  .bubble-tip {
+    padding-block-start: var(--space-1);
+    border-block-start: 1px dashed color-mix(in srgb, var(--button) 55%, transparent);
+    color: var(--ink);
+  }
+
+  .bubble-tip::first-line {
+    color: var(--accent);
+  }
+
+  .bubble-close {
+    border-color: var(--button);
+    color: var(--accent);
   }
 }

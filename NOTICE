@@ -12,6 +12,10 @@ Reused third-party material (name, source, licence):
   License 1.1.
   All three are used by the website only.
 
+  "Budgerigar chirping.ogg" by mary905, from Wikimedia Commons
+  (https://commons.wikimedia.org/wiki/File:Budgerigar_chirping.ogg), listed as
+  public domain. Stored in apps/docs/public/sounds/ and used by the website only.
+
   KannadaScript test programs, translated into Hinglish by tools/migrate-ks.ts
   and stored in tests/programs/migrated/. Licence: MIT, reproduced below.
 

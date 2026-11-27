@@ -22,9 +22,11 @@ export const hi: Dictionary = {
   },
   header: {
     language: 'भाषा',
-    sound: 'आवाज़',
-    soundOn: 'आवाज़ चालू है',
-    soundOff: 'आवाज़ बंद है',
+    soundLevel: {
+      soft: 'आवाज़ धीमी है',
+      loud: 'आवाज़ तेज़ है',
+      off: 'आवाज़ बंद है',
+    },
     menu: 'मेन्यू',
     toDark: 'गहरी थीम लगाएँ',
     toLight: 'हल्की थीम लगाएँ',

@@ -8,7 +8,7 @@ import { useRunner } from '../../hooks/use-runner';
 import { examples } from '../../lib/content/examples';
 import { say, type MessageLang } from '../../lib/i18n/bilingual';
 import { ERROR_LANG } from '../../lib/i18n/locales';
-import { advise, REACTIONS, TIPS, type Status } from '../../lib/mascot/mascot';
+import { advise, pick, REACTIONS, TIPS, type Status } from '../../lib/mascot/mascot';
 import { LANG_KEY, readStored, store } from '../../lib/playground/draft';
 import { Mascot } from '../mascot/mascot';
 import { useDictionary, useLocale } from '../ui/locale';
@@ -170,10 +170,10 @@ export function Playground({ children }: { children: ReactNode }) {
             <Mascot
               quiet
               mood={REACTIONS[status].mood}
-              line={say(REACTIONS[status].line, spoken)}
+              line={say(pick(REACTIONS[status].lines, runner.runs), spoken)}
               {...(advice ? { advice: say(advice, spoken) } : {})}
               tips={TIPS.map((tip) => say(tip, spoken))}
-              size={56}
+              size={64}
             />
           </div>
         </OutputPane>

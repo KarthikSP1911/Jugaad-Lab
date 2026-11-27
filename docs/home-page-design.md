@@ -1,5 +1,9 @@
 # Home page design
 
+Later change: the hero's runnable demo was replaced by an illustration with
+Mithu (`components/home/hero-art.tsx`). The demo's layout, spacing and copy below
+describe the earlier version; `hero-demo.tsx` is no longer used.
+
 ## Assumptions and departures from the brief
 
 - No licence has been chosen, so the page says "Free to use in your browser" and
@@ -58,7 +62,7 @@ Tokens are defined in `apps/docs/styles/tokens.css`. Values are phone / tablet /
 | Buttons | primary, secondary padding | `--pad-button` `--space-5`; `--space-3` `--space-4`+`1` | 14 24; 12 20 |
 | Demo | card to output | `--space-4` | 16 |
 | Demo | tabs padding; action bar and output padding | `--space-3` `--space-4`+`1`; `--space-4` `--space-4`+`1` | 12 20 (12 8 on phones); 16 20 |
-| Mithu | size; share inside the card; right offset | `--bird`, `--perch`, `--space-5` | 72 / 80; 28 / 32; 24 |
+| Mithu | size; perch overlap; right offset | `--bird`; 14/130 of it; `--space-5` | 72 / 80; 8 / 9; 24 |
 | Sections | block padding | `--section-pad` | 56 / 48 / 64 |
 | Sections | title to subtitle, to content | `--space-3`, `--space-6`+`2` | 12, 40 |
 | Cards | padding, grid gap | `--space-5` | 24, 24 |

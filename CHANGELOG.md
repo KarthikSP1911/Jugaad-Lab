@@ -4,8 +4,11 @@
 
 - Website in English and Hindi, with Devanagari diagnostics.
 - Mithu, a parrot in the playground that reacts to runs and gives tips.
-- Sound effects with a mute button.
+- Sound effects: a synthesised parrot voice, soft by default, with loud and off.
+- Mithu redrawn: he watches the pointer, dozes when left alone and says more.
 - Rewritten README.
+- Illustrated home page hero, recorded budgerigar chirps for Mithu and a
+  compact examples menu in the playground.
 - New home page with a runnable demo, keyword table and learning paths.
 - Redesigned website and playground, which keeps drafts, marks error lines and
   no longer deletes selected lines on Tab.

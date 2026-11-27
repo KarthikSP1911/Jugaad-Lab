@@ -93,6 +93,122 @@
     font-weight: 700;
   }
 
+  /* Hero illustration */
+  .hero-art {
+    position: relative;
+    justify-self: center;
+    inline-size: 100%;
+    max-inline-size: 26rem;
+  }
+
+  .hero-art > svg {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  /* Over the middle of the drawing, in its proportions. */
+  .hero-mascot {
+    position: absolute;
+    inset-block-start: 20.5%;
+    inset-inline: 22.5%;
+    z-index: var(--z-mascot);
+  }
+
+  .hero-mascot .mascot {
+    display: block;
+  }
+
+  .hero-mascot .mascot-button {
+    display: block;
+    inline-size: 100%;
+    transition: scale 0.2s ease-out;
+  }
+
+  .hero-mascot .mascot-button:hover {
+    scale: 1.05;
+  }
+
+  .hero-mascot .mascot-button:active {
+    scale: 0.94;
+  }
+
+  .hero-mascot .parrot {
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  /* The bubble waits for a click, then sits across his feet. */
+  .hero-mascot .mascot:not([data-opened]) .bubble {
+    display: none;
+  }
+
+  .hero-mascot .bubble {
+    position: absolute;
+    inset-block-start: 92%;
+    inset-inline: -10%;
+    max-inline-size: none;
+    padding-inline-end: var(--space-7);
+    text-align: center;
+  }
+
+  /* The tail points up at him. */
+  .hero-mascot .bubble::before {
+    inset-block: -0.3125rem auto;
+    inset-inline: calc(50% - 0.3125rem) auto;
+    translate: none;
+    rotate: 135deg;
+  }
+
+  .hero-mascot .bubble-close {
+    inset-block-start: var(--space-2);
+    inset-inline: auto var(--space-2);
+  }
+
+  .art-disc {
+    fill: var(--raised);
+    stroke: var(--line);
+  }
+
+  .art-circuit path {
+    fill: none;
+    stroke: var(--link);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .art-circuit circle {
+    fill: var(--raised);
+    stroke: var(--link);
+    stroke-width: 3;
+  }
+
+  .art-mandala path,
+  .art-mandala circle {
+    fill: var(--button);
+  }
+
+  .art-mandala .art-arc {
+    fill: none;
+    stroke: var(--button);
+    stroke-width: 2;
+    stroke-dasharray: 2 8;
+    stroke-linecap: round;
+  }
+
+  .art-chip rect {
+    fill: var(--raised);
+    stroke: var(--control);
+  }
+
+  .art-chip text {
+    fill: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+  }
+
   /* Demo: the code card, then the output panel. */
   .demo {
     display: flex;
@@ -100,7 +216,7 @@
     gap: var(--space-4);
     min-inline-size: 0;
     /* Room above the card for Mithu and what he says. */
-    padding-block-start: var(--space-8);
+    padding-block-start: calc(var(--space-8) + var(--space-4));
   }
 
   .demo-card,
@@ -159,7 +275,7 @@
 
   .demo-editor .editor-scroll {
     flex: none;
-    min-block-size: 10rem;
+    min-block-size: 7rem;
   }
 
   .demo-actions {
@@ -167,7 +283,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-3);
-    padding: var(--space-4) calc(var(--space-4) + var(--space-1));
+    padding: var(--space-3) var(--space-4);
     border-block-start: 1px solid var(--line);
     border-radius: 0 0 var(--radius-card) var(--radius-card);
     font-size: 0.875rem;
@@ -190,7 +306,7 @@
   }
 
   .demo-output {
-    padding: var(--space-4) calc(var(--space-4) + var(--space-1));
+    padding: var(--space-3) var(--space-4);
     color: var(--muted);
     font-size: 0.875rem;
   }
@@ -198,7 +314,7 @@
   .demo-output pre {
     display: flex;
     flex-direction: column;
-    block-size: 4.5rem;
+    block-size: 3rem;
     overflow: auto;
     margin-block-start: var(--space-1);
     color: var(--ink);
@@ -222,12 +338,13 @@
   }
 
   /*
-   * Mithu perches on the card's top edge, 40% of him inside it. The box starts at
-   * the card's left edge, so the bubble can never reach past it.
+   * Mithu's perch rests on the card's top edge; only his tail hangs below it. The
+   * box starts at the card's left edge, so the bubble can never reach past it.
    */
   .demo-mascot {
     --bird: 4.5rem;
-    --perch: 1.75rem;
+    /* The perch is drawn 14 units above the foot of the 130 unit drawing. */
+    --perch: calc(var(--bird) * 14 / 130);
     position: absolute;
     z-index: var(--z-mascot);
     inset-block-end: calc(100% - var(--perch));
@@ -250,19 +367,24 @@
     display: block;
     inline-size: var(--bird);
     block-size: var(--bird);
-    transform: scaleX(-1);
   }
 
-  /* Its foot rests just above the card, however many lines it holds. */
+  /* One size for short and long lines; its foot rests just above the card. */
   .demo-mascot .bubble {
-    max-inline-size: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    inline-size: 18rem;
+    max-inline-size: 100%;
+    min-block-size: calc(var(--bird) - var(--space-3));
     margin-block-end: calc(var(--perch) + var(--space-1));
     padding-inline-end: var(--space-7);
+    transform-origin: right bottom;
   }
 
-  /* The tail points right, at Mithu. */
+  /* The tail points right, at Mithu's beak. */
   .demo-mascot .bubble::before {
-    inset-block: auto var(--space-3);
+    inset-block: auto calc(var(--bird) * 0.4);
     inset-inline: auto -0.3125rem;
     translate: none;
     rotate: 225deg;
@@ -273,6 +395,15 @@
     inset-inline: auto var(--space-2);
     inline-size: 1.75rem;
     block-size: 1.75rem;
+  }
+
+  /* Smaller code than the playground's; phones keep 16px, which stops zoom on focus. */
+  @media (width >= 40rem) {
+    .demo .editor pre,
+    .demo .editor textarea,
+    .demo .line-numbers {
+      font-size: 0.8125rem;
+    }
   }
 
   /* Phones: tighter tabs, so all four show without scrolling. */
@@ -489,14 +620,14 @@
 
   @media (width >= 56.25rem) {
     .hero-grid {
-      grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+      /* Each column sits at the middle of the other. */
       align-items: center;
       gap: var(--space-7);
     }
 
     .demo-mascot {
       --bird: 5rem;
-      --perch: var(--space-6);
     }
   }
 

@@ -1,11 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { execute } from '../../lib/playground/execute';
-import { advise, ERROR_TIPS, REACTIONS, TIPS } from '../../lib/mascot/mascot';
+import { advise, ERROR_TIPS, pick, REACTIONS, TIPS } from '../../lib/mascot/mascot';
 import { SOUNDS } from '../../lib/mascot/sound';
 
 describe('mascot', () => {
   it('has every language for every line', () => {
-    const lines = [...Object.values(REACTIONS).map(({ line }) => line), ...TIPS];
+    const lines = [
+      ...Object.values(REACTIONS).flatMap(({ lines }) => lines),
+      ...TIPS,
+      ...Object.values(ERROR_TIPS),
+    ];
     for (const { hi, en, deva } of lines) {
       expect(hi).not.toBe('');
       expect(en).not.toBe('');
@@ -37,13 +41,24 @@ describe('mascot', () => {
   });
 
   it('has a tip for errors without a specific one', () => {
-    expect(advise('runtime-error', 'E0403', 0)).not.toBeNull();
+    expect(ERROR_TIPS.E0209).toBeUndefined();
+    expect(advise('runtime-error', 'E0209', 0)).not.toBeNull();
   });
 
   it('rotates general tips between runs and stays silent while running', () => {
     expect(advise('ok', undefined, 1)).toBe(TIPS[1]);
     expect(advise('ok', undefined, TIPS.length)).toBe(TIPS[0]);
     expect(advise('running', undefined, 1)).toBeNull();
+  });
+
+  it('takes turns with the lines of a reaction', () => {
+    const { lines } = REACTIONS.ok;
+    expect(pick(lines, 1)).toBe(lines[1]);
+    expect(pick(lines, lines.length)).toBe(lines[0]);
+  });
+
+  it('plays nothing while running, so a run makes one sound', () => {
+    expect(REACTIONS.running.sound).toBeNull();
   });
 
   it('stays quiet before anything has run', () => {

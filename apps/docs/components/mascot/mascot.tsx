@@ -1,14 +1,16 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { useAttention } from '../../hooks/use-attention';
 import type { Mood } from '../../lib/mascot/mascot';
+import { CHIRPS, duration } from '../../lib/mascot/sound';
 import { useDictionary } from '../ui/locale';
 import { Parrot } from './parrot';
 import { useSound } from './sound';
 
-const TALK_MS = 900;
-const AUTO_MS = 4_500;
+/** The beak keeps moving at least this long, so a short chirp is still seen. */
+const MIN_TALK_MS = 900;
 
 interface Props {
   mood: Mood;
@@ -18,8 +20,8 @@ interface Props {
   /** Said one after another on each click. */
   tips: readonly string[];
   size?: number;
-  /** Says the tips on its own, pausing while pointed at or focused. */
-  auto?: boolean;
+  /** Faces left instead of right. */
+  flip?: boolean;
   /** Never announces its lines, where the page already announces the same news. */
   quiet?: boolean;
   /** Offers a button that hides the bubble until Mithu is clicked again. */
@@ -33,7 +35,7 @@ export function Mascot(props: Props) {
     advice,
     tips,
     size = 96,
-    auto = false,
+    flip = false,
     quiet = false,
     dismissible = false,
   } = props;
@@ -45,7 +47,8 @@ export function Mascot(props: Props) {
   const [seen, setSeen] = useState(current);
   const next = useRef(0);
   const timer = useRef<number | undefined>(undefined);
-  const [held, setHeld] = useState(false);
+  const button = useRef<HTMLButtonElement>(null);
+  const asleep = useAttention(button, flip, mood === 'thinking');
   const [closed, setClosed] = useState(false);
   const [opened, setOpened] = useState(false);
 
@@ -58,79 +61,73 @@ export function Mascot(props: Props) {
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  function speak(aloud: boolean) {
-    if (aloud) play('chirp');
+  function speak() {
+    const chirp = CHIRPS[next.current % CHIRPS.length] ?? 'chirp';
+    play(chirp);
     setClosed(false);
     setOpened(true);
     setTip(tips[next.current % tips.length] ?? null);
     next.current += 1;
     setTalking(true);
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setTalking(false), TALK_MS);
+    timer.current = window.setTimeout(
+      () => setTalking(false),
+      Math.max(MIN_TALK_MS, duration(chirp) * 1000),
+    );
   }
-
-  const autoSpeak = useEffectEvent(() => {
-    // Chirps for one round of tips only, so a page left open goes quiet.
-    if (!held && !document.hidden) speak(next.current < tips.length);
-  });
-
-  useEffect(() => {
-    if (!auto || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const interval = window.setInterval(() => autoSpeak(), AUTO_MS);
-    return () => window.clearInterval(interval);
-  }, [auto]);
 
   const text = tip ?? line;
 
   return (
-    <div
-      className={`mascot${auto ? ' mascot-auto' : ''}`}
-      data-opened={opened || undefined}
-      onPointerEnter={() => setHeld(true)}
-      onPointerLeave={() => setHeld(false)}
-      onFocus={() => setHeld(true)}
-      onBlur={() => setHeld(false)}
-    >
+    <div className="mascot" data-opened={opened || undefined}>
       <button
+        ref={button}
         type="button"
         className="mascot-button"
-        onClick={() => speak(true)}
+        onClick={speak}
         aria-label={mascot.talk}
       >
-        <Parrot mood={talking ? 'talking' : mood} size={size} />
+        <Parrot pose={talking ? 'talking' : asleep ? 'sleeping' : mood} size={size} flip={flip} />
       </button>
-      {/* Unprompted lines are not announced, so screen readers are not interrupted. */}
-      {!closed && (
-        <div className="bubble" aria-live={quiet || (auto && !held) ? 'off' : 'polite'}>
-          <motion.span
-            data-reveal
-            key={text}
-            className="block"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
+      <AnimatePresence initial={false}>
+        {!closed && (
+          <motion.div
+            className="bubble"
+            aria-live={quiet ? 'off' : 'polite'}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
           >
-            {text}
-            {!tip && advice && (
-              <span className="bubble-tip">
-                {mascot.tip} {advice}
-              </span>
-            )}
-          </motion.span>
-          {dismissible && (
-            <button
-              type="button"
-              className="bubble-close"
-              aria-label={mascot.dismiss}
-              onClick={() => {
-                setClosed(true);
-                setOpened(false);
-              }}
+            <motion.span
+              data-reveal
+              key={text}
+              className="block"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
             >
-              ×
-            </button>
-          )}
-        </div>
-      )}
+              {text}
+              {!tip && advice && (
+                <span className="bubble-tip">
+                  {mascot.tip} {advice}
+                </span>
+              )}
+            </motion.span>
+            {dismissible && (
+              <button
+                type="button"
+                className="bubble-close"
+                aria-label={mascot.dismiss}
+                onClick={() => {
+                  setClosed(true);
+                  setOpened(false);
+                }}
+              >
+                ×
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

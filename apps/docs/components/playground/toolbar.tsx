@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import type { Example } from '../../lib/content/examples';
 import type { MessageLang } from '../../lib/i18n/bilingual';
 import { useDictionary } from '../ui/locale';
+import { ExampleMenu } from './example-menu';
 
 interface Props {
   /** The page's heading, shown first. */
@@ -45,24 +46,7 @@ export function Toolbar(props: Props) {
         </svg>
         {props.running ? text.stop : text.run}
       </button>
-      <select
-        className="button"
-        aria-label={text.loadExample}
-        value=""
-        onChange={(event) => {
-          const example = props.examples.find(({ id }) => id === event.target.value);
-          if (example) props.onExample(example);
-        }}
-      >
-        <option value="" disabled>
-          {text.examples}
-        </option>
-        {props.examples.map(({ id, title }) => (
-          <option key={id} value={id}>
-            {title}
-          </option>
-        ))}
-      </select>
+      <ExampleMenu examples={props.examples} onChoose={props.onExample} />
       <button type="button" className="button" onClick={props.onShare}>
         {props.copied ? text.linkCopied : text.share}
       </button>
