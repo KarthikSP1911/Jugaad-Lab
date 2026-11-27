@@ -73,6 +73,50 @@ describe('cli', () => {
     expect(result.err).toContain('E0403');
   });
 
+  it.each([
+    [['--lang', 'en', 'a.hing']],
+    [['a.hing']],
+    [['run', 'a.hing', '--lang=hi']],
+  ])('runs with the arguments %j', (argv) => {
+    expect(invoke(argv, { 'a.hing': 'bolo(1);' })).toEqual({ code: 0, out: '1\n', err: '' });
+  });
+
+  it.each([
+    [['--nope'], '--nope'],
+    [['--lang=fr'], 'fr'],
+    [['udao'], 'udao'],
+    [['run', 'a', 'b'], 'b'],
+  ])('names the bad argument in %j', (argv, bad) => {
+    expect(invoke(argv).err).toContain(`'${bad}'`);
+  });
+
+  it('separates and counts several errors, in plain text', () => {
+    const { err } = invoke(['check', 'a.hing'], { 'a.hing': 'bolo(x);\nbolo(y);' });
+    expect(err).toContain('\n\n');
+    expect(err).toContain('2 ');
+    expect(err).not.toContain('[');
+  });
+
+  it('accepts a REPL entry without its final semicolon', () => {
+    const input = ['rakho a = 2', 'a + 1 // sum', '.exit'];
+    const result = invoke([], {}, input);
+    expect(result.out).toContain('> > 3\n');
+    expect(result.err).toBe('');
+  });
+
+  it('still reports a semicolon missing inside an entry', () => {
+    expect(invoke([], {}, ['rakho a = 1 rakho b = 2;']).err).toContain('E0202');
+  });
+
+  it('handles REPL commands, also on continuation lines', () => {
+    const input = ['.help', '.nope', 'kaam f() {', '.cancel', '1 + 1;', '(', '.exit', 'bolo(9);'];
+    const result = invoke([], {}, input);
+    expect(result.out).toContain('.cancel');
+    expect(result.out).toContain('> 2\n');
+    expect(result.out).not.toContain('9');
+    expect(result.err).toContain("'.nope'");
+  });
+
   it('leaves the REPL at end of input', () => {
     expect(invoke(['repl']).code).toBe(0);
   });

@@ -6,6 +6,8 @@ const NEWLINE = 10;
 /** Synchronous standard streams, as the interpreter's `Host` requires. */
 export function createNodeIo(): Io {
   return {
+    interactive: process.stdout.isTTY === true,
+    color: process.stderr.isTTY === true && !process.env['NO_COLOR'],
     out: (text) => writeAll(1, text),
     err: (text) => writeAll(2, text),
     readLine: readStdinLine,

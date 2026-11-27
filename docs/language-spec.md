@@ -63,7 +63,7 @@ case-sensitive and cannot be used as identifiers.
 
 ## Grammar (EBNF)
 
-```text
+```ebnf
 program     = { declaration } EOF ;
 declaration = varDecl | funcDecl | statement ;
 varDecl     = ( "rakho" | "pakka" ) IDENT [ "=" expression ] ";" ;
@@ -134,13 +134,13 @@ Booleans and null print as `sach`, `jhooth` and `khaali`; only `shabd` does this
 
 **Hello, world**
 
-```text
+```hing
 bolo("Namaste, duniya!");
 ```
 
 **Variables, constants and types**
 
-```text
+```hing
 rakho naam = "Asha";
 rakho umar = 25;
 pakka PI = 3.14159;
@@ -151,7 +151,7 @@ bolo(naam, umar, student, prakar(umar));   // Asha 25 sach sankhya
 
 **Conditions**
 
-```text
+```hing
 rakho marks = 82;
 agar (marks >= 90) {
     bolo("A");
@@ -164,7 +164,7 @@ agar (marks >= 90) {
 
 **Loops**
 
-```text
+```hing
 rakho i = 1;
 jabtak (i <= 5) {
     agar (i == 4) { ruko; }
@@ -180,7 +180,7 @@ chalo (rakho j = 0; j < 3; j += 1) {
 
 **Functions, recursion and closures**
 
-```text
+```hing
 kaam jodo(a, b) { wapas a + b; }
 bolo(jodo(2, 3));                       // 5
 
@@ -201,7 +201,7 @@ bolo(gino());                           // 2
 
 **Lists and dictionaries**
 
-```text
+```hing
 rakho fal = ["aam", "kela", 1 + 2];     // elements are full expressions
 fal[0] = "seb";                         // index assignment works
 joro(fal, "angoor");
@@ -214,7 +214,7 @@ bolo(chhatra["naam"], lambai(chhatra));  // Ravi 3
 
 **Input and output**
 
-```text
+```hing
 rakho naam = suno("Aapka naam? ");
 rakho saal = sankhya(suno("Janm ka saal? "));
 bolo("Namaste " + naam + ", umar kareeb", 2026 - saal);
@@ -222,7 +222,7 @@ bolo("Namaste " + naam + ", umar kareeb", 2026 - saal);
 
 **FizzBuzz**
 
-```text
+```hing
 chalo (rakho n = 1; n <= 15; n += 1) {
     agar (n % 15 == 0)     { bolo("FizzBuzz"); }
     warna agar (n % 3 == 0) { bolo("Fizz"); }
@@ -247,3 +247,5 @@ The website playground uses this by default on its English pages.
 
 Every message also has a Hindi version in Devanagari, selected with `lang: 'deva'` in the
 library. The Hindi pages of the website use it; the command line does not offer it.
+
+In the REPL (`hinglish repl`), the final `;` of an entry may be left out. Files still require it.

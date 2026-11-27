@@ -7,6 +7,10 @@ export interface Io {
   /** `null` at end of input. */
   readLine(): string | null;
   readFile(path: string): string;
+  /** Standard output is a terminal. */
+  interactive?: boolean;
+  /** Errors may be coloured. */
+  color?: boolean;
 }
 
 export function hostFor(io: Io): Host {

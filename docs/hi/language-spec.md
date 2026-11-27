@@ -63,7 +63,7 @@
 
 ## व्याकरण (EBNF)
 
-```text
+```ebnf
 program     = { declaration } EOF ;
 declaration = varDecl | funcDecl | statement ;
 varDecl     = ( "rakho" | "pakka" ) IDENT [ "=" expression ] ";" ;
@@ -134,13 +134,13 @@ funcExpr    = "kaam" "(" [ params ] ")" block ;
 
 **पहला प्रोग्राम**
 
-```text
+```hing
 bolo("Namaste, duniya!");
 ```
 
 **वेरिएबल, स्थिरांक और टाइप**
 
-```text
+```hing
 rakho naam = "Asha";
 rakho umar = 25;
 pakka PI = 3.14159;
@@ -151,7 +151,7 @@ bolo(naam, umar, student, prakar(umar));   // Asha 25 sach sankhya
 
 **शर्तें**
 
-```text
+```hing
 rakho marks = 82;
 agar (marks >= 90) {
     bolo("A");
@@ -164,7 +164,7 @@ agar (marks >= 90) {
 
 **लूप**
 
-```text
+```hing
 rakho i = 1;
 jabtak (i <= 5) {
     agar (i == 4) { ruko; }
@@ -180,7 +180,7 @@ chalo (rakho j = 0; j < 3; j += 1) {
 
 **फ़ंक्शन, रिकर्शन और क्लोज़र**
 
-```text
+```hing
 kaam jodo(a, b) { wapas a + b; }
 bolo(jodo(2, 3));                       // 5
 
@@ -201,7 +201,7 @@ bolo(gino());                           // 2
 
 **सूचियाँ और शब्दकोश**
 
-```text
+```hing
 rakho fal = ["aam", "kela", 1 + 2];     // elements are full expressions
 fal[0] = "seb";                         // index assignment works
 joro(fal, "angoor");
@@ -214,7 +214,7 @@ bolo(chhatra["naam"], lambai(chhatra));  // Ravi 3
 
 **इनपुट और आउटपुट**
 
-```text
+```hing
 rakho naam = suno("Aapka naam? ");
 rakho saal = sankhya(suno("Janm ka saal? "));
 bolo("Namaste " + naam + ", umar kareeb", 2026 - saal);
@@ -222,7 +222,7 @@ bolo("Namaste " + naam + ", umar kareeb", 2026 - saal);
 
 **FizzBuzz**
 
-```text
+```hing
 chalo (rakho n = 1; n <= 15; n += 1) {
     agar (n % 15 == 0)     { bolo("FizzBuzz"); }
     warna agar (n % 3 == 0) { bolo("Fizz"); }
@@ -247,3 +247,5 @@ Galti E0301 [naam nahi mila] at kaam.hing:3:9
 
 हर संदेश का देवनागरी हिन्दी रूप भी है, जिसे लाइब्रेरी में `lang: 'deva'` से चुना जाता है।
 वेबसाइट के हिन्दी पेज उसे इस्तेमाल करते हैं; कमांड लाइन उसे उपलब्ध नहीं कराती।
+
+REPL (`hinglish repl`) में किसी प्रविष्टि का आख़िरी `;` छोड़ा जा सकता है। फ़ाइलों में वह अब भी ज़रूरी है।
