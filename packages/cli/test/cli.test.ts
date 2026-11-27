@@ -73,13 +73,12 @@ describe('cli', () => {
     expect(result.err).toContain('E0403');
   });
 
-  it.each([
-    [['--lang', 'en', 'a.hing']],
-    [['a.hing']],
-    [['run', 'a.hing', '--lang=hi']],
-  ])('runs with the arguments %j', (argv) => {
-    expect(invoke(argv, { 'a.hing': 'bolo(1);' })).toEqual({ code: 0, out: '1\n', err: '' });
-  });
+  it.each([[['--lang', 'en', 'a.hing']], [['a.hing']], [['run', 'a.hing', '--lang=hi']]])(
+    'runs with the arguments %j',
+    (argv) => {
+      expect(invoke(argv, { 'a.hing': 'bolo(1);' })).toEqual({ code: 0, out: '1\n', err: '' });
+    },
+  );
 
   it.each([
     [['--nope'], '--nope'],

@@ -72,16 +72,7 @@ export interface ExprStmt {
 }
 
 export type Stmt =
-  | VarDecl
-  | FuncDecl
-  | Block
-  | If
-  | While
-  | For
-  | Return
-  | Break
-  | Continue
-  | ExprStmt;
+  VarDecl | FuncDecl | Block | If | While | For | Return | Break | Continue | ExprStmt;
 
 export interface Program {
   kind: 'Program';

@@ -30,12 +30,7 @@ export function print(node: Expr | Stmt): string {
     case 'VarDecl':
       return list([node.isConst ? 'const' : 'var', node.name.name, node.init && print(node.init)]);
     case 'FuncDecl':
-      return list([
-        'func',
-        node.name.name,
-        list(node.params.map((p) => p.name)),
-        print(node.body),
-      ]);
+      return list(['func', node.name.name, list(node.params.map((p) => p.name)), print(node.body)]);
     case 'Block':
       return list(['block', ...node.body.map(print)]);
     case 'If':

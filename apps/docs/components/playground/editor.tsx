@@ -94,9 +94,7 @@ export function Editor({ code, onChange, onRun, errorLines, jump }: Props) {
       editor.selectionStart === editor.selectionEnd
         ? complete(editor.value, editor.selectionStart, explicit, locale)
         : null;
-    setPopup(
-      found && { ...found, selected: 0, chosen: explicit, ...position(editor, found.from) },
-    );
+    setPopup(found && { ...found, selected: 0, chosen: explicit, ...position(editor, found.from) });
   }
 
   function apply(editor: HTMLTextAreaElement, { from, to, insert, selection }: Edit) {

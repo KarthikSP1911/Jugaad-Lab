@@ -26,8 +26,7 @@ const WORDS = new Map([
   ['dict', 'rakho'],
 ]);
 
-const TOKEN =
-  /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"[^"]*"|'[^']*'|[\p{ID_Continue}_]+|\s+|[\s\S]/gu;
+const TOKEN = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"[^"]*"|'[^']*'|[\p{ID_Continue}_]+|\s+|[\s\S]/gu;
 
 const isTrivia = (token: string) => /^(\s|\/\/|\/\*)/.test(token);
 const isWord = (token: string) => /^[\p{ID_Continue}_]/u.test(token);
@@ -117,7 +116,10 @@ function translateStatements(tokens: readonly string[]): string {
 }
 
 function dedent(text: string): string {
-  const lines = text.replace(/\r/g, '').split('\n').map((line) => line.trimEnd());
+  const lines = text
+    .replace(/\r/g, '')
+    .split('\n')
+    .map((line) => line.trimEnd());
   while (lines[0] === '') lines.shift();
   while (lines.at(-1) === '') lines.pop();
   const indents = lines.filter(Boolean).map((line) => line.length - line.trimStart().length);

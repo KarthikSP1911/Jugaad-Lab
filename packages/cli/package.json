@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "bin": { "hinglish": "./dist/main.js" },
-  "files": ["dist"],
+  "bin": {
+    "hinglish": "./dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "build": "tsup src/main.ts --format esm --clean"
   },
-  "dependencies": { "@jugaad-hinglish/core": "0.1.0" }
+  "dependencies": {
+    "@jugaad-hinglish/core": "0.1.0"
+  }
 }

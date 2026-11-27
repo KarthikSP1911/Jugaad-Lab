@@ -81,7 +81,11 @@ export function execute(
       outcome,
       message: messages[lang ?? 'both'],
       messages,
-      markers: diagnostics.map(({ code, span }) => ({ line: span.line, column: span.column, code })),
+      markers: diagnostics.map(({ code, span }) => ({
+        line: span.line,
+        column: span.column,
+        code,
+      })),
       inputRanOut,
       ...(first ? { code: first.code } : {}),
     };

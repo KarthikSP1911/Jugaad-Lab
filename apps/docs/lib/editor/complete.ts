@@ -52,14 +52,12 @@ function insideOpenString(source: string, cursor: number): boolean {
 
 function candidates(source: string, from: number, locale: Locale): Suggestion[] {
   const { editor } = DICTIONARIES[locale];
-  const keywords = [...hinglish].map(
-    ([word, kind]): Suggestion => ({
-      label: word,
-      kind: 'keyword',
-      detail: KEYWORD_MEANINGS[locale][kind] ?? editor.keyword,
-      insert: word,
-    }),
-  );
+  const keywords = [...hinglish].map(([word, kind]): Suggestion => ({
+    label: word,
+    kind: 'keyword',
+    detail: KEYWORD_MEANINGS[locale][kind] ?? editor.keyword,
+    insert: word,
+  }));
   const builtins = builtinList(locale).map(({ name, does }): Suggestion => {
     const label = name.slice(0, name.indexOf('('));
     return { label, kind: 'builtin', detail: does, insert: `${label}(` };
@@ -69,14 +67,12 @@ function candidates(source: string, from: number, locale: Locale): Suggestion[] 
     .tokens.filter((token) => token.kind === 'Identifier' && token.start !== from)
     .map((token) => token.lexeme)
     .filter((name) => !known.has(name));
-  const own = [...new Set(names)].map(
-    (name): Suggestion => ({
-      label: name,
-      kind: 'name',
-      detail: editor.ownName,
-      insert: name,
-    }),
-  );
+  const own = [...new Set(names)].map((name): Suggestion => ({
+    label: name,
+    kind: 'name',
+    detail: editor.ownName,
+    insert: name,
+  }));
   return [...own, ...keywords, ...builtins];
 }
 

@@ -54,8 +54,7 @@ const doc = (path: string) =>
   readFileSync(new URL(`../../../../docs/${path}`, import.meta.url), 'utf8');
 
 describe('Hindi docs', () => {
-  const blocks = (markdown: string) =>
-    markdown.replaceAll('\r', '').match(/^```[\s\S]*?^```$/gm);
+  const blocks = (markdown: string) => markdown.replaceAll('\r', '').match(/^```[\s\S]*?^```$/gm);
 
   it('match the English sections and code', () => {
     const english = doc('language-spec.md');

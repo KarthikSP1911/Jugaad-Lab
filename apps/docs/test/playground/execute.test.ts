@@ -40,9 +40,12 @@ describe('execute', () => {
 });
 
 describe('examples', () => {
-  it.each([...examples('en'), ...examples('hi')].filter(({ id }) => id !== 'errors'))('$id runs', ({ code, input }) => {
-    expect(capture(code, input ? { input } : {})).toMatchObject({ outcome: 'ok' });
-  });
+  it.each([...examples('en'), ...examples('hi')].filter(({ id }) => id !== 'errors'))(
+    '$id runs',
+    ({ code, input }) => {
+      expect(capture(code, input ? { input } : {})).toMatchObject({ outcome: 'ok' });
+    },
+  );
 
   it('the error example fails as described', () => {
     const errors = [...examples('en'), ...examples('hi')].find(({ id }) => id === 'errors');

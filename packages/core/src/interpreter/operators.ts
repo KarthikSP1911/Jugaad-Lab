@@ -1,6 +1,10 @@
 import type { BinaryOp } from '../ast/expr.js';
 import type { Fail } from '../diagnostics/diagnostic.js';
-import { divisionByZero, stringTooLong, wrongOperandType } from '../diagnostics/runtime-messages.js';
+import {
+  divisionByZero,
+  stringTooLong,
+  wrongOperandType,
+} from '../diagnostics/runtime-messages.js';
 import { toText } from '../runtime/stringify.js';
 import { typeName, type Value } from '../runtime/value.js';
 

@@ -13,6 +13,8 @@
   "scripts": {
     "typecheck": "npm run typecheck --workspaces && tsc -p tests/tsconfig.json",
     "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "vitest run",
     "test:programs": "vitest run tests/programs --passWithNoTests",
     "build": "npm run build --workspaces"
@@ -21,6 +23,7 @@
     "@eslint/js": "10.0.1",
     "@types/node": "24.19.4",
     "eslint": "10.15.0",
+    "prettier": "3.10.1",
     "tsup": "9.0.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.74.0",

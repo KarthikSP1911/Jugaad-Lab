@@ -16,7 +16,11 @@ export function searchIndex(locale: Locale): SearchEntry[] {
   const englishBuiltins = builtins('en');
   const alias = (text: string) => (locale === 'en' ? '' : ` ${text}`);
   return [
-    ...docsNav(locale, t).map(({ href, label }) => ({ title: label, section: t.search.page, href })),
+    ...docsNav(locale, t).map(({ href, label }) => ({
+      title: label,
+      section: t.search.page,
+      href,
+    })),
     {
       title: t.nav.playground,
       section: t.search.page,
@@ -33,8 +37,7 @@ export function searchIndex(locale: Locale): SearchEntry[] {
       title: word,
       section: t.search.keyword,
       href: to('/docs/cheatsheet#keywords'),
-      keywords:
-        (KEYWORD_MEANINGS[locale][kind] ?? '') + alias(KEYWORD_MEANINGS.en[kind] ?? ''),
+      keywords: (KEYWORD_MEANINGS[locale][kind] ?? '') + alias(KEYWORD_MEANINGS.en[kind] ?? ''),
     })),
     ...builtins(locale).map(({ name, does }, index) => ({
       title: name,

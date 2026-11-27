@@ -1,0 +1,12 @@
+# Prose and tables are laid out by hand.
+*.md
+# Expected output that tests compare exactly.
+tests/programs/
+package-lock.json
+# Generated or local
+dist/
+.next/
+out/
+next-env.d.ts
+demo/
+start.sh

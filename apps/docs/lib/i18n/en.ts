@@ -147,7 +147,8 @@ export const en = {
     outputEmpty: 'Press Run to see the output.',
   },
   editor: {
-    label: 'Program source. Control and space shows suggestions. Escape, then Tab, leaves the editor.',
+    label:
+      'Program source. Control and space shows suggestions. Escape, then Tab, leaves the editor.',
     suggestions: 'Suggestions',
     keyword: 'keyword',
     ownName: 'in this program',

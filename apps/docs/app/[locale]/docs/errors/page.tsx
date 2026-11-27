@@ -26,10 +26,7 @@ export default async function Errors(props: LocaleProps) {
       <CodeBlock source={code} />
       <ShellBlock title={t.code.error} source={message} />
       <p>
-        <Link
-          href={`${localePath(locale, '/playground')}${encodeShare(code)}`}
-          className="button"
-        >
+        <Link href={`${localePath(locale, '/playground')}${encodeShare(code)}`} className="button">
           {t.errors.fix}
         </Link>
       </p>

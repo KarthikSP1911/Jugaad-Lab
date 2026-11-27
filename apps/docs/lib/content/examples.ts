@@ -138,9 +138,7 @@ const HINDI: Record<string, { title: string; summary: string; text: [string, str
   hello: {
     title: 'नमस्ते, दुनिया',
     summary: 'प्रोग्राम ऊपर से चलते हैं। कोई बाहरी ढाँचा नहीं होता, और हर स्टेटमेंट सेमीकोलन पर खत्म होता है।',
-    text: [
-      ['Namaste, duniya!', 'नमस्ते, दुनिया!'],
-    ],
+    text: [['Namaste, duniya!', 'नमस्ते, दुनिया!']],
   },
   variables: {
     title: 'वेरिएबल और स्थिरांक',
@@ -161,7 +159,8 @@ const HINDI: Record<string, { title: string; summary: string; text: [string, str
   },
   loops: {
     title: 'लूप',
-    summary: 'jabtak शर्त सच रहने तक दोहराता है; chalo गिनता है। ruko लूप तोड़ता है और agla अगले चक्कर पर जाता है।',
+    summary:
+      'jabtak शर्त सच रहने तक दोहराता है; chalo गिनता है। ruko लूप तोड़ता है और agla अगले चक्कर पर जाता है।',
     text: [],
   },
   functions: {

@@ -8,5 +8,4 @@ export interface RunRequest {
 }
 
 export type WorkerMessage =
-  | { type: 'output'; text: string }
-  | { type: 'done'; result: ExecuteResult };
+  { type: 'output'; text: string } | { type: 'done'; result: ExecuteResult };

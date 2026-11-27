@@ -101,7 +101,11 @@ export function SoundToggle() {
         aria-hidden="true"
       >
         <path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor" />
-        {muted ? <path d="m16 9 6 6m0-6-6 6" /> : <path d="M16 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12" />}
+        {muted ? (
+          <path d="m16 9 6 6m0-6-6 6" />
+        ) : (
+          <path d="M16 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12" />
+        )}
       </svg>
     </button>
   );

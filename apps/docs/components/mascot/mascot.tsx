@@ -93,9 +93,11 @@ export function Mascot(props: Props) {
           animate={{ opacity: 1, y: 0 }}
         >
           {text}
-          {!tip && advice && <span className="bubble-tip">
+          {!tip && advice && (
+            <span className="bubble-tip">
               {mascot.tip} {advice}
-            </span>}
+            </span>
+          )}
         </motion.span>
       </p>
     </div>

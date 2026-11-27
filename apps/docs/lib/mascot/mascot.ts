@@ -17,7 +17,11 @@ export const REACTIONS: Record<Status, Reaction> = {
   idle: {
     mood: 'idle',
     sound: null,
-    line: { hi: 'Code likho aur Run dabao!', deva: 'कोड लिखो और “चलाएँ” दबाओ!', en: 'Write some code and press Run!' },
+    line: {
+      hi: 'Code likho aur Run dabao!',
+      deva: 'कोड लिखो और “चलाएँ” दबाओ!',
+      en: 'Write some code and press Run!',
+    },
   },
   running: {
     mood: 'thinking',
@@ -27,51 +31,103 @@ export const REACTIONS: Record<Status, Reaction> = {
   ok: {
     mood: 'happy',
     sound: 'success',
-    line: { hi: 'Shabash! Program chal gaya.', deva: 'शाबाश! प्रोग्राम चल गया।', en: 'Well done! The program ran.' },
+    line: {
+      hi: 'Shabash! Program chal gaya.',
+      deva: 'शाबाश! प्रोग्राम चल गया।',
+      en: 'Well done! The program ran.',
+    },
   },
   'compile-error': {
     mood: 'worried',
     sound: 'error',
-    line: { hi: 'Arre! Code mein galti hai.', deva: 'अरे! कोड में गलती है।', en: 'Oh no! The code has a mistake.' },
+    line: {
+      hi: 'Arre! Code mein galti hai.',
+      deva: 'अरे! कोड में गलती है।',
+      en: 'Oh no! The code has a mistake.',
+    },
   },
   'runtime-error': {
     mood: 'worried',
     sound: 'error',
-    line: { hi: 'Oho! Chalte waqt gadbad hui.', deva: 'ओहो! चलते समय गड़बड़ हुई।', en: 'Oops! Something broke while running.' },
+    line: {
+      hi: 'Oho! Chalte waqt gadbad hui.',
+      deva: 'ओहो! चलते समय गड़बड़ हुई।',
+      en: 'Oops! Something broke while running.',
+    },
   },
   stopped: {
     mood: 'worried',
     sound: 'stop',
-    line: { hi: 'Ruk gaya. Phir se koshish karo.', deva: 'रुक गया। फिर से कोशिश करो।', en: 'It stopped. Try again.' },
+    line: {
+      hi: 'Ruk gaya. Phir se koshish karo.',
+      deva: 'रुक गया। फिर से कोशिश करो।',
+      en: 'It stopped. Try again.',
+    },
   },
 };
 
 /** Said one after another when Mithu is clicked. */
 export const TIPS: readonly Bilingual[] = [
-  { hi: 'Har line ke ant mein ; lagana.', deva: 'हर लाइन के अंत में ; लगाना।', en: 'End each statement with ;' },
-  { hi: 'bolo() se kuch bhi chhapo.', deva: 'bolo() से कुछ भी छापो।', en: 'Print anything with bolo().' },
-  { hi: 'Badalne wali value? rakho.', deva: 'बदलने वाला मान? rakho लगाओ।', en: 'A value that changes? Use rakho.' },
-  { hi: 'Na badalne wali value? pakka.', deva: 'न बदलने वाला मान? pakka लगाओ।', en: 'A value that stays? Use pakka.' },
+  {
+    hi: 'Har line ke ant mein ; lagana.',
+    deva: 'हर लाइन के अंत में ; लगाना।',
+    en: 'End each statement with ;',
+  },
+  {
+    hi: 'bolo() se kuch bhi chhapo.',
+    deva: 'bolo() से कुछ भी छापो।',
+    en: 'Print anything with bolo().',
+  },
+  {
+    hi: 'Badalne wali value? rakho.',
+    deva: 'बदलने वाला मान? rakho लगाओ।',
+    en: 'A value that changes? Use rakho.',
+  },
+  {
+    hi: 'Na badalne wali value? pakka.',
+    deva: 'न बदलने वाला मान? pakka लगाओ।',
+    en: 'A value that stays? Use pakka.',
+  },
   { hi: 'Mithu ko mirchi pasand hai!', deva: 'मिट्ठू को मिर्ची पसंद है!', en: 'Mithu likes chillies!' },
 ];
 
 /** How to fix the mistakes beginners meet most. */
 export const ERROR_TIPS: Partial<Record<DiagnosticCode, Bilingual>> = {
-  E0102: { hi: 'String ke ant mein quote band karo.', deva: 'स्ट्रिंग के अंत में उद्धरण चिह्न बंद करो।', en: 'Close the string with a quote.' },
-  E0202: { hi: 'Shayad koi ; chhoot gaya hai.', deva: 'शायद कोई ; छूट गया है।', en: 'A ; is probably missing.' },
-  E0203: { hi: 'Bracket ( ) { } ki jodi check karo.', deva: 'ब्रैकेट ( ) { } की जोड़ी जाँचो।', en: 'Check that ( ) and { } are paired.' },
+  E0102: {
+    hi: 'String ke ant mein quote band karo.',
+    deva: 'स्ट्रिंग के अंत में उद्धरण चिह्न बंद करो।',
+    en: 'Close the string with a quote.',
+  },
+  E0202: {
+    hi: 'Shayad koi ; chhoot gaya hai.',
+    deva: 'शायद कोई ; छूट गया है।',
+    en: 'A ; is probably missing.',
+  },
+  E0203: {
+    hi: 'Bracket ( ) { } ki jodi check karo.',
+    deva: 'ब्रैकेट ( ) { } की जोड़ी जाँचो।',
+    en: 'Check that ( ) and { } are paired.',
+  },
   E0301: {
     hi: 'Naam ki spelling dekho, ya pehle rakho se banao.',
     deva: 'नाम की वर्तनी देखो, या पहले rakho से बनाओ।',
     en: 'Check the spelling, or declare it with rakho first.',
   },
-  E0302: { hi: 'Yeh naam pehle se hai. Naya naam chuno.', deva: 'यह नाम पहले से है। नया नाम चुनो।', en: 'That name exists. Pick another.' },
+  E0302: {
+    hi: 'Yeh naam pehle se hai. Naya naam chuno.',
+    deva: 'यह नाम पहले से है। नया नाम चुनो।',
+    en: 'That name exists. Pick another.',
+  },
   E0303: {
     hi: 'pakka badalta nahi. Badalna hai to rakho use karo.',
     deva: 'pakka बदलता नहीं। बदलना है तो rakho लगाओ।',
     en: 'A pakka cannot change. Use rakho instead.',
   },
-  E0307: { hi: 'kaam ke arguments gin lo.', deva: 'kaam के आर्ग्युमेंट गिन लो।', en: 'Count the arguments the function takes.' },
+  E0307: {
+    hi: 'kaam ke arguments gin lo.',
+    deva: 'kaam के आर्ग्युमेंट गिन लो।',
+    en: 'Count the arguments the function takes.',
+  },
   E0402: {
     hi: 'Recursion rukne ki condition check karo.',
     deva: 'रिकर्शन रुकने की शर्त जाँचो।',

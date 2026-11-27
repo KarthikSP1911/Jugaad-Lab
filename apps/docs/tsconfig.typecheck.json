@@ -4,5 +4,14 @@
     "incremental": false,
     "paths": { "@jugaad-hinglish/core": ["../../packages/core/src/index.ts"] }
   },
-  "include": ["next-env.d.ts", "types.d.ts", "app", "components", "hooks", "lib", "test", ".next/types/**/*.ts"]
+  "include": [
+    "next-env.d.ts",
+    "types.d.ts",
+    "app",
+    "components",
+    "hooks",
+    "lib",
+    "test",
+    ".next/types/**/*.ts"
+  ]
 }
