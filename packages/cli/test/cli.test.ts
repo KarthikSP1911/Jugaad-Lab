@@ -56,6 +56,33 @@ describe('cli', () => {
     },
   );
 
+  it('stops an infinite loop with the default step limit', () => {
+    const result = invoke(['run', 'a.hing', '--lang=en'], { 'a.hing': 'jabtak (sach) { }' });
+    expect(result.code).toBe(70);
+    expect(result.err).toContain('Error E0408');
+    expect(result.err).toContain('5000000 steps');
+  });
+
+  it('honours --max-steps, with 0 meaning no limit', () => {
+    const files = { 'a.hing': 'rakho i = 0; jabtak (i < 10) { i = i + 1; } bolo(i);' };
+    expect(invoke(['run', 'a.hing', '--max-steps=5'], files).code).toBe(70);
+    expect(invoke(['run', 'a.hing', '--max-steps=0'], files)).toEqual({
+      code: 0,
+      out: '10\n',
+      err: '',
+    });
+  });
+
+  it.each([['--max-steps='], ['--max-steps=-1'], ['--max-steps=abc']])('rejects %s', (flag) => {
+    expect(invoke(['run', 'a.hing', flag]).code).toBe(64);
+  });
+
+  it('stops an infinite loop in the REPL and keeps going', () => {
+    const result = invoke(['repl', '--max-steps=100'], {}, ['jabtak (sach) { }', '1 + 1;']);
+    expect(result.err).toContain('E0408');
+    expect(result.out).toContain('2\n');
+  });
+
   it('reports a missing file', () => {
     expect(invoke(['run', 'nahi.hing']).code).toBe(66);
   });

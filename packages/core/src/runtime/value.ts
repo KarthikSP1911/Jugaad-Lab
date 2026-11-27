@@ -19,10 +19,13 @@ export class NativeFunction {
     readonly name: string,
     /** `null` accepts any number of arguments. */
     readonly arity: number | null,
-    /** `fail` reports a program error at the call. */
-    readonly call: (args: readonly Value[], host: Host, fail: Fail) => Value,
+    /** `fail` reports a program error at the call; `callBack` runs a function value. */
+    readonly call: (args: readonly Value[], host: Host, fail: Fail, callBack: CallBack) => Value,
   ) {}
 }
+
+/** Calls a Hinglish or native function from inside a built-in. */
+export type CallBack = (callee: Value, args: readonly Value[]) => Value;
 
 export type Value =
   | number

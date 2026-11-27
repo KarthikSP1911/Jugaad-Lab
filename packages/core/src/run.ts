@@ -7,7 +7,7 @@ import type { Host } from './runtime/host.js';
 export interface RunOptions {
   file?: string;
   maxDepth?: number;
-  maxSteps?: number;
+  maxSteps?: number | undefined;
 }
 
 export type RunResult =

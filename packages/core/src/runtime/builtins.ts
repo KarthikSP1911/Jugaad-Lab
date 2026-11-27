@@ -1,4 +1,3 @@
-import type { Fail } from '../diagnostics/diagnostic.js';
 import {
   emptyList,
   invalidNumber,
@@ -7,6 +6,10 @@ import {
 } from '../diagnostics/runtime-messages.js';
 import { TYPE_NAMES } from '../packs/hinglish.js';
 import { codePointLength } from './collections.js';
+import { listArgument } from './stdlib/arguments.js';
+import { listBuiltins } from './stdlib/lists.js';
+import { mathBuiltins } from './stdlib/maths.js';
+import { textBuiltins } from './stdlib/text.js';
 import { toText } from './stringify.js';
 import { NativeFunction, typeName, type Value } from './value.js';
 
@@ -57,10 +60,8 @@ export function createBuiltins(): NativeFunction[] {
     }),
     new NativeFunction('shabd', 1, ([value = null], _host, fail) => toText(value, fail)),
     new NativeFunction('prakar', 1, ([value = null]) => typeName(value)),
+    ...mathBuiltins(),
+    ...textBuiltins(),
+    ...listBuiltins(),
   ];
-}
-
-function listArgument(name: string, value: Value, fail: Fail): Value[] {
-  if (Array.isArray(value)) return value;
-  return fail(wrongArgumentType(name, TYPE_NAMES.list, typeName(value)));
 }

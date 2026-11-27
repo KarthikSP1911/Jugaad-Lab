@@ -2,7 +2,6 @@ import type {
   Assign,
   AssignOp,
   BinaryOp,
-  Call,
   Expr,
   IndexExpr,
   Unary,
@@ -37,7 +36,7 @@ export interface InterpreterOptions {
   file: string;
   maxDepth?: number;
   /** Statements that may run; unlimited when omitted. */
-  maxSteps?: number;
+  maxSteps?: number | undefined;
 }
 
 /** `+=` and friends are the binary operator without the trailing `=`. */
@@ -184,8 +183,13 @@ export class Interpreter {
       }
       case 'Assign':
         return this.assign(expr, env);
-      case 'Call':
-        return this.call(expr, env);
+      case 'Call': {
+        // Inlined rather than a separate method: one less host frame per call keeps
+        // the full call depth within the host stack (defect 19).
+        const target = this.evaluate(expr.callee, env);
+        const values = expr.args.map((arg) => this.evaluate(arg, env));
+        return this.callValue(target, values, expr.span);
+      }
       case 'Function':
         return new HinglishFunction(undefined, expr.params, expr.body, env);
       case 'List':
@@ -256,14 +260,13 @@ export class Interpreter {
     return this.binary(binaryOperator(op), left, this.evaluate(value, env), span);
   }
 
-  private call({ callee, args, span }: Call, env: Environment): Value {
-    const target = this.evaluate(callee, env);
-    const values = args.map((arg) => this.evaluate(arg, env));
+  private callValue(target: Value, values: readonly Value[], span: Span): Value {
     if (target instanceof NativeFunction) {
       if (target.arity !== null && target.arity !== values.length) {
         this.fail(wrongArity(target.name, target.arity, values.length), span);
       }
-      return target.call(values, this.host, this.failAt(span));
+      const callBack = (callee: Value, args: readonly Value[]) => this.callValue(callee, args, span);
+      return target.call(values, this.host, this.failAt(span), callBack);
     }
     if (!(target instanceof HinglishFunction)) this.fail(notCallable(typeName(target)), span);
     const { name, params, body, closure } = target;

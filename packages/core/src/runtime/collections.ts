@@ -56,11 +56,19 @@ function dictionaryKey(index: Value, fail: Fail): string {
   return fail(wrongIndexType(TYPE_NAMES.dictionary, TYPE_NAMES.string, typeName(index)));
 }
 
-function position(index: Value, length: number, container: string, fail: Fail): number {
+/** A whole number from 0 to length - 1, or to `length` itself when `endAllowed`. */
+export function position(
+  index: Value,
+  length: number,
+  container: string,
+  fail: Fail,
+  endAllowed = false,
+): number {
   if (typeof index !== 'number' || !Number.isInteger(index)) {
     const found = typeof index === 'number' ? String(index) : typeName(index);
     return fail(wrongIndexType(container, `whole ${TYPE_NAMES.number}`, found));
   }
-  if (index < 0 || index >= length) return fail(indexOutOfRange(index, length));
+  const last = endAllowed ? length : length - 1;
+  if (index < 0 || index > last) return fail(indexOutOfRange(index, length));
   return index;
 }

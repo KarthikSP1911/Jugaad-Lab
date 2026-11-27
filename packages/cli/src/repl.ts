@@ -12,9 +12,9 @@ import { hostFor, type Io } from './io.js';
 const OPENERS: ReadonlySet<TokenKind> = new Set(['LeftParen', 'LeftBrace', 'LeftBracket']);
 const CLOSERS: ReadonlySet<TokenKind> = new Set(['RightParen', 'RightBrace', 'RightBracket']);
 
-export function repl(io: Io, options: RenderOptions): number {
+export function repl(io: Io, options: RenderOptions, maxSteps?: number): number {
   io.out(`Jugaad Hinglish ${VERSION}. Type .exit to quit.\n`);
-  const session = createSession(hostFor(io), { file: '<repl>' });
+  const session = createSession(hostFor(io), { file: '<repl>', maxSteps });
   for (;;) {
     const entry = readEntry(io);
     if (entry === null || entry.trim() === '.exit') return 0;

@@ -9,7 +9,7 @@ are placeholders until the owner confirms them.
 2. **No program wrapper.** Hinglish runs top-level statements directly.
 3. **Familiar structure.** Braces for blocks, parentheses around conditions and `;` terminators, so that `;` can serve as an error-recovery point.
 4. **Strict where it catches bugs.** Undefined names, constant reassignment, wrong arity and non-boolean conditions are errors, not silent no-ops.
-5. **One canonical spelling per keyword.** Roman Hindi has no standard spelling (`jhooth`, `jhuth`; `wapas`, `vapas`). The lexer reads keywords from a table, so alternative spellings can be added as aliases without touching the parser.
+5. **One main spelling per keyword, common variants accepted.** Roman Hindi has no standard spelling (`jhooth`, `jhuth`; `wapas`, `vapas`). The lexer reads keywords from a table, so variants are aliases of the main spelling, added without touching the parser. The docs teach, and the output prints, only the main spelling.
 
 ## Keywords
 
@@ -25,6 +25,8 @@ are placeholders until the owner confirms them.
 
 `bolo` and `suno` are built-in functions, not keywords. Reserved words are
 case-sensitive and cannot be used as identifiers.
+
+**Other spellings.** These variants are accepted too and mean exactly the same as the main spelling: `jhoot`, `jhuth`, `jhut`, `jhoothh` → `jhooth`; `vapas`, `waapas`, `vaapas` → `wapas`; `varna` → `warna`; `sachh`, `sacch` → `sach`; `khali` → `khaali`; `nahin`, `nhi` → `nahi`; `yaa` → `ya`; `pakaa`, `pukka` → `pakka`. They are reserved words as well. Output and messages always use the main spelling (`shabd(jhoot)` is `"jhooth"`).
 
 ## Lexical rules and types
 
@@ -104,7 +106,7 @@ funcExpr    = "kaam" "(" [ params ] ")" block ;
 
 `warna agar` needs no special rule: `warna` is followed by a statement, and that statement is an `ifStmt`. A statement that begins with `{` is a block, as in JavaScript; wrap a dictionary literal in parentheses or assign it to a variable.
 
-## Built-in functions (MVP)
+## Built-in functions
 
 | Name | Behaviour |
 | --- | --- |
@@ -116,6 +118,47 @@ funcExpr    = "kaam" "(" [ params ] ")" block ;
 | `sankhya(x)` | Convert a string to a number; error if invalid |
 | `shabd(x)` | Convert any value to its string form (`sach`, `jhooth`, `khaali` for those values) |
 | `prakar(x)` | Type name as a string: `sankhya`, `shabd`, `bool`, `khaali`, `soochi`, `kosh`, `kaam` |
+
+### Standard library
+
+Maths (numbers only; E0416 otherwise):
+
+| Name | Behaviour |
+| --- | --- |
+| `mod(x)` | Absolute value: `mod(-4)` is `4` |
+| `vargmool(x)` | Square root; negative `x` is E0417 |
+| `ghaat(a, b)` | `a` to the power `b`; a negative `a` with a fractional `b` is E0417 |
+| `gol(x)` | Round to the nearest whole number; halves go away from zero (`gol(2.5)` is `3`) |
+| `neeche(x)` / `upar(x)` | Round down / round up |
+| `adhiktam(...)` / `nyuntam(...)` | Largest / smallest of the numbers given, or of one list of numbers; none is E0414 |
+| `kismat(a, b)` | Random whole number from `a` to `b`, both included; `a > b` is E0417 |
+
+Text:
+
+| Name | Behaviour |
+| --- | --- |
+| `todo(text, sep)` | Split into a list of strings; an empty `sep` splits into single characters |
+| `milao(list, sep)` | Join the items (converted like `shabd`) with `sep` between them |
+| `bade(text)` / `chhote(text)` | Upper case / lower case |
+| `saaf(text)` | Remove spaces, tabs and newlines from both ends |
+| `badlo(text, old, new)` | Replace every `old` with `new`; an empty `old` is E0417 |
+
+Strings and lists:
+
+| Name | Behaviour |
+| --- | --- |
+| `hai(x, item)` | `sach` if a list holds `item` (compared like `==`), a string contains the string `item`, or a dictionary has the key `item` |
+| `kahan(x, item)` | Position of the first `item` in a list or string, or `-1` |
+| `kaato(x, start, end)` | New list or string from `start` up to, not including, `end`; both from 0 to the length (E0410), `end < start` is E0417 |
+| `ulta(x)` | New list or string in reverse order |
+| `chhanto(list)` | New list sorted smallest first; all numbers or all strings, else E0416 |
+| `har(list, f)` | New list of `f(item)` for each item |
+| `chuno(list, f)` | New list of the items for which `f(item)` is `sach`; a non-boolean answer is E0405 |
+| `daalo(list, i, x)` | Insert `x` at position `i` (0 to the length) |
+| `hatao(list, i)` | Remove and return the item at position `i` |
+| `chaabiyan(dict)` | List of the keys, in insertion order |
+
+`chhanto`, `ulta`, `kaato`, `har` and `chuno` never change their input. String positions count Unicode code points, like indexing. A program may declare its own variable with a built-in's name; it hides the built-in.
 
 Booleans and null print as `sach`, `jhooth` and `khaali`; only `shabd` does this conversion, never a variable read (defects 7 and 8).
 

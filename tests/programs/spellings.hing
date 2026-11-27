@@ -1,0 +1,8 @@
+// The same program, written the way different people spell Hinglish.
+// jhoot / jhuth / jhut = jhooth, vapas = wapas, varna = warna, khali = khaali, nahin = nahi
+kaam pass_hai(marks) {
+    agar (marks >= 33) { vapas sach; } varna { vapas jhoot; }
+}
+rakho result = khali;
+agar (nahin pass_hai(20)) { result = "fail"; }
+bolo(result, pass_hai(75), jhuth == jhut);
