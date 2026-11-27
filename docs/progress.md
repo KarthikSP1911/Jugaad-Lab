@@ -16,6 +16,10 @@
 - Website in English and Hindi (Devanagari) under `/en` and `/hi`
   ([ADR 0005](decisions/0005-site-i18n.md)). Hindi text awaits review.
 
+- UI/UX redesign on `feat/ui-ux`: new site layout and playground workbench,
+  saved drafts, editor commands, error markers, and clearer CLI messages and
+  REPL ([ADR 0006](decisions/0006-cli-presentation.md)). Not merged.
+
 ## Next
 
 - Release hygiene, playground, interpreter limits, CI and site polish.
