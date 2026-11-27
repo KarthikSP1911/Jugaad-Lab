@@ -54,7 +54,10 @@ Single-word keywords only. No program wrapper. `;` required. Blocks use braces, 
 | while / counted loop | `jabtak` / `chalo (init; test; step)` | and / or / not | `aur` `ya` `nahi` (aliases of `&&` `\|\|` `!`) |
 | break / continue | `ruko` / `agla` | | |
 
+Spelling variants (`jhoot`, `vapas`, `khali`, ...) are aliases in `ALIASES` in `packs/hinglish.ts`; docs teach and output print only the main spelling.
+
 Built-ins (functions, not keywords): `bolo(...)` print with spaces and newline, `suno(prompt)`, `lambai(x)`, `joro(list, x)`, `nikalo(list)`, `sankhya(x)`, `shabd(x)`, `prakar(x)`.
+Standard library (maths, text, lists, in `runtime/stdlib/`): see `docs/language-spec.md`.
 `shabd` prints `sach`, `jhooth`, `khaali` for those values. `prakar` returns `sankhya|shabd|bool|khaali|soochi|kosh|kaam`.
 
 Types: number (float64), string, boolean, null, list, dictionary (string keys), function (first-class, closures).
@@ -133,7 +136,7 @@ Write one regression test per item, named by number.
 6. Docs + playground: Web Worker with timeout, step budget, stdin box.
 7. Release 0.1.
 
-MVP = phases 0 to 4 and 7. Out of scope until after 0.1: modules, classes, for-each, `try`/`catch`, string interpolation, integer type, stdlib, Devanagari pack, bytecode VM, LSP. Do not add features outside the MVP without a spec change and golden tests first.
+MVP = phases 0 to 4 and 7. Out of scope until after 0.1: modules, classes, for-each, `try`/`catch`, string interpolation, integer type, Devanagari pack, bytecode VM, LSP. Do not add features outside the MVP without a spec change and golden tests first.
 
 ## Git workflow
 

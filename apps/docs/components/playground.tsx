@@ -9,6 +9,7 @@ import { advise, REACTIONS, TIPS, type Status } from '../lib/mascot';
 import type { RunRequest, WorkerMessage } from '../lib/messages';
 import { MESSAGES, say } from '../lib/say';
 import { decodeShare, encodeShare } from '../lib/share';
+import { AiHelper } from './ai-helper';
 import { CopyButton } from './copy-button';
 import { Editor } from './editor';
 import { useDictionary, useLocale } from './locale';
@@ -261,6 +262,15 @@ export function Playground({ children }: { children: ReactNode }) {
           </section>
         </div>
       </div>
+
+      <AiHelper
+        code={code}
+        runtimeError={status === 'runtime-error' ? message : undefined}
+        onUse={(next) => {
+          setCode(next);
+          window.history.replaceState(null, '', window.location.pathname);
+        }}
+      />
     </div>
   );
 }

@@ -50,5 +50,6 @@ Exit codes: 0 ok, 65 compile errors, 70 runtime error.
 | E0414 | `nikalo` on an empty list |
 | E0415 | `sankhya` on a string that is not a number |
 | E0416 | wrong argument type for a built-in |
+| E0417 | a built-in got the right type but a value it cannot use (for example `vargmool(-1)`, `kismat(6, 1)`) |
 
 New codes are added here in the same change that introduces them.

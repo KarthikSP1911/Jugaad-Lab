@@ -15,7 +15,7 @@ export {
 export type { Span } from './diagnostics/span.js';
 export { tokenize, type TokenizeOptions, type TokenizeResult } from './lexer/lexer.js';
 export type { Token, TokenKind } from './lexer/token.js';
-export { hinglish, type LanguagePack } from './packs/hinglish.js';
+export { ALIASES, hinglish, KEYWORDS, type LanguagePack } from './packs/hinglish.js';
 export { parse, type ParseOptions, type ParseResult } from './parser/parser.js';
 export { resolve, type ResolveOptions } from './resolver/resolver.js';
 export { run, type RunOptions, type RunResult } from './run.js';

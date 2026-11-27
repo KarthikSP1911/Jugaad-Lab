@@ -1,0 +1,20 @@
+// Marks report using the standard library.
+rakho marks = { "Asha": 82, "Ravi": 67.5, "Meena": 91, "Kabir": 74 };
+rakho naam = chhanto(chaabiyan(marks));
+rakho ank = har(naam, kaam (n) { wapas marks[n]; });
+
+bolo("Bacche:", milao(naam, ", "));
+bolo("Sabse zyada:", adhiktam(ank), "| sabse kam:", nyuntam(ank));
+
+rakho kul = 0;
+chalo (rakho i = 0; i < lambai(ank); i += 1) { kul += ank[i]; }
+bolo("Ausat:", gol(kul / lambai(ank)));
+
+rakho topper = chuno(naam, kaam (n) { wapas marks[n] >= 80; });
+bolo("80 se upar:", topper, "| Ravi hai?", hai(topper, "Ravi"));
+
+rakho line = "  aam, kela ,seb  ";
+rakho phal = har(todo(saaf(line), ","), saaf);
+bolo(bade(milao(ulta(phal), " + ")));
+bolo(badlo("ek-do-ek", "ek", "1"), kaato("namaste", 0, 4), kahan(phal, "seb"));
+bolo(vargmool(144), ghaat(2, 8), mod(-3), neeche(2.7), upar(2.1));

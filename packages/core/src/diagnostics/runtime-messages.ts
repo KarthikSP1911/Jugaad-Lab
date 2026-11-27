@@ -160,3 +160,12 @@ export const wrongArgumentType = (
     en: `'${name}' expects ${expected}, found ${found}`,
   },
 });
+
+/** The argument has the right type but a value the built-in cannot use. */
+export const invalidArgument = (
+  name: string,
+  problem: { hi: string; en: string },
+): DiagnosticDraft => ({
+  code: 'E0417',
+  message: { hi: `'${name}': ${problem.hi}`, en: `'${name}': ${problem.en}` },
+});
