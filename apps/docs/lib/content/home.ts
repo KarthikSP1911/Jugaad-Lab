@@ -8,8 +8,7 @@ const FACTORIAL = `kaam factorial(n) {
     wapas n * factorial(n - 1);
 }
 
-bolo(factorial(5));
-`;
+bolo(factorial(5));`;
 
 const CLOSURES = `kaam counter() {
     rakho c = 0;
@@ -17,24 +16,22 @@ const CLOSURES = `kaam counter() {
 }
 
 rakho gino = counter();
-bolo(gino(), gino(), gino());
-`;
+bolo(gino(), gino(), gino());`;
 
 const loops = (word: string) => `chalo (rakho i = 1; i <= 5; i += 1) {
     bolo("${word}", i);
-}
-`;
+}`;
 
 /** One idea per program, simplest first. Only the words inside strings differ by language. */
 export const DEMOS: Record<Locale, Record<DemoId, string>> = {
   en: {
-    hello: 'bolo("Namaste Duniya");\n',
+    hello: 'bolo("Namaste Duniya");',
     factorial: FACTORIAL,
     closures: CLOSURES,
     loops: loops('Chakkar'),
   },
   hi: {
-    hello: 'bolo("नमस्ते दुनिया");\n',
+    hello: 'bolo("नमस्ते दुनिया");',
     factorial: FACTORIAL,
     closures: CLOSURES,
     loops: loops('चक्कर'),

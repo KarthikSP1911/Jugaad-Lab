@@ -68,37 +68,40 @@ export function HeroDemo() {
 
   return (
     <div className="demo">
-      <div className="demo-mascot">
-        <Mascot
-          dismissible
-          quiet
-          mood={REACTIONS[status].mood}
-          line={status === 'idle' ? GREETING[lang] : say(REACTIONS[status].line, lang)}
-          // Nothing to advise before the first run: the greeting stays short.
-          {...(advice && status !== 'idle' ? { advice: say(advice, lang) } : {})}
-          tips={TIPS.map((tip) => say(tip, lang))}
-          size={96}
-        />
-      </div>
-
       <div className="demo-card">
-        <div className="demo-tabs" role="tablist" aria-label={text.tabsLabel}>
-          {DEMO_IDS.map((id) => (
-            <button
-              key={id}
-              id={`demo-tab-${id}`}
-              type="button"
-              role="tab"
-              aria-selected={demo === id}
-              aria-controls="demo-panel"
-              tabIndex={demo === id ? 0 : -1}
-              onClick={() => choose(id)}
-              onKeyDown={onTabKey}
-            >
-              {text.tabs[id]}
-            </button>
-          ))}
+        <div className="demo-mascot">
+          <Mascot
+            dismissible
+            quiet
+            mood={REACTIONS[status].mood}
+            line={status === 'idle' ? GREETING[lang] : say(REACTIONS[status].line, lang)}
+            // Nothing to advise before the first run: the greeting stays short.
+            {...(advice && status !== 'idle' ? { advice: say(advice, lang) } : {})}
+            tips={TIPS.map((tip) => say(tip, lang))}
+            size={80}
+          />
         </div>
+
+        <div className="demo-bar">
+          <div className="demo-tabs" role="tablist" aria-label={text.tabsLabel}>
+            {DEMO_IDS.map((id) => (
+              <button
+                key={id}
+                id={`demo-tab-${id}`}
+                type="button"
+                role="tab"
+                aria-selected={demo === id}
+                aria-controls="demo-panel"
+                tabIndex={demo === id ? 0 : -1}
+                onClick={() => choose(id)}
+                onKeyDown={onTabKey}
+              >
+                {text.tabs[id]}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div
           id="demo-panel"
           role="tabpanel"
@@ -119,10 +122,12 @@ export function HeroDemo() {
             jump={null}
           />
         </div>
+        <span className="sr-only">{text.editorHint}</span>
+
         <div className="demo-actions">
           <button
             type="button"
-            className="button button-primary"
+            className="button button-primary demo-run"
             onClick={running ? () => runner.stop() : run}
           >
             <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" fill="currentColor">
@@ -130,19 +135,18 @@ export function HeroDemo() {
             </svg>
             {running ? text.stop : text.run}
           </button>
-          <CopyButton text={code.trimEnd()} />
+          <CopyButton text={code} />
           <Link
             className="link demo-open"
             href={`${localePath(locale, '/playground')}${encodeShare(code)}`}
           >
             {text.open}
           </Link>
-          <span className="sr-only">{text.editorHint}</span>
         </div>
       </div>
 
       <div className="demo-output">
-        <span className="demo-output-label">{text.output}</span>
+        <span>{text.output}</span>
         <pre role="log" tabIndex={0} aria-label={text.output}>
           {output
             .split('\n')

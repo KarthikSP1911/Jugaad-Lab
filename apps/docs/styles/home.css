@@ -81,7 +81,7 @@
   .hero-trust {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1) var(--space-4);
+    gap: var(--space-2) calc(var(--space-4) + var(--space-1));
     margin-block-start: var(--space-5);
     color: var(--muted);
     font-size: 0.875rem;
@@ -93,61 +93,49 @@
     font-weight: 700;
   }
 
-  /* Demo */
+  /* Demo: the code card, then the output panel. */
   .demo {
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
     min-inline-size: 0;
-  }
-
-  /* Mithu stands on the card's top edge, leaning in from the right. */
-  .demo-mascot {
-    position: relative;
-    z-index: var(--z-mascot);
-    display: flex;
-    justify-content: flex-end;
-    margin-block-end: calc(-1 * var(--space-4));
-    padding-inline-end: var(--space-4);
-  }
-
-  .demo-mascot .mascot {
-    flex-direction: row-reverse;
-    align-items: center;
-  }
-
-  .demo-mascot .parrot {
-    inline-size: calc(var(--space-8) + var(--space-2));
-    block-size: auto;
-    transform: scaleX(-1);
-  }
-
-  .demo-mascot .bubble::before {
-    inset-inline: auto -5px;
-    rotate: 180deg;
+    /* Room above the card for Mithu and what he says. */
+    padding-block-start: var(--space-8);
   }
 
   .demo-card,
   .demo-output {
-    overflow: hidden;
     border: 1px solid var(--line);
     border-radius: var(--radius-card);
     background: var(--code);
     box-shadow: var(--shadow-md);
   }
 
+  /* Not clipped: Mithu stands partly outside it. */
+  .demo-card {
+    position: relative;
+  }
+
+  .demo-bar,
+  .demo-actions {
+    background: var(--raised);
+  }
+
+  .demo-bar {
+    padding: var(--space-3) calc(var(--space-4) + var(--space-1));
+    border-block-end: 1px solid var(--line);
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+
   .demo-tabs {
     display: flex;
     gap: var(--space-1);
     overflow-x: auto;
-    padding: var(--space-2) var(--space-3);
-    border-block-end: 1px solid var(--line);
-    background: var(--raised);
   }
 
   .demo-tabs button {
     min-block-size: var(--tap);
-    padding-inline: var(--space-3);
+    padding-inline: var(--space-2);
     border-radius: var(--radius-small);
     color: var(--muted);
     font-size: 0.875rem;
@@ -163,10 +151,15 @@
     box-shadow: inset 0 -2px var(--button);
   }
 
-  /* Tall enough for the longest example, so switching tabs does not move the page. */
+  /* At least this tall, and as tall as the program needs. */
   .demo-editor {
     display: flex;
-    block-size: 15.5rem;
+    flex-direction: column;
+  }
+
+  .demo-editor .editor-scroll {
+    flex: none;
+    min-block-size: 10rem;
   }
 
   .demo-actions {
@@ -174,15 +167,19 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-3);
-    padding: var(--space-3) var(--space-5);
+    padding: var(--space-4) calc(var(--space-4) + var(--space-1));
     border-block-start: 1px solid var(--line);
-    background: var(--raised);
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
     font-size: 0.875rem;
   }
 
   .demo-actions .button,
   .demo-actions .copy-button {
     min-block-size: var(--tap);
+  }
+
+  .demo-run {
+    border-radius: var(--radius-button);
   }
 
   .demo-open {
@@ -194,9 +191,6 @@
 
   .demo-output {
     padding: var(--space-4) calc(var(--space-4) + var(--space-1));
-  }
-
-  .demo-output-label {
     color: var(--muted);
     font-size: 0.875rem;
   }
@@ -204,15 +198,16 @@
   .demo-output pre {
     display: flex;
     flex-direction: column;
-    block-size: 7.5rem;
+    block-size: 4.5rem;
     overflow: auto;
-    font-size: 0.875rem;
-    line-height: 1.7;
+    margin-block-start: var(--space-1);
+    color: var(--ink);
+    line-height: 1.6;
     white-space: pre-wrap;
   }
 
   .demo-line {
-    min-block-size: 1.7em;
+    min-block-size: 1.6em;
     animation: enter 0.25s ease-out backwards;
   }
 
@@ -224,6 +219,90 @@
   }
   .demo-line:nth-child(n + 4) {
     animation-delay: 0.24s;
+  }
+
+  /*
+   * Mithu perches on the card's top edge, 40% of him inside it. The box starts at
+   * the card's left edge, so the bubble can never reach past it.
+   */
+  .demo-mascot {
+    --bird: 4.5rem;
+    --perch: 1.75rem;
+    position: absolute;
+    z-index: var(--z-mascot);
+    inset-block-end: calc(100% - var(--perch));
+    inset-inline: 0 var(--space-5);
+    pointer-events: none;
+  }
+
+  .demo-mascot .mascot {
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
+  .demo-mascot .mascot-button,
+  .demo-mascot .bubble {
+    pointer-events: auto;
+  }
+
+  .demo-mascot .parrot {
+    display: block;
+    inline-size: var(--bird);
+    block-size: var(--bird);
+    transform: scaleX(-1);
+  }
+
+  /* Its foot rests just above the card, however many lines it holds. */
+  .demo-mascot .bubble {
+    max-inline-size: 18rem;
+    margin-block-end: calc(var(--perch) + var(--space-1));
+    padding-inline-end: var(--space-7);
+  }
+
+  /* The tail points right, at Mithu. */
+  .demo-mascot .bubble::before {
+    inset-block: auto var(--space-3);
+    inset-inline: auto -0.3125rem;
+    translate: none;
+    rotate: 225deg;
+  }
+
+  .demo-mascot .bubble-close {
+    inset-block-start: var(--space-2);
+    inset-inline: auto var(--space-2);
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+  }
+
+  /* Phones: tighter tabs, so all four show without scrolling. */
+  @media (width < 40rem) {
+    /* Both hero buttons stay on one line. */
+    .cta,
+    .cta-secondary {
+      padding-inline: var(--space-4);
+    }
+
+    .demo-bar {
+      padding-inline: var(--space-2);
+    }
+
+    .demo-tabs {
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    .demo-tabs button {
+      padding-inline: var(--space-1);
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* Narrow screens keep the bubble until Mithu is tapped. */
+  @media (width < 56.25rem) {
+    .demo-mascot .mascot:not([data-opened]) .bubble {
+      display: none;
+    }
   }
 
   /* Sections */
@@ -238,16 +317,20 @@
   .section-head {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--space-3);
     margin-block-end: calc(var(--space-6) + var(--space-2));
+    text-align: center;
   }
 
   .section-head p {
     color: var(--muted);
   }
 
-  .section-more {
+  .home .section-more {
+    max-inline-size: none;
     margin-block-start: var(--space-5);
+    text-align: center;
   }
 
   .section-more a,
@@ -258,41 +341,30 @@
   }
 
   /* Keywords */
-  .keyword-table {
-    inline-size: 100%;
-    border-collapse: separate;
-    border-spacing: 0 var(--space-2);
-    text-align: start;
+  .keyword-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+    gap: var(--space-3);
   }
 
-  .keyword-table th,
-  .keyword-table td {
+  .keyword-grid li {
     padding: var(--space-3) var(--space-4);
-    text-align: start;
-  }
-
-  .keyword-table thead th {
-    padding-block: 0;
-    color: var(--muted);
-    font-size: 0.875rem;
-  }
-
-  .keyword-table tbody tr > * {
-    border-block: 1px solid var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-button);
     background: var(--raised);
   }
 
-  .keyword-table tbody tr > :first-child {
-    border-inline-start: 1px solid var(--line);
-    border-start-start-radius: var(--radius-button);
-    border-end-start-radius: var(--radius-button);
+  .keyword-pair {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--space-2);
   }
 
-  .keyword-table tbody tr > :last-child {
-    border-inline-end: 1px solid var(--line);
-    border-start-end-radius: var(--radius-button);
-    border-end-end-radius: var(--radius-button);
+  .keyword-meaning {
+    margin-block-start: var(--space-1);
     color: var(--muted);
+    font-size: 0.875rem;
   }
 
   /* Cards */
@@ -388,6 +460,7 @@
   .status-details summary {
     min-block-size: var(--tap);
     align-content: center;
+    text-align: center;
     font-weight: 700;
     cursor: pointer;
   }
@@ -412,23 +485,25 @@
     .status-details > div {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .demo-mascot .parrot {
-      inline-size: var(--space-9);
-    }
   }
 
   @media (width >= 56.25rem) {
     .hero-grid {
       grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
-      align-items: start;
+      align-items: center;
       gap: var(--space-7);
+    }
+
+    .demo-mascot {
+      --bird: 5rem;
+      --perch: var(--space-6);
     }
   }
 
   @media (width > 64rem) {
-    .hero-grid {
-      gap: var(--space-8);
+    /* Nine words: three rows of three. */
+    .keyword-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .feature-grid,

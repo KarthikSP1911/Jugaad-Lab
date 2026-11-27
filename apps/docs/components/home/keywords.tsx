@@ -12,29 +12,20 @@ export function Keywords({ locale, t }: { locale: Locale; t: Dictionary }) {
   const meaning = (word: string) => KEYWORD_MEANINGS[locale][hinglish.get(word) ?? ''] ?? print;
   return (
     <Section id="keywords" title={text.title} subtitle={text.subtitle} tinted>
-      <table className="keyword-table">
-        <thead>
-          <tr>
-            <th scope="col">Hinglish</th>
-            <th scope="col">English</th>
-            <th scope="col">{text.meaning}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {KEYWORD_PAIRS.map(([word, english]) => (
-            <tr key={word}>
-              <th scope="row">
-                <code className="tok-keyword">{word}</code>
-              </th>
-              <td>
-                <span aria-hidden="true">→ </span>
-                <code lang="en">{english}</code>
-              </td>
-              <td>{meaning(word)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ul className="keyword-grid">
+        {KEYWORD_PAIRS.map(([word, english]) => (
+          <li key={word}>
+            <p className="keyword-pair">
+              <code className="tok-keyword" lang="hi-Latn">
+                {word}
+              </code>
+              <span aria-hidden="true">→</span>
+              <code lang="en">{english}</code>
+            </p>
+            <p className="keyword-meaning">{meaning(word)}</p>
+          </li>
+        ))}
+      </ul>
       <p className="section-more">
         <Link className="link" href={localePath(locale, '/docs/cheatsheet')}>
           {text.all}

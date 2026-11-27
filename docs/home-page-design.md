@@ -6,7 +6,7 @@
   "Source on GitHub", not "open source". The footer states the licence position.
 - No star counts, testimonials or user numbers are shown, because none are verified.
 - Later requests for less space under the navbar and wider side margins replace the
-  brief's values: hero top padding is 24 / 32px (not 56 / 96px) and page padding is
+  brief's values: hero top padding is 24 / 64px (not 56 / 96px) and page padding is
   20 / 32 / 64px (not 16 / 20 / 24px).
 - A later request for smaller hero text sets the headline to 36-56px (not 40-72px)
   and the subtitle to 17px.
@@ -48,18 +48,18 @@ Tokens are defined in `apps/docs/styles/tokens.css`. Values are phone / tablet /
 | Container | side padding | `--space-4`+`1`, `--space-6`, `--space-8` | 20 / 32 / 64 |
 | Navbar | height | `--header-height` | 56 / 64 / 64 |
 | Navbar | item gap above 1024px | `--space-5` | 24 |
-| Hero | padding top | `--space-5`, `--space-5`, `--space-6` | 24 / 24 / 32 |
-| Hero | padding bottom | `--space-7`, `--space-7`, `--space-8`+`4` | 48 / 48 / 80 |
-| Hero | column gap | `--space-6`, `--space-7`, `--space-8` | 32 / 48 / 64 |
+| Hero | padding top | `--space-5`, `--space-5`, `--space-8` | 24 / 24 / 64 |
+| Hero | padding bottom | `--space-7` | 48 |
+| Hero | column gap | `--space-6`, `--space-7` | 32 / 48 |
 | Hero | headline to subtitle | `--space-4`+`1` | 20 |
 | Hero | subtitle to buttons | `--space-6` | 32 |
 | Hero | buttons to trust line | `--space-5` | 24 |
 | Buttons | gap, minimum height | `--space-3`, `--space-7` | 12, 48 |
 | Buttons | primary, secondary padding | `--pad-button` `--space-5`; `--space-3` `--space-4`+`1` | 14 24; 12 20 |
 | Demo | card to output | `--space-4` | 16 |
-| Demo | action bar, output padding | `--space-3` `--space-5`; `--space-4` `--space-4`+`1` | 12 24; 16 20 |
-| Mithu | height; bubble padding | `--space-9` wide; `--space-3` `--space-4` | 72 / 96; 12 16 |
-| Sections | block padding | `--section-pad` | 56 / 80 / 96 |
+| Demo | tabs padding; action bar and output padding | `--space-3` `--space-4`+`1`; `--space-4` `--space-4`+`1` | 12 20 (12 8 on phones); 16 20 |
+| Mithu | size; share inside the card; right offset | `--bird`, `--perch`, `--space-5` | 72 / 80; 28 / 32; 24 |
+| Sections | block padding | `--section-pad` | 56 / 48 / 64 |
 | Sections | title to subtitle, to content | `--space-3`, `--space-6`+`2` | 12, 40 |
 | Cards | padding, grid gap | `--space-5` | 24, 24 |
 | Cards | icon to title, title to text | `--space-4`, `--space-2` | 16, 8 |
@@ -97,7 +97,6 @@ Tokens are defined in `apps/docs/styles/tokens.css`. Values are phone / tablet /
 | home.demo.editorHint | Edit the program, then press Run. Press Escape, then Tab, to leave the editor. | प्रोग्राम बदलें, फिर “चलाएँ” दबाएँ। एडिटर से बाहर जाने के लिए Escape, फिर Tab दबाएँ। |
 | home.keywords.title | If you know the Hindi, you know the code | हिन्दी आती है, तो कोड भी आता है |
 | home.keywords.subtitle | Each keyword is one Hinglish word standing in for a familiar English one. | हर कीवर्ड एक जाने-पहचाने अंग्रेज़ी शब्द की जगह लेने वाला हिन्दी शब्द है। |
-| home.keywords.meaning | What it does | क्या करता है |
 | home.keywords.all | See every keyword in the cheatsheet → | सारे कीवर्ड झटपट सार में देखें → |
 | home.features.title | Why learn with it? | इससे क्यों सीखें? |
 | home.features.subtitle | Less time translating, more time thinking about logic. | अनुवाद में कम समय, तर्क सोचने में ज़्यादा। |

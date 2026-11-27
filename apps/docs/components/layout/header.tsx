@@ -31,11 +31,11 @@ export function Header({ locale }: { locale: Locale }) {
             </a>
             <LanguageSwitch />
             <SoundToggle />
+            <ThemeToggle />
           </div>
         </Menu>
         <div className="ml-auto flex items-center gap-1 md:ml-0">
           <Search entries={searchIndex(locale)} />
-          <ThemeToggle />
         </div>
       </div>
     </header>

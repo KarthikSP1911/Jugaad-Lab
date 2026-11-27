@@ -3,9 +3,12 @@
     @apply sr-only focus:not-sr-only focus:absolute focus:z-30 focus:bg-page focus:p-3;
   }
 
-  .logo-tile {
-    @apply rounded-lg border border-line bg-white;
-    filter: var(--logo-filter);
+  .logo-light {
+    display: var(--logo-light);
+  }
+
+  .logo-dark {
+    display: var(--logo-dark);
   }
 
   .link {

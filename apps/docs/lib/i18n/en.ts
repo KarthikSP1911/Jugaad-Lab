@@ -89,7 +89,6 @@ export const en = {
     keywords: {
       title: 'If you know the Hindi, you know the code',
       subtitle: 'Each keyword is one Hinglish word standing in for a familiar English one.',
-      meaning: 'What it does',
       all: 'See every keyword in the cheatsheet →',
     },
     features: {

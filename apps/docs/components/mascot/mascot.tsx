@@ -47,6 +47,7 @@ export function Mascot(props: Props) {
   const timer = useRef<number | undefined>(undefined);
   const [held, setHeld] = useState(false);
   const [closed, setClosed] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   // A new line from the page replaces whatever Mithu was saying.
   if (seen !== current) {
@@ -60,6 +61,7 @@ export function Mascot(props: Props) {
   function speak(aloud: boolean) {
     if (aloud) play('chirp');
     setClosed(false);
+    setOpened(true);
     setTip(tips[next.current % tips.length] ?? null);
     next.current += 1;
     setTalking(true);
@@ -83,6 +85,7 @@ export function Mascot(props: Props) {
   return (
     <div
       className={`mascot${auto ? ' mascot-auto' : ''}`}
+      data-opened={opened || undefined}
       onPointerEnter={() => setHeld(true)}
       onPointerLeave={() => setHeld(false)}
       onFocus={() => setHeld(true)}
@@ -118,7 +121,10 @@ export function Mascot(props: Props) {
               type="button"
               className="bubble-close"
               aria-label={mascot.dismiss}
-              onClick={() => setClosed(true)}
+              onClick={() => {
+                setClosed(true);
+                setOpened(false);
+              }}
             >
               ×
             </button>
