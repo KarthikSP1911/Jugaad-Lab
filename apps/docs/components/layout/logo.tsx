@@ -1,16 +1,22 @@
 import Image from 'next/image';
-import logo from '../../public/logo.png';
+import darkLogo from '../../public/logo-dark.svg';
+import logo from '../../public/logo.svg';
 
+// Both variants are rendered; the theme tokens show one of them.
 export function Logo({ size }: { size: number }) {
-  return (
+  return [
+    { src: logo, className: 'logo-light' },
+    { src: darkLogo, className: 'logo-dark' },
+  ].map(({ src, className }) => (
     <Image
-      src={logo}
+      key={className}
+      src={src}
       alt=""
       width={size}
       height={size}
-      className="logo-tile"
+      className={className}
       unoptimized
       priority
     />
-  );
+  ));
 }

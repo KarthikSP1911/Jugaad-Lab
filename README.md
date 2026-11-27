@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="apps/docs/public/logo.png" alt="Jugaad Hinglish logo" width="160" />
+<img src="apps/docs/public/logo.svg" alt="Jugaad Hinglish logo" width="160" />
 
 # Jugaad Hinglish
 
