@@ -19,6 +19,9 @@
 - UI/UX redesign on `feat/ui-ux`: new site layout and playground workbench,
   saved drafts, editor commands, error markers, and clearer CLI messages and
   REPL ([ADR 0006](decisions/0006-cli-presentation.md)). Not merged.
+- Restructure on `refactor/structure` (builds on `feat/ui-ux`): website grouped
+  by feature, Prettier, [architecture](architecture.md) and contributing guide.
+  Not merged.
 
 ## Next
 

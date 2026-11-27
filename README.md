@@ -69,8 +69,8 @@ The same interpreter runs on the command line and in the browser.
 | **Language** | Variables, constants, conditions, loops, functions, closures, lists and dictionaries |
 | **Diagnostics** | Error code, line, column, caret and "did you mean" hints, in Hinglish, English or Devanagari |
 | **Static checks** | Undefined and duplicate names, constant reassignment and wrong argument counts are caught before the program runs |
-| **Command line** | `run`, `check` and an interactive REPL |
-| **Playground** | Runs in the browser, with highlighting, suggestions, examples and share links |
+| **Command line** | `run`, `check` and an interactive REPL, with coloured errors on a terminal |
+| **Playground** | Runs in the browser, with highlighting, suggestions, editing shortcuts, error markers, saved drafts and share links |
 | **Website** | Getting started, language tour, cheatsheet, reference, error codes and search |
 | **Localisation** | The whole website in English (`/en`) and Hindi (`/hi`) |
 | **Mithu** | A parrot mascot that reacts to program runs and gives tips, with sound that can be muted |
@@ -121,7 +121,8 @@ node packages/cli/dist/main.js <command> [file] [--lang=en|hi]
 | --- | --- |
 | `run <file>` | Check and run a program |
 | `check <file>` | Report errors without running |
-| `repl` (default) | Start the interactive prompt; type `.exit` to quit |
+| `<file.hing>` | Short for `run <file>` |
+| `repl` (default) | Start the interactive prompt; `.help` lists its commands |
 | `--help`, `-h` | Show usage |
 | `--version`, `-v` | Show the version |
 
@@ -308,11 +309,19 @@ See [ADR 0005](docs/decisions/0005-site-i18n.md).
 │   └── cli/           hinglish command and REPL
 ├── apps/
 │   └── docs/          website and playground (Next.js)
+│       ├── app/           routes
+│       ├── components/    React components, by feature
+│       ├── hooks/         browser state
+│       ├── lib/           logic, by feature
+│       ├── styles/        style sheets
+│       └── test/          unit tests
 ├── tests/programs/    golden programs with expected output
 ├── examples/          sample programs
 ├── docs/              specification, error codes, decisions (Hindi in docs/hi/)
 └── tools/             sample migration and benchmark scripts
 ```
+
+[Architecture](docs/architecture.md) explains each folder.
 
 ## Development
 
@@ -320,12 +329,13 @@ See [ADR 0005](docs/decisions/0005-site-i18n.md).
 | --- | --- |
 | `npm run typecheck` | Type-check all workspaces |
 | `npm run lint` | Run ESLint |
+| `npm run format` | Format with Prettier |
 | `npm test` | Run all tests |
-| `npm run test:programs` | Run the golden programs only |
 | `npm run build` | Build the packages and the website |
 
-Continuous integration runs the type check, lint, tests and build on every pull
-request and on pushes to `main`.
+Continuous integration runs the type check, lint, format check, tests and build on
+every pull request and on pushes to `main`. All commands and conventions are in the
+[contributing guide](CONTRIBUTING.md).
 
 ## Roadmap
 
@@ -340,15 +350,7 @@ Planned for consideration after 0.1, with no committed dates:
 
 ## Contributing
 
-1. Create a short-lived branch from `main`, such as `feat/lexer` or
-   `fix/negative-numbers`.
-2. Add a unit test for every new behaviour, and a golden program if users can see it.
-3. Update the [specification](docs/language-spec.md) when the language changes, and
-   add the Hindi counterpart for new messages, pages and documentation.
-4. Make sure `npm run typecheck`, `npm run lint` and `npm test` pass.
-5. Write commits in [Conventional Commits](https://www.conventionalcommits.org) form,
-   for example `fix(parser): accept minus without space`.
-6. Open a pull request.
+Read the [contributing guide](CONTRIBUTING.md) before opening a pull request.
 
 ## Documentation
 
@@ -356,7 +358,8 @@ Planned for consideration after 0.1, with no committed dates:
 | --- | --- |
 | [Language specification](docs/language-spec.md) ([हिन्दी](docs/hi/language-spec.md)) | Syntax, types, semantics and grammar |
 | [Error codes](docs/error-codes.md) ([हिन्दी](docs/hi/error-codes.md)) | Every diagnostic code |
-| [Architecture](docs/architecture.md) | Packages and dependency rules |
+| [Architecture](docs/architecture.md) | Packages, folders and dependency rules |
+| [Contributing](CONTRIBUTING.md) | Setup, commands and conventions |
 | [Decision records](docs/decisions/) | Why the project is built this way |
 | [Intentional changes](docs/intentional-changes.md) | Differences from KannadaScript |
 | [Baseline timings](docs/baseline-timings.md) | Performance reference |
