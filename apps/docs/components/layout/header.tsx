@@ -14,7 +14,7 @@ export function Header({ locale }: { locale: Locale }) {
   const t = DICTIONARIES[locale];
   return (
     <header className="site-header">
-      <div className="mx-auto flex h-full max-w-7xl items-center gap-2 px-4">
+      <div className="wrap flex h-full items-center gap-2">
         <Link href={localePath(locale, '/')} className="brand">
           <Logo size={32} />
           <span>

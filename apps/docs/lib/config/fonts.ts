@@ -1,12 +1,17 @@
-import { Bricolage_Grotesque, Inter, JetBrains_Mono, Noto_Sans_Devanagari } from 'next/font/google';
+import { Inter, JetBrains_Mono, Noto_Sans_Devanagari } from 'next/font/google';
 
-const display = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage' });
-const sans = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains' });
+// `next/font` reads these options at build time, so each must be written out in full.
+const sans = Inter({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-inter' });
+const mono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-jetbrains',
+});
 const devanagari = Noto_Sans_Devanagari({
   subsets: ['devanagari'],
+  weight: ['400', '700'],
   variable: '--font-devanagari',
 });
 
 /** Class names that define the font variables used by the stylesheet. */
-export const FONT_CLASSES = `${display.variable} ${sans.variable} ${mono.variable} ${devanagari.variable}`;
+export const FONT_CLASSES = `${sans.variable} ${mono.variable} ${devanagari.variable}`;

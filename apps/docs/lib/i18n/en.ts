@@ -28,6 +28,10 @@ export const en = {
     toLight: 'Switch to light theme',
   },
   footer: {
+    issues: 'Issue tracker',
+    notices: 'Third-party notices',
+    licence: 'No licence has been chosen yet, so reuse of the source is not yet permitted.',
+    credits: 'Built from its own specification by the Jugaad Lab project.',
     workingName: '(working name)',
     version: 'Version',
     source: 'Source on GitHub',
@@ -59,6 +63,7 @@ export const en = {
     playgroundKeywords: 'run editor try',
   },
   mascot: {
+    dismiss: 'Hide Mithu’s message',
     talk: 'Talk to Mithu',
     tip: 'Tip:',
   },
@@ -66,48 +71,127 @@ export const en = {
     headingStart: 'Code likho, ',
     headingAccent: 'apni bhasha',
     headingEnd: ' mein.',
-    tryIt: 'Try it in the playground',
-    readDocs: 'Read the docs',
-    startHere: 'Start here',
-    smallOnPurpose: 'Small on purpose',
-    whereItStands: 'Where it stands',
-    inVersion: 'In version 0.1.0',
-    notIn: 'Not in 0.1',
-    steps: [
-      { href: '/docs', title: 'Get started', body: 'Write your first program in a minute.' },
-      {
-        href: '/docs/tour',
-        title: 'Take the tour',
-        body: 'Learn each idea from a runnable example.',
-      },
-      { href: '/docs/cheatsheet', title: 'Keep the cheatsheet', body: 'Keywords and built-ins.' },
-    ],
-    features: [
-      {
-        title: 'Familiar words',
-        body: 'rakho, agar, jabtak and kaam: one Hinglish word per keyword, written in Roman script.',
-      },
-      {
-        title: 'Familiar structure',
-        body: 'Braces for blocks, parentheses around conditions and semicolons to end statements.',
-      },
-      {
-        title: 'Catches mistakes early',
-        body: 'Undefined names, reassigned constants and wrong argument counts stop the program before it runs.',
-      },
-      {
-        title: 'Errors in Hinglish',
-        body: 'Every error shows the line and column and explains itself in Hinglish, or in English if you prefer.',
-      },
-      {
-        title: 'An editor that helps',
-        body: 'The playground colours your code and suggests keywords, built-ins and your own names.',
-      },
-      {
-        title: 'Runs in your browser',
-        body: 'The playground runs the interpreter on your device. Your code is not sent to a server.',
-      },
-    ],
+    subtitle:
+      'Learn variables, loops and functions with words you already say: rakho, jabtak, kaam. A small, real programming language that explains its errors in Hinglish.',
+    primary: 'Start coding',
+    secondary: 'Read the docs',
+    trust: ['Free to use in your browser', 'Nothing to install', 'Source on GitHub'],
+    demo: {
+      tabsLabel: 'Example programs',
+      tabs: { hello: 'Hello World', factorial: 'Factorial', closures: 'Closures', loops: 'Loops' },
+      run: 'Run',
+      stop: 'Stop',
+      open: 'Open in playground →',
+      output: 'Output',
+      outputEmpty: 'Press Run. Your output appears here.',
+      editorHint: 'Edit the program, then press Run. Press Escape, then Tab, to leave the editor.',
+    },
+    keywords: {
+      title: 'If you know the Hindi, you know the code',
+      subtitle: 'Each keyword is one Hinglish word standing in for a familiar English one.',
+      meaning: 'What it does',
+      all: 'See every keyword in the cheatsheet →',
+    },
+    features: {
+      title: 'Why learn with it?',
+      subtitle: 'Less time translating, more time thinking about logic.',
+      items: [
+        {
+          title: 'Readable Hindi keywords',
+          body: 'agar, warna, jabtak and kaam read like the sentence in your head.',
+        },
+        {
+          title: 'Functions and closures',
+          body: 'Pass functions around and let them remember values, as in larger languages.',
+        },
+        {
+          title: 'Runs in your browser',
+          body: 'The interpreter runs on your device. Your code is not sent to a server.',
+        },
+        {
+          title: 'Errors that explain',
+          body: 'Line, column, a pointer to the mistake and a “did you mean” hint.',
+        },
+        {
+          title: 'Hindi docs',
+          body: 'Every page and error message is also available in Devanagari.',
+        },
+        {
+          title: 'Source on GitHub',
+          body: 'Read how the lexer, parser and interpreter work, line by line.',
+        },
+      ],
+    },
+    start: {
+      title: 'Get started in 3 steps',
+      subtitle: 'Your first program takes about a minute.',
+      openPlayground: 'Open the playground →',
+      openDocs: 'Go to the docs →',
+      steps: [
+        {
+          title: 'Open the playground',
+          body: 'It loads in your browser. No account and no setup.',
+        },
+        {
+          title: 'Write your first program',
+          body: 'Copy this line, paste it into the editor and press Run.',
+        },
+        {
+          title: 'Explore the docs',
+          body: 'Add a variable, then a loop, then a function of your own.',
+        },
+      ],
+    },
+    paths: {
+      title: 'Pick your path',
+      subtitle: 'Start where it suits you.',
+      items: [
+        {
+          title: 'For students',
+          body: 'Set up, write a first program and build from there.',
+          action: 'Getting started',
+        },
+        {
+          title: 'For teachers',
+          body: 'One page of keywords and built-ins to project or print for class.',
+          action: 'Open the cheatsheet',
+        },
+        {
+          title: 'For fun projects',
+          body: 'Run short examples, from loops to FizzBuzz, then change them.',
+          action: 'Take the tour',
+        },
+      ],
+    },
+    community: {
+      title: 'Build it with us',
+      subtitle: 'The language is young, and small contributions count.',
+      items: [
+        {
+          title: 'Star on GitHub',
+          body: 'Follow the project and help others find it.',
+          action: 'Open the repository',
+        },
+        {
+          title: 'Contribute',
+          body: 'Fix a typo, review the Hindi text or add an example.',
+          action: 'Read the guide',
+        },
+        {
+          title: 'Report a problem',
+          body: 'Found a confusing error or a bug? Tell us what happened.',
+          action: 'Open the issue tracker',
+        },
+        {
+          title: 'Share your program',
+          body: 'Write it in the playground, press Share and send the link.',
+          action: 'Write something',
+        },
+      ],
+      status: 'What works in version 0.1.0',
+      inVersion: 'In version 0.1.0',
+      notIn: 'Not in 0.1',
+    },
   },
   playground: {
     title: 'Playground',

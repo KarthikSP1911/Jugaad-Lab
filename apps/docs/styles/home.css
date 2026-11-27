@@ -1,57 +1,443 @@
+/*
+ * The home page. Every length comes from the tokens in tokens.css.
+ * Mobile first: min-width queries add to the narrow layout.
+ */
 @layer components {
-  /* Home */
-  .hero {
-    @apply border-b border-line bg-surface;
+  .home {
+    line-height: 1.6;
   }
 
-  /* The preview starts level with the heading and ends with the section's padding. */
-  .hero .code-card {
-    @apply mt-0 mb-3;
+  .home h2 {
+    font-size: var(--text-h2);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .home h3 {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .home p {
+    max-inline-size: 60ch;
+  }
+
+  /* Hero */
+  .hero {
+    padding-block: var(--hero-start) var(--hero-end);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-inline-size: 0;
   }
 
   .hero-title {
-    @apply text-4xl leading-tight font-extrabold tracking-tight text-brand sm:text-6xl sm:leading-[1.15];
+    color: var(--brand);
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
   }
 
+  /* Devanagari vowel signs need more room between lines. */
+  :lang(hi) .hero-title {
+    line-height: 1.3;
+  }
+
+  .hero-subtitle {
+    margin-block-start: calc(var(--space-4) + var(--space-1));
+    color: var(--muted);
+    font-size: 1.0625rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block-start: var(--space-6);
+  }
+
+  .cta {
+    min-block-size: var(--space-7);
+    padding: var(--pad-button) var(--space-5);
+    border-radius: var(--radius-button);
+    font-size: 1rem;
+  }
+
+  .cta-secondary {
+    padding: var(--space-3) calc(var(--space-4) + var(--space-1));
+  }
+
+  .hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin-block-start: var(--space-5);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .hero-trust li::before {
+    content: '✓ ';
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Demo */
+  .demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-inline-size: 0;
+  }
+
+  /* Mithu stands on the card's top edge, leaning in from the right. */
+  .demo-mascot {
+    position: relative;
+    z-index: var(--z-mascot);
+    display: flex;
+    justify-content: flex-end;
+    margin-block-end: calc(-1 * var(--space-4));
+    padding-inline-end: var(--space-4);
+  }
+
+  .demo-mascot .mascot {
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .demo-mascot .parrot {
+    inline-size: calc(var(--space-8) + var(--space-2));
+    block-size: auto;
+    transform: scaleX(-1);
+  }
+
+  .demo-mascot .bubble::before {
+    inset-inline: auto -5px;
+    rotate: 180deg;
+  }
+
+  .demo-card,
+  .demo-output {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--code);
+    box-shadow: var(--shadow-md);
+  }
+
+  .demo-tabs {
+    display: flex;
+    gap: var(--space-1);
+    overflow-x: auto;
+    padding: var(--space-2) var(--space-3);
+    border-block-end: 1px solid var(--line);
+    background: var(--raised);
+  }
+
+  .demo-tabs button {
+    min-block-size: var(--tap);
+    padding-inline: var(--space-3);
+    border-radius: var(--radius-small);
+    color: var(--muted);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    cursor: pointer;
+    outline-offset: -2px;
+  }
+
+  .demo-tabs button[aria-selected='true'] {
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 700;
+    box-shadow: inset 0 -2px var(--button);
+  }
+
+  /* Tall enough for the longest example, so switching tabs does not move the page. */
+  .demo-editor {
+    display: flex;
+    block-size: 15.5rem;
+  }
+
+  .demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    border-block-start: 1px solid var(--line);
+    background: var(--raised);
+    font-size: 0.875rem;
+  }
+
+  .demo-actions .button,
+  .demo-actions .copy-button {
+    min-block-size: var(--tap);
+  }
+
+  .demo-open {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--tap);
+    margin-inline-start: auto;
+  }
+
+  .demo-output {
+    padding: var(--space-4) calc(var(--space-4) + var(--space-1));
+  }
+
+  .demo-output-label {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .demo-output pre {
+    display: flex;
+    flex-direction: column;
+    block-size: 7.5rem;
+    overflow: auto;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  .demo-line {
+    min-block-size: 1.7em;
+    animation: enter 0.25s ease-out backwards;
+  }
+
+  .demo-line:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .demo-line:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .demo-line:nth-child(n + 4) {
+    animation-delay: 0.24s;
+  }
+
+  /* Sections */
   .home-section {
-    @apply grid gap-6 border-b border-line py-14 last:border-b-0 lg:grid-cols-[14rem_1fr] lg:gap-12;
+    padding-block: var(--section-pad);
   }
 
-  .section-title {
-    @apply text-2xl font-bold tracking-tight;
+  .home-section-tinted {
+    background: var(--surface);
   }
 
-  .path {
-    @apply grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3;
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-block-end: calc(var(--space-6) + var(--space-2));
   }
 
-  .path li {
-    @apply grid;
+  .section-head p {
+    color: var(--muted);
   }
 
-  .path-step {
-    @apply block bg-page p-5 -outline-offset-2 transition-colors hover:bg-surface;
+  .section-more {
+    margin-block-start: var(--space-5);
+  }
+
+  .section-more a,
+  .card-action {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--tap);
+  }
+
+  /* Keywords */
+  .keyword-table {
+    inline-size: 100%;
+    border-collapse: separate;
+    border-spacing: 0 var(--space-2);
+    text-align: start;
+  }
+
+  .keyword-table th,
+  .keyword-table td {
+    padding: var(--space-3) var(--space-4);
+    text-align: start;
+  }
+
+  .keyword-table thead th {
+    padding-block: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .keyword-table tbody tr > * {
+    border-block: 1px solid var(--line);
+    background: var(--raised);
+  }
+
+  .keyword-table tbody tr > :first-child {
+    border-inline-start: 1px solid var(--line);
+    border-start-start-radius: var(--radius-button);
+    border-end-start-radius: var(--radius-button);
+  }
+
+  .keyword-table tbody tr > :last-child {
+    border-inline-end: 1px solid var(--line);
+    border-start-end-radius: var(--radius-button);
+    border-end-end-radius: var(--radius-button);
+    color: var(--muted);
+  }
+
+  /* Cards */
+  .feature-grid,
+  .community-grid,
+  .steps {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .feature-grid > li,
+  .community-grid > li {
+    display: grid;
+  }
+
+  .home-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-inline-size: 0;
+    padding: var(--space-5);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--raised);
+    box-shadow: var(--shadow-sm);
+    transition:
+      translate 0.2s,
+      box-shadow 0.2s;
+  }
+
+  @media (hover: hover) {
+    .home-card:hover {
+      translate: 0 calc(-1 * var(--space-1));
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  .home-card h3 {
+    margin-block-start: var(--space-4);
+  }
+
+  .home-card h3:first-child {
+    margin-block-start: 0;
+  }
+
+  .home-card p {
+    margin-block-start: var(--space-2);
+    color: var(--muted);
+  }
+
+  .home-card .icon {
+    color: var(--accent);
+  }
+
+  .card-action {
+    margin-block-start: auto;
+    padding-block-start: var(--space-3);
+  }
+
+  .path-card .card-action {
+    color: var(--link);
   }
 
   .step-number {
-    @apply inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--space-6);
+    block-size: var(--space-6);
+    border-radius: var(--radius-pill);
     background: var(--button);
     color: var(--button-ink);
+    font-weight: 700;
   }
 
-  .features {
-    @apply grid gap-x-10 sm:grid-cols-2;
+  .steps .code-card {
+    align-self: stretch;
+    margin-block: auto 0;
   }
 
-  .features > div {
-    @apply border-t border-line py-4;
+  .steps .code-card:not(:first-child) {
+    margin-block-start: var(--space-4);
   }
 
-  .features dt {
-    @apply font-semibold text-brand;
+  .steps .copy-button {
+    min-block-size: var(--tap);
   }
 
-  .features dd {
-    @apply mt-1 text-sm leading-6 text-muted;
+  .status-details {
+    margin-block-start: var(--space-6);
+  }
+
+  .status-details summary {
+    min-block-size: var(--tap);
+    align-content: center;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .status-details > div {
+    display: grid;
+    gap: var(--space-6);
+    padding-block-start: var(--space-4);
+  }
+
+  .status-details li {
+    display: flex;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+    border-block-end: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  @media (width >= 40rem) {
+    .feature-grid,
+    .community-grid,
+    .status-details > div {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .demo-mascot .parrot {
+      inline-size: var(--space-9);
+    }
+  }
+
+  @media (width >= 56.25rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+      align-items: start;
+      gap: var(--space-7);
+    }
+  }
+
+  @media (width > 64rem) {
+    .hero-grid {
+      gap: var(--space-8);
+    }
+
+    .feature-grid,
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .community-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 }

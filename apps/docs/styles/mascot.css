@@ -9,12 +9,38 @@
   }
 
   .bubble {
-    @apply relative max-w-60 min-w-0 rounded-xl border border-line bg-page px-3 py-2 text-sm font-medium shadow-sm;
+    @apply relative max-w-60 min-w-0 border border-line text-sm;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-card);
+    background: var(--raised);
+    box-shadow: var(--shadow-sm);
   }
 
   /* A fixed width keeps the layout still while the lines change on their own. */
   .mascot-auto .bubble {
     @apply w-60;
+  }
+
+  .bubble-close {
+    position: absolute;
+    inset-block-start: calc(-1 * var(--space-3));
+    inset-inline-start: calc(-1 * var(--space-3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--space-6);
+    block-size: var(--space-6);
+    border: 1px solid var(--control);
+    border-radius: var(--radius-pill);
+    background: var(--raised);
+    cursor: pointer;
+  }
+
+  /* Widens the touch area to 44px without enlarging the circle. */
+  .bubble-close::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * (var(--tap) - var(--space-6)) / 2);
   }
 
   .bubble-tip {
@@ -23,7 +49,8 @@
 
   /* The tail of the speech bubble: a rotated corner pointing at the parrot. */
   .bubble::before {
-    @apply absolute top-1/2 -left-[5px] h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b border-l border-line bg-page;
+    @apply absolute top-1/2 -left-[5px] h-2.5 w-2.5 -translate-y-1/2 rotate-45 border-b border-l border-line;
+    background: var(--raised);
     content: '';
   }
 

@@ -10,7 +10,7 @@ export async function generateMetadata(props: LocaleProps): Promise<Metadata> {
 export default async function PlaygroundPage(props: LocaleProps) {
   const { t } = await pageLocale(props);
   return (
-    <div className="workbench-page">
+    <div className="wrap workbench-page">
       <Playground>
         <h1 className="toolbar-title">{t.playground.title}</h1>
       </Playground>

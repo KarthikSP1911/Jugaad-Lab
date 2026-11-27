@@ -6,6 +6,7 @@
 - Mithu, a parrot in the playground that reacts to runs and gives tips.
 - Sound effects with a mute button.
 - Rewritten README.
+- New home page with a runnable demo, keyword table and learning paths.
 - Redesigned website and playground, which keeps drafts, marks error lines and
   no longer deletes selected lines on Tab.
 - Clearer command line messages, coloured errors and a more forgiving REPL.

@@ -4,20 +4,21 @@
  */
 :root {
   color-scheme: light;
-  --page: #ffffff;
-  --surface: #f4f6fb;
+  --page: #fbf8f2;
+  --raised: #ffffff;
+  --surface: #f4efe4;
   --ink: #101c3d;
-  --muted: #4c5a78;
-  --line: #dde3ef;
-  --control: #7e89a3;
+  --muted: #4b5671;
+  --line: #e5ddcc;
+  --control: #807866;
   --brand: #14367a;
   --link: #1559a8;
-  --accent: #b34700;
+  --accent: #a64200;
   --button: #f57c1f;
   --button-ink: #1a1203;
   --error: #b3261e;
-  --code: #f7f9fd;
-  --tok-keyword: #a84300;
+  --code: #fffdf8;
+  --tok-keyword: #9f3f00;
   --tok-string: #17703a;
   --tok-number: #7c3aad;
   --tok-comment: #55627f;
@@ -26,6 +27,61 @@
   --tok-builtin: #0b6e75;
   --logo-filter: none;
   --header-height: 3.5rem;
+
+  /* Spacing: a 4px base on an 8px rhythm. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* Layout, narrow screens first. */
+  --content: 75rem;
+  --pad-inline: calc(var(--space-4) + var(--space-1));
+  --hero-start: var(--space-5);
+  --hero-end: var(--space-7);
+  --section-pad: calc(var(--space-7) + var(--space-2));
+
+  /* Components */
+  --tap: 2.75rem;
+  --pad-button: 0.875rem;
+  --gap-link: 0.625rem;
+  --radius-small: 0.375rem;
+  --radius-button: 0.625rem;
+  --radius-card: 0.875rem;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(16 28 61 / 0.06);
+  --shadow-md: 0 4px 16px rgb(16 28 61 / 0.08);
+  --shadow-lg: 0 12px 32px rgb(16 28 61 / 0.12);
+  --text-h2: 1.75rem;
+  --text-h3: 1.25rem;
+
+  --z-mascot: 50;
+  --z-nav: 100;
+}
+
+@media (width >= 40rem) {
+  :root {
+    --header-height: 4rem;
+    --pad-inline: var(--space-6);
+    --section-pad: calc(var(--space-8) + var(--space-4));
+    --text-h2: 2.25rem;
+    --text-h3: 1.375rem;
+  }
+}
+
+@media (width > 64rem) {
+  :root {
+    --pad-inline: var(--space-8);
+    --hero-start: var(--space-6);
+    --hero-end: calc(var(--space-8) + var(--space-4));
+    --section-pad: var(--space-9);
+  }
 }
 
 /* The dark values appear twice: once for the system setting, once for the toggle. */
@@ -33,6 +89,7 @@
   :root:not([data-theme='light']) {
     color-scheme: dark;
     --page: #0b1020;
+    --raised: #121a30;
     --surface: #131a2e;
     --ink: #e8ecf7;
     --muted: #9ca6c0;
@@ -58,6 +115,7 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --page: #0b1020;
+  --raised: #121a30;
   --surface: #131a2e;
   --ink: #e8ecf7;
   --muted: #9ca6c0;
@@ -81,6 +139,7 @@
 
 @theme inline {
   --color-page: var(--page);
+  --color-raised: var(--raised);
   --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
@@ -90,7 +149,6 @@
   --color-link: var(--link);
   --color-accent: var(--accent);
   --color-error: var(--error);
-  --font-display: var(--font-bricolage), var(--font-devanagari), var(--font-inter), sans-serif;
   --font-sans: var(--font-inter), var(--font-devanagari), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), var(--font-devanagari), ui-monospace, monospace;
 }

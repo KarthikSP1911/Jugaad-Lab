@@ -23,6 +23,9 @@
   by feature, Prettier, [architecture](architecture.md) and contributing guide.
   Not merged.
 
+- Home page redesign on `feat/home-page` ([design notes](home-page-design.md)).
+  Hindi text awaits review. Not merged.
+
 ## Next
 
 - Release hygiene, playground, interpreter limits, CI and site polish.

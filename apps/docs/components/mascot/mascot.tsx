@@ -22,10 +22,21 @@ interface Props {
   auto?: boolean;
   /** Never announces its lines, where the page already announces the same news. */
   quiet?: boolean;
+  /** Offers a button that hides the bubble until Mithu is clicked again. */
+  dismissible?: boolean;
 }
 
 export function Mascot(props: Props) {
-  const { mood, line, advice, tips, size = 96, auto = false, quiet = false } = props;
+  const {
+    mood,
+    line,
+    advice,
+    tips,
+    size = 96,
+    auto = false,
+    quiet = false,
+    dismissible = false,
+  } = props;
   const { play } = useSound();
   const { mascot } = useDictionary();
   const [tip, setTip] = useState<string | null>(null);
@@ -35,6 +46,7 @@ export function Mascot(props: Props) {
   const next = useRef(0);
   const timer = useRef<number | undefined>(undefined);
   const [held, setHeld] = useState(false);
+  const [closed, setClosed] = useState(false);
 
   // A new line from the page replaces whatever Mithu was saying.
   if (seen !== current) {
@@ -47,6 +59,7 @@ export function Mascot(props: Props) {
 
   function speak(aloud: boolean) {
     if (aloud) play('chirp');
+    setClosed(false);
     setTip(tips[next.current % tips.length] ?? null);
     next.current += 1;
     setTalking(true);
@@ -84,22 +97,34 @@ export function Mascot(props: Props) {
         <Parrot mood={talking ? 'talking' : mood} size={size} />
       </button>
       {/* Unprompted lines are not announced, so screen readers are not interrupted. */}
-      <p className="bubble" aria-live={quiet || (auto && !held) ? 'off' : 'polite'}>
-        <motion.span
-          data-reveal
-          key={text}
-          className="block"
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          {text}
-          {!tip && advice && (
-            <span className="bubble-tip">
-              {mascot.tip} {advice}
-            </span>
+      {!closed && (
+        <div className="bubble" aria-live={quiet || (auto && !held) ? 'off' : 'polite'}>
+          <motion.span
+            data-reveal
+            key={text}
+            className="block"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {text}
+            {!tip && advice && (
+              <span className="bubble-tip">
+                {mascot.tip} {advice}
+              </span>
+            )}
+          </motion.span>
+          {dismissible && (
+            <button
+              type="button"
+              className="bubble-close"
+              aria-label={mascot.dismiss}
+              onClick={() => setClosed(true)}
+            >
+              ×
+            </button>
           )}
-        </motion.span>
-      </p>
+        </div>
+      )}
     </div>
   );
 }
